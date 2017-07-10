@@ -15,6 +15,7 @@ import com.example.wiss.myapplication.SoundHandler;
 public class MainActivity extends AppCompatActivity {
 
     private  SoundHandler sh;
+    static private Vector screenVec = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +24,21 @@ public class MainActivity extends AppCompatActivity {
         this.findViewById(android.R.id.content).setOnTouchListener(handleTouch);
         //Setting the touch listener to the handler described below
         sh = new SoundHandler(R.raw.soo,getApplicationContext());
+        screenVec = getScreenVector();
 
+    }
 
+    static Vector getScreenVec()
+    {
+        return screenVec;
+    }
+
+    Vector getScreenVector()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return new Vector(size.x,size.y);
     }
 
 
