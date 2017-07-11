@@ -1,5 +1,6 @@
 package com.example.wiss.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.media.AudioAttributes;
@@ -28,112 +29,81 @@ import com.example.wiss.myapplication.MyMath;
 public class SoundHandler {
 
     private MediaPlayer mp;
-    private float limitVolume; //
-    private float angle;
-    private float leftVolume,rightVolume;
+    private float limitVolume; // the limit of the volume
+    private float currentVolume;
+    private float panR=1,panL=1;
 
+    /**
+     * constructor with id of the resource to be played, and the context of the application
+     * @param resID
+     */
+    public SoundHandler(int resID)
+    {
 
+        //Default constructor
+        Activity ac = MainActivity.getCurrentActivity();
+        this.mp=MediaPlayer.create(ac.getApplicationContext(),resID);
+        //A media player object is created
+        setLimitVolume(100);
+        setCurrentVolume(100);
+        //The default sound limitVolume is 100
+    }
 
-    public SoundHandler(int resID, Context currentContext)
+    public SoundHandler(int resID,float limitVolume)
     {
         //Default constructor
-        this.mp=MediaPlayer.create(currentContext,resID);
+        Activity ac = MainActivity.getCurrentActivity();
+        this.mp=MediaPlayer.create(ac.getApplicationContext(),resID);
         //A media player object is created
-        this.limitVolume=1;
-        //The default sound volume is 1 ( this value is applied directly on the media player mp )
-//        this.angle=0;
-        //Default angle is 0 ( the middle )
-        this.mp.setVolume(limitVolume,limitVolume);
-        //This method sets the left/right volume of the media player object
+        setLimitVolume(limitVolume);
+        setCurrentVolume(limitVolume);
+        //sets the limitVolume given in input
     }
 
-    public SoundHandler(int resID, Context currentContext,float angle,float limitVolume)
+    /**
+     * sets panning of sound in headphones, from -1 to 1 with 0 max value for both left and right and it decreases
+     * linearly to 0 for the right side when the value of the panning is -1 and 0 for the left side with a panning of 1
+     * @param pan the panning input
+     */
+
+    public void setPanning(float pan)
     {
-        //Surcharged constructor :
-        this.mp=MediaPlayer.create(currentContext,resID);
-        //A media player object is created
-        this.setLimitVolume(limitVolume);
-        //We set the limitVolume
-        this.angle=angle;
-        //We set the initial angle
-        // angle in [0;180]
-        this.setMpVolume(angle,limitVolume);
-        //We set up the MP volume according to the angle and the limitVolume
-        //See setMpVolume next ->
-
+        panR = 1;
+        panL = 1;
+        if(pan < 0)
+            panR = (1+pan);
+        else if(pan > 0)
+            panL = (1-pan);
+        setVolume(panL*currentVolume,panR*currentVolume);
     }
 
-    private void setMpVolume(float angle,float limitVolume)
-    {
-        //Angle here is in 0..180
-        //We check the values of the angle
-        if(angle > 180)
-        {
-            angle =180;
-        }
-        if(angle < 0)
-        {
-            angle =0;
-        }
-        //End of Tests
-
-        if(angle == 90)
-        {
-            this.mp.setVolume(limitVolume,limitVolume);
-            //if its the middle then the volume is at its max on both sides
-        }
-        if(angle < 90 )
-        {
-            //if the angle is between 0 and 90 ( right side )
-            float anglePercent = MyMath.remap(angle,0,90,0,1);
-            // in the previous line we remap the value of the angle so that :
-            // angle ---> 0 the lefVolume decrease
-            // angle ---> 90 the leftVolume increases
-            //We set the leftVolume according the anglePercent we've calculated earlier
-
-            //Log.d("TAG","anglePercent < 90 : "+anglePercent);
-            this.setVolume(anglePercent*limitVolume,limitVolume);
-        }
-        if (angle > 90)
-        {
-            //if the angle is between 90 and 180 ( left side )
-            float anglePercent = MyMath.remap(angle,90,180,1,0);
-            // in the previous line we remap the value of the angle so that :
-            // angle ---> 180 the rightVolume decrease
-            // angle ---> 90 the rightVolume increases
-            //We set the rightVolume according the anglePercent we've calculated earlier
-
-            //Log.d("TAG","anglePercent > 90 : "+anglePercent);
-            this.setVolume(limitVolume,(anglePercent)*limitVolume);
-        }
-    }
+    /**
+     * this method is to rescale volume from scale 0 - limitVolume to 0 - 1
+     * @param soundVolume volume we want to rescale
+     * @return the volume after scaling
+     */
 
     private float getRealVolume(float soundVolume)
     {
+        if(soundVolume>limitVolume)
+            soundVolume=limitVolume;
+        if(soundVolume<0)
+            soundVolume=0;
         return (float) (1 - (Math.log(limitVolume - soundVolume) / Math.log(limitVolume)));
     }
 
-
+    /**
+     * sets the volume right and left
+     * @param left
+     * @param right
+     */
     public void setVolume(float left , float right)
     {
-        //left and right must be in 0..1, so we'll use the remap function :
-        if(left>limitVolume)
-            left=limitVolume;
-        if(left<0)
-            left=0;
-
-
-        if(right>limitVolume)
-            right=limitVolume;
-        if(right<0)
-            right=0;
-
-
-        leftVolume = getRealVolume(left);
-        rightVolume = getRealVolume(right);
+        left = getRealVolume(left);
+        right = getRealVolume(right);
 
         //Log.i("TAG","left: "+left+" right: "+right);
-        this.mp.setVolume(leftVolume,rightVolume);
+        this.mp.setVolume(left,right);
     }
 
 
@@ -147,43 +117,72 @@ public class SoundHandler {
         return limitVolume;
     }
 
-    public float getAngle() {
-        return angle;
+    public float getCurrentVolume() {
+        return currentVolume;
     }
+
     //End of getters
 
+    /**
+     * sets the scale of the volume from 0 to limitVolume
+     * @param vol the new limitVolume
+     */
     public void setLimitVolume(float vol)
     {
         this.limitVolume=vol;
     }
 
+    /**
+     * changes the current volume that the sound will run with
+     * @param vol
+     */
 
-    public void setAngle(float angle)
+    public void setCurrentVolume(float vol)
     {
-        //The setAngle method by itself call the the setMpVolume method after chaging the actual value of the angle
-        this.angle= angle;
-        setMpVolume(angle,this.limitVolume);//This method does the rest of the tests
+        currentVolume = vol;
+        setVolume(panL*currentVolume,panR*currentVolume);
     }
 
-    public void playSound(float angle)
+
+    /**
+     * starts playing sound of the resource given in constructor with a Volume
+     * if sound already playing, change volume only
+     * @param Vol
+     */
+    public void playSound(float Vol)
     {
-        if(mp != null && !mp.isPlaying())
-        {
-            //We set the angle
-            this.setAngle(angle);
-            this.mp.start();
-        }
+        setCurrentVolume(Vol);
+        playSound();
     }
+
+    /**
+     * starts playing sound of the resource given in constructor with left and right volumes
+     * if sound already playing, change volume only
+     * @param left
+     * @param right
+     */
 
     public void playSound(float left, float right)
     {
+        this.setVolume(left,right);
+        playSound();
+    }
+
+    /**
+     * starts playing sound of the resource given in constructor with left and right volumes
+     */
+
+    public void playSound()
+    {
         if(mp != null && !mp.isPlaying())
         {
-            //We set the angle
-            this.setVolume(left,right);
             this.mp.start();
         }
     }
+
+    /**
+     * stops the sound if it is playing
+     */
 
     public void stopSound()
     {
