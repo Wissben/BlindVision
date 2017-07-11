@@ -6,7 +6,7 @@ abstract class Sound extends Unit : will have abstract method getSound() (object
 class SimpleSoundSource extends Sound : see just a simple sound class, no complex shit :)
 class Player extends Unit : that's the blind guy in our virtual world of sound 
 
-abstract class GameLogic : recieves instructions (moving units) and returns outputs like sounds to produce (here we have to discuss a bit how to 		specify this in same discussion for getSound() method). the class'll be abstract in order to have different behaviours for same inputs(moving 		units) and outputs(sounds to produce).
+abstract class GameLogic : recieves instructions (moving units) and returns outputs like sounds to produce (here we have to discuss a bit how to specify this in same discussion for getSound() method). the class'll be abstract in order to have different behaviours for same inputs(moving 		units) and outputs(sounds to produce).
 	ehem so the schema I want is something like this:
 	blindGuy.input -> Activity -> someIOClass -> GameLogic -> someIOClass -> Activity -> blindGuyEars ... REPEAT! xD
 	so different GameLogics for different types of gameplay 
@@ -30,13 +30,12 @@ noooow .. let's create some game levels!
 we will create:
 	GameIs to handle inputs differently. (nah just one GameI for each type (touch,accel,compass) for now, no time!) 
 	GameO to output sounds, and tell activity about the game state (game will start, ongoing, end ..) and yeah .. this needs to be discussed crap
-		we give these (GameIs and GameO) to GameIO and then the activity will just use GameIO to handle inputs, and recieve output of 			GameLogic from it
+		we give these (GameIs and GameO) to GameIO and then the activity will just use GameIO to handle inputs, and recieve output of GameLogic from it
 	after that each one of us will create a bunch of GameLogics for different type of levels, let's be creative! 
 
 to start a game we launch a GameActivity with GameIO and GameLogic(params*)
-	params: are the Units that might be different for same GameLogic so for instance params might contain: Player, SoundSources, target (but we 		can change target and SoundSources for same GameLogic) 
-	ok, ok .. we ll make a randomizer class which feeds our GameLogic with different SoundSources possible, their positions randomized and 
-	target(s) at random, we love random, all hail RANDOM!
+	params: are the Units that might be different for same GameLogic so for instance params might contain: Player, SoundSources, target (but we can change target and SoundSources for same GameLogic) 
+	ok, ok .. we ll make a randomizer class which feeds our GameLogic with different SoundSources possible, their positions randomized and target(s) at random, we love random, all hail RANDOM!
 
 ////////////////////////THIS FILE IS TO BE DISCUSSED////////////////////////////
 
