@@ -2,6 +2,7 @@ package com.example.wiss.myapplication;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.provider.Settings;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class SoundHandler {
         //A media player object is created
         this.limitVolume=1;
         //The default sound volume is 1 ( this value is applied directly on the media player mp )
-        this.angle=0;
+//        this.angle=0;
         //Default angle is 0 ( the middle )
         this.mp.setVolume(limitVolume,limitVolume);
         //This method sets the left/right volume of the media player object
@@ -107,27 +108,32 @@ public class SoundHandler {
         }
     }
 
+    private float getRealVolume(float soundVolume)
+    {
+        return (float) (1 - (Math.log(limitVolume - soundVolume) / Math.log(limitVolume)));
+    }
+
 
     public void setVolume(float left , float right)
     {
         //left and right must be in 0..1, so we'll use the remap function :
         if(left>limitVolume)
-            leftVolume=left=limitVolume;
+            left=limitVolume;
         if(left<0)
-            leftVolume=left=0;
+            left=0;
 
 
         if(right>limitVolume)
-            rightVolume=right=limitVolume;
+            right=limitVolume;
         if(right<0)
-            rightVolume=right=0;
+            right=0;
 
 
-        leftVolume=  left  = MyMath.remap(left,0,limitVolume,0,1);
-        rightVolume= right = MyMath.remap(right,0,limitVolume,0,1);
+        leftVolume = getRealVolume(left);
+        rightVolume = getRealVolume(right);
 
         //Log.i("TAG","left: "+left+" right: "+right);
-        this.mp.setVolume(left,right);
+        this.mp.setVolume(leftVolume,rightVolume);
     }
 
 
@@ -169,11 +175,22 @@ public class SoundHandler {
         }
     }
 
+    public void playSound(float left, float right)
+    {
+        if(mp != null && !mp.isPlaying())
+        {
+            //We set the angle
+            this.setVolume(left,right);
+            this.mp.start();
+        }
+    }
+
     public void stopSound()
     {
         if(mp != null && mp.isPlaying())
         {
             this.mp.stop();
+
         }
     }
 }
