@@ -1,0 +1,43 @@
+************************************ BlindVision game instance & related **************************************
+
+
+abstract class Unit : a unit in map .. deeeep 8| (has class Vector as position for further use)
+abstract class Sound extends Unit : will have abstract method getSound() (object in return to discuss as some might have combined sounds or complex handling for sound, WE WON'T DO COMPLEX STUFF BEFORE THE 31st OF JULY, IT'S IN CASE WE DECIDE TO CONTINUE ON THIS APP LATER SO WE WON'T HAVE SHITTY CODE TO REDO)
+class SimpleSoundSource extends Sound : see just a simple sound class, no complex shit :)
+class Player extends Unit : that's the blind guy in our virtual world of sound 
+
+abstract class GameLogic : recieves instructions (moving units) and returns outputs like sounds to produce (here we have to discuss a bit how to 		specify this in same discussion for getSound() method). the class'll be abstract in order to have different behaviours for same inputs(moving 		units) and outputs(sounds to produce).
+	ehem so the schema I want is something like this:
+	blindGuy.input -> Activity -> someIOClass -> GameLogic -> someIOClass -> Activity -> blindGuyEars ... REPEAT! xD
+	so different GameLogics for different types of gameplay 
+		the class will also have the Player instance and soundSources (LinkedList<Sound>) we all feel that need right?
+
+///// for now one class that inherits from GameLogic with simple game logic.. again no complex stuff x) 
+	this class will have one target of type Sound that the player will try to reach and other Sound instances to distract the blind dude...
+
+interface GameITouch : this interface will have one method onTouchHandler(MotionEvent event) to be called in see https://developer.android.com/training/gestures/multi.html /// also this class will have a GameLogic attribute to transfer the inputs to it
+interface GameIAccel : same as Touch
+interface GameICompass : same as Touch
+
+interface GameOSound : to discuss (with GameLogic outputs and getSound() method) but will basically manage how output from GameLogic to the Activity will be done
+
+class GameIO : contains all three GameIs and GameOSound, maybe other outputs later? so yeah .. you guessed it :D this is the "someIOClass" that I mentioned before!
+
+class GameActivity : has a GameIO and a GameLogic, will instanciate GameIO with GameLogic's instance, and calls all of GameIs in their listeners, and call of GameO somewhere maybe? has probably endMethod which will be probably called once GameLogic says so, many probabilities uhu .. 
+
+noooow .. let's create some game levels! 
+
+we will create:
+	GameIs to handle inputs differently. (nah just one GameI for each type (touch,accel,compass) for now, no time!) 
+	GameO to output sounds, and tell activity about the game state (game will start, ongoing, end ..) and yeah .. this needs to be discussed crap
+		we give these (GameIs and GameO) to GameIO and then the activity will just use GameIO to handle inputs, and recieve output of 			GameLogic from it
+	after that each one of us will create a bunch of GameLogics for different type of levels, let's be creative! 
+
+to start a game we launch a GameActivity with GameIO and GameLogic(params*)
+	params: are the Units that might be different for same GameLogic so for instance params might contain: Player, SoundSources, target (but we 		can change target and SoundSources for same GameLogic) 
+	ok, ok .. we ll make a randomizer class which feeds our GameLogic with different SoundSources possible, their positions randomized and 
+	target(s) at random, we love random, all hail RANDOM!
+
+////////////////////////THIS FILE IS TO BE DISCUSSED////////////////////////////
+
+
