@@ -10,16 +10,35 @@ public abstract class Unit {
     protected Vector position = null;
 
 
-    public Unit() { }
+    /* Constructors =============================================================================== */
+
+    public Unit() { this.position = new Vector(0, 0); }
 
 
     public Unit(float x, float y) { this.position = new Vector(x, y); }
 
 
-    public Unit(Vector position) {
-        this.position = new Vector(position.getX(), position.getY());
+    public Unit(Vector pos) {
+        this.position = new Vector(pos.getX(), pos.getY());
     }
 
 
+    /* Abstract Methods =========================================================================== */
+
     public abstract void move(Direction d);
+
+
+    /* Setters & Getters ========================================================================== */
+
+    public Vector getPosition() { return this.position; }
+
+    public void setPosition(float x, float y) {
+        this.position.setX(x);
+        this.position.setY(y);
+    }
+
+    public void setPosition(Vector pos){
+        this.position.setX(pos.getX());
+        this.position.setY(pos.getY());
+    }
 }
