@@ -1,23 +1,20 @@
 package com.example.wiss.myapplication;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Point;
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import com.example.wiss.myapplication.MyMath;
-import com.example.wiss.myapplication.SoundHandler;
 
 public class MainActivity extends AppCompatActivity {
 
     private  SoundMapManager smm;
     static private Vector screenVec = null;
     static private Activity currentActivity = null;
+    SoundHandler snk = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         screenVec = getScreenVector();
         smm = new SoundMapManager(getScreenVec().getAbsValue());
         setCurrentActivity(this);
+        snk = new SoundHandler(R.raw.snk);
 
     }
 
@@ -70,22 +68,23 @@ public class MainActivity extends AppCompatActivity {
 
             int x = (int) event.getX();
             int y = (int) event.getY();
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+            int xCenter = width/2;
+            int yCenter = height/2;
+            float ang =MyMath.getAngleFromCenter(xCenter,yCenter,x,y,width,height);
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                 {
                     Log.i("TAG", "action down: (" + x + ", " + y + ")");
                     //
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    int width = size.x;
-                    int height = size.y;
-                    int xCenter = width/2;
-                    int yCenter = height/2;
-                    float ang =MyMath.getAngleFromCenter(xCenter,yCenter,x,y,width,height);
+
                     //Log.d("TAG","ang= "+ang);
-                    smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),R.raw.soo);
+                    snk = smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),snk);
 
                     //
                     //Log.i("TAG","limit volume : "+sh.limitVolume);
@@ -93,9 +92,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case MotionEvent.ACTION_MOVE:
                     Log.i("TAG", "moving: (" + x + ", " + y + ")");
+                    snk = smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),snk);
                     break;
                 case MotionEvent.ACTION_UP:
                     Log.i("TAG", "action up (" + x + ", " + y + ")");
+                    snk.pauseSound();
                     break;
             }
 

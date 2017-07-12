@@ -189,7 +189,14 @@ public class SoundHandler {
         if(mp != null && mp.isPlaying())
         {
             this.mp.stop();
+        }
+    }
 
+    public void pauseSound()
+    {
+        if(mp != null && mp.isPlaying())
+        {
+            this.mp.pause();
         }
     }
 }
