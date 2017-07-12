@@ -1,6 +1,7 @@
 package com.example.wiss.myapplication;
 
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * Created by ressay on 07/07/17.
@@ -48,7 +49,9 @@ public class SoundMapManager
         sh.setLimitVolume((float)soundLimit);
         float volume = MyMath.remap((float)dis,0,sh.getLimitVolume(),sh.getLimitVolume(),0);
 
-        if(ang > Math.PI) ang = 2*Math.PI-ang; // sound behind you or in front of you are treated same way
+//        if(ang > Math.PI) ang = 2*Math.PI-ang; // sound behind you or in front of you are treated same way
+        Log.d("myTag",Math.cos(ang) + " is the cos");
+        Log.d("myTag",ang + " is the angle and " + dis + " is the distance");
         sh.setPanning((float)Math.cos(ang));
         sh.playSound(volume);
         return sh;
@@ -79,7 +82,7 @@ public class SoundMapManager
 
     public SoundHandler produceSoundBetweenPoints(Vector p1, Vector p2,SoundHandler sh)
     {
-        Vector v1 = new Vector(p1,p2);
+        Vector v1 = new Vector(p2,p1);
         double dis = v1.getAbsValue();
         double ang = v1.getAngle();
         return produceSound(dis,ang,sh);
