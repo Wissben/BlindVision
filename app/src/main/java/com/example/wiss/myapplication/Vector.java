@@ -186,15 +186,8 @@ public class Vector
     {
 
         double ang = Math.acos(getUnitVector().getX());
-        if(getY()*getX() < 0)
-            if(getX() > 0)
-                ang = 2*Math.PI - ang;
-            else
-                ang = Math.PI - ang;
-        else
-            if(getX() < 0)
-                ang += Math.PI;
-
+        if(getY() < 0)
+            ang = 2*Math.PI - ang;
         return ang;
     }
 

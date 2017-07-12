@@ -1,5 +1,6 @@
 package com.example.wiss.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.media.MediaPlayer;
@@ -14,8 +15,9 @@ import com.example.wiss.myapplication.SoundHandler;
 
 public class MainActivity extends AppCompatActivity {
 
-    private  SoundHandler sh;
+    private  SoundMapManager smm;
     static private Vector screenVec = null;
+    static private Activity currentActivity = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +25,26 @@ public class MainActivity extends AppCompatActivity {
 
         this.findViewById(android.R.id.content).setOnTouchListener(handleTouch);
         //Setting the touch listener to the handler described below
-        sh = new SoundHandler(R.raw.soo,getApplicationContext());
-        screenVec = getScreenVector();
 
+        screenVec = getScreenVector();
+        smm = new SoundMapManager(getScreenVec().getAbsValue());
+        setCurrentActivity(this);
+
+    }
+
+    /**
+     * to call in onCreate of activities
+     * @param ac
+     */
+
+    static void setCurrentActivity(Activity ac)
+    {
+        currentActivity = ac;
+    }
+
+    static Activity getCurrentActivity()
+    {
+        return currentActivity;
     }
 
     static Vector getScreenVec()
@@ -66,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     int yCenter = height/2;
                     float ang =MyMath.getAngleFromCenter(xCenter,yCenter,x,y,width,height);
                     //Log.d("TAG","ang= "+ang);
-                    sh.playSound(ang);
+                    smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),R.raw.soo);
 
                     //
                     //Log.i("TAG","limit volume : "+sh.limitVolume);
