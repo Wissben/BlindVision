@@ -1,5 +1,7 @@
 package com.example.wiss.myapplication;
 
+import android.util.Log;
+
 /**
  * Created by Sidahmed on 12/07/17.
  * This class represents a Unit into the game. The unit can be a player, a sound, a distraction
@@ -15,7 +17,7 @@ public abstract class Unit {
     public Unit() { this.position = new Vector(0, 0); }
 
 
-    public Unit(float x, float y) { this.position = new Vector(x, y); }
+    public Unit(double x, double y) { this.position = new Vector(x, y); }
 
 
     public Unit(Vector pos) {
@@ -23,16 +25,46 @@ public abstract class Unit {
     }
 
 
-    /* Abstract Methods =========================================================================== */
+    /* Methods =========================================================================== */
 
-    public abstract void move(Direction d);
+    /**
+     * This method moves the unit in 'd' direction. There is no map, the unit moves when it's (x, y) changes.
+     * For now, it's simple, it just move with one ; we can modify it later to have speed ... etc
+     * @param d the direction in which the unit has to move.
+     */
+    public void move(Direction d) {
+        double currX = position.getX();
+        double currY = position.getY();
+
+        /* Change the position according to the direction d. */
+        if( d.equals(Direction.UP) )
+            setPosition(currX, currY + 1);
+        else if( d.equals(Direction.DOWN) )
+            setPosition(currX, currY - 1);
+        else if( d.equals(Direction.RIGHT) )
+            setPosition(currX + 1, currY);
+        else if( d.equals(Direction.LEFT) )
+            setPosition(currX - 1, currY);
+        else if( d.equals(Direction.UP_RIGHT) )
+            setPosition(currX + 1, currY + 1);
+        else if( d.equals(Direction.UP_LEFT) )
+            setPosition(currX - 1, currY + 1);
+        else if( d.equals(Direction.DOWN_RIGHT) )
+            setPosition(currX + 1, currY - 1);
+        else if( d.equals(Direction.DOWN_LEFT) )
+            setPosition(currX - 1, currY - 1);
+
+        /* For debuging. */
+        Log.i("UNIT", "Moved " + d.toString() + ", New position : (" + position.getX() +
+                ", " + position.getY() + ")");
+    }
 
 
     /* Setters & Getters ========================================================================== */
 
     public Vector getPosition() { return this.position; }
 
-    public void setPosition(float x, float y) {
+    public void setPosition(double x, double y) {
         this.position.setX(x);
         this.position.setY(y);
     }
