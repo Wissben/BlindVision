@@ -1,4 +1,4 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.Sound;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.provider.Settings;
 import android.util.Log;
+
+import com.example.wiss.myapplication.MainActivity;
 import com.example.wiss.myapplication.MyMath;
 /**
  * Created by wiss on 29/06/17.
@@ -191,6 +193,10 @@ public class SoundHandler {
             this.mp.stop();
         }
     }
+
+    /**
+     * pauses the sound if it is playing
+     */
 
     public void pauseSound()
     {

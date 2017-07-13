@@ -1,7 +1,10 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.Sound;
 
 import android.graphics.Point;
 import android.util.Log;
+
+import com.example.wiss.myapplication.MyMath;
+import com.example.wiss.myapplication.Vector;
 
 /**
  * Created by ressay on 07/07/17.
@@ -17,7 +20,7 @@ public class SoundMapManager
      * as input
      * @param maxDistance
      */
-    SoundMapManager(double maxDistance)
+    public SoundMapManager(double maxDistance)
     {
         soundLimit = maxDistance;
     }

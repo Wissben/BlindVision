@@ -9,12 +9,22 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.wiss.Sound.SimpleSoundSource;
+import com.example.wiss.Sound.SoundHandler;
+import com.example.wiss.Sound.SoundMapManager;
+import com.example.wiss.Sound.SoundSource;
+import com.example.wiss.Sound.SoundSourceNotInitialisedException;
+import com.example.wiss.Sound.SoundUpdater;
+
+import java.util.LinkedList;
+
 public class MainActivity extends AppCompatActivity {
 
-    private  SoundMapManager smm;
     static private Vector screenVec = null;
     static private Activity currentActivity = null;
-    SoundHandler snk = null;
+    SoundUpdater soundUpdater;
+    LinkedList<SoundSource> soundSources = new LinkedList<>();
+    Player player = new Player();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +34,35 @@ public class MainActivity extends AppCompatActivity {
         //Setting the touch listener to the handler described below
 
         screenVec = getScreenVector();
-        smm = new SoundMapManager(getScreenVec().getAbsValue());
         setCurrentActivity(this);
-        snk = new SoundHandler(R.raw.snk);
+        SimpleSoundSource simple;
 
+        Log.d("myTag","first creation!");
+        // creating sound sources
+        simple = new SimpleSoundSource(200,500);
+        simple.initialise(player,R.raw.snk,screenVec.getAbsValue());
+        soundSources.add(simple);
+
+        simple = new SimpleSoundSource(500,1000);
+        simple.initialise(player,R.raw.soo,screenVec.getAbsValue());
+        soundSources.add(simple);
+
+        // setting up SoundManagers
+        for(int i=0;i<soundSources.size();i++)
+            try {
+                soundSources.get(i).setupSoundManager();
+            } catch (SoundSourceNotInitialisedException e) {
+                e.printStackTrace();
+            }
+
+        Log.d("myTag","updater creation!");
+
+        // adding sound sources to updater in order to get updated automatically in separate thread
+        soundUpdater = new SoundUpdater();
+        soundUpdater.addSoundSourcesToUpdate(soundSources);
+        soundUpdater.startUpdating();
+
+        Log.d("myTag","starting updater!");
     }
 
     /**
@@ -40,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
         currentActivity = ac;
     }
 
-    static Activity getCurrentActivity()
+    static public Activity getCurrentActivity()
     {
         return currentActivity;
     }
 
-    static Vector getScreenVec()
+    static public Vector getScreenVec()
     {
         return screenVec;
     }
@@ -66,37 +101,21 @@ public class MainActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
 
 
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = size.x;
-            int height = size.y;
-            int xCenter = width/2;
-            int yCenter = height/2;
-            float ang =MyMath.getAngleFromCenter(xCenter,yCenter,x,y,width,height);
+            float x = event.getX();
+            float y = event.getY();
+            player.setPosition(x,y);
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                 {
                     Log.i("TAG", "action down: (" + x + ", " + y + ")");
-                    //
-
-                    //Log.d("TAG","ang= "+ang);
-                    snk = smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),snk);
-
-                    //
-                    //Log.i("TAG","limit volume : "+sh.limitVolume);
                     break;
                 }
                 case MotionEvent.ACTION_MOVE:
                     Log.i("TAG", "moving: (" + x + ", " + y + ")");
-                    snk = smm.produceSoundBetweenPoints(new Vector(xCenter,yCenter),new Vector(x,y),snk);
                     break;
                 case MotionEvent.ACTION_UP:
                     Log.i("TAG", "action up (" + x + ", " + y + ")");
-                    snk.pauseSound();
                     break;
             }
 
