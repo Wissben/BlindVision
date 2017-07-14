@@ -1,6 +1,9 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.units;
 
 import android.util.Log;
+
+import com.example.wiss.myapplication.Direction;
+import com.example.wiss.myapplication.Vector;
 
 /**
  * Created by Sidahmed on 12/07/17.

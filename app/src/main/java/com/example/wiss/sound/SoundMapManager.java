@@ -1,4 +1,4 @@
-package com.example.wiss.Sound;
+package com.example.wiss.sound;
 
 import android.graphics.Point;
 import android.util.Log;

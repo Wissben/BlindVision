@@ -1,7 +1,7 @@
-package com.example.wiss.Sound;
+package com.example.wiss.sound;
 
-import com.example.wiss.myapplication.Player;
-import com.example.wiss.myapplication.Unit;
+import com.example.wiss.units.Player;
+import com.example.wiss.units.Unit;
 
 /**
  * class that describes how sound should be produced and updated for simple sound sources
@@ -27,7 +27,7 @@ public class UnitSimpleSoundManager extends UnitSoundManager
      * @param source
      * @param resID
      */
-    UnitSimpleSoundManager(double maxDistance, Player player,Unit source,int resID)
+    public UnitSimpleSoundManager(double maxDistance, Player player,Unit source,int resID)
     {
         super(maxDistance);
         setPlayer(player);

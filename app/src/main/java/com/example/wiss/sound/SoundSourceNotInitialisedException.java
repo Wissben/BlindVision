@@ -1,4 +1,4 @@
-package com.example.wiss.Sound;
+package com.example.wiss.sound;
 
 /**
  * Created by ressay on 13/07/17.

@@ -1,4 +1,4 @@
-package com.example.wiss.Sound;
+package com.example.wiss.sound;
 
 /**
  * any unit in map that has sound to produce should implement one of UnitSoundManager's subclasses to manage its sound

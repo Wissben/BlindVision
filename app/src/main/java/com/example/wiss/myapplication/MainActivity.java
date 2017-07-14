@@ -9,12 +9,11 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.wiss.Sound.SimpleSoundSource;
-import com.example.wiss.Sound.SoundHandler;
-import com.example.wiss.Sound.SoundMapManager;
-import com.example.wiss.Sound.SoundSource;
-import com.example.wiss.Sound.SoundSourceNotInitialisedException;
-import com.example.wiss.Sound.SoundUpdater;
+import com.example.wiss.units.Player;
+import com.example.wiss.units.SimpleSoundSource;
+import com.example.wiss.units.SoundSource;
+import com.example.wiss.sound.SoundSourceNotInitialisedException;
+import com.example.wiss.sound.SoundUpdater;
 
 import java.util.LinkedList;
 

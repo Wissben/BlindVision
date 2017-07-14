@@ -1,6 +1,7 @@
-package com.example.wiss.Sound;
+package com.example.wiss.units;
 
-import com.example.wiss.myapplication.Player;
+import com.example.wiss.sound.SoundSourceNotInitialisedException;
+import com.example.wiss.sound.UnitSimpleSoundManager;
 import com.example.wiss.myapplication.Vector;
 
 /**

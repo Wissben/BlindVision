@@ -1,4 +1,4 @@
-package com.example.wiss.Sound;
+package com.example.wiss.sound;
 
 import java.util.LinkedList;
 
