@@ -39,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myTag","first creation!");
         // creating sound sources
         simple = new SimpleSoundSource(200,500);
-        simple.initialise(player,R.raw.snk,screenVec.getAbsValue());
+        simple.initialise(player,R.raw.tromp,screenVec.getAbsValue());
         soundSources.add(simple);
 
+//        simple = new SimpleSoundSource(500,1000);
+//        simple.initialise(player,R.raw.soo,screenVec.getAbsValue());
+//        soundSources.add(simple);
+
         simple = new SimpleSoundSource(500,1000);
-        simple.initialise(player,R.raw.soo,screenVec.getAbsValue());
+        simple.initialise(player,R.raw.meza,screenVec.getAbsValue());
         soundSources.add(simple);
 
         // setting up SoundManagers
@@ -92,34 +96,6 @@ public class MainActivity extends AppCompatActivity {
         return new Vector(size.x,size.y);
     }
 
-
     //This is the handler of the touch :
-    private View.OnTouchListener handleTouch = new View.OnTouchListener() {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-
-            float x = event.getX();
-            float y = event.getY();
-            player.setPosition(x,y);
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                {
-                    Log.i("TAG", "action down: (" + x + ", " + y + ")");
-                    break;
-                }
-                case MotionEvent.ACTION_MOVE:
-                    Log.i("TAG", "moving: (" + x + ", " + y + ")");
-                    break;
-                case MotionEvent.ACTION_UP:
-                    Log.i("TAG", "action up (" + x + ", " + y + ")");
-                    break;
-            }
-
-            return true;
-        }
-    };
-
+    private View.OnTouchListener handleTouch;
 }
