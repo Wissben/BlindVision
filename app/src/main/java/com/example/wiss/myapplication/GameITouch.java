@@ -26,7 +26,7 @@ public class GameITouch implements View.OnTouchListener
     {
         float x = event.getX();
         float y = event.getY();
-        gameLogic.movePlayer(x,y);
+        this.gameLogic.movePlayerToPos(x, y);
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

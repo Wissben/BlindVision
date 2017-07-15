@@ -24,13 +24,15 @@ public class MainActivity extends AppCompatActivity {
     SoundUpdater soundUpdater;
     LinkedList<SoundSource> soundSources = new LinkedList<>();
     Player player = new Player();
+    GameLogic gameLogic;
+    //This is the handler of the touch :
+    private View.OnTouchListener handleTouch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.findViewById(android.R.id.content).setOnTouchListener(handleTouch);
-        //Setting the touch listener to the handler described below
 
         screenVec = getScreenVector();
         setCurrentActivity(this);
@@ -66,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
         soundUpdater.startUpdating();
 
         Log.d("myTag","starting updater!");
+
+        /* Setting the gameLogic and the handleTouch. */
+        this.gameLogic = new SimpleGameLogic();
+        this.gameLogic.setPlayer(this.player);
+        this.handleTouch = new GameITouch(this.gameLogic);
+        this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 
     /**
@@ -96,6 +104,4 @@ public class MainActivity extends AppCompatActivity {
         return new Vector(size.x,size.y);
     }
 
-    //This is the handler of the touch :
-    private View.OnTouchListener handleTouch;
 }

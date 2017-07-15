@@ -4,6 +4,9 @@ import com.example.wiss.units.Player;
 
 /**
  * Created by wiss on 15/07/17.
+ * This class will update the units positions on the map.
+ * In a simple case, we only need to change the player position, but we created this class
+ * in case we wanna move other units.
  */
 
 public abstract class GameLogic extends Thread
@@ -11,19 +14,31 @@ public abstract class GameLogic extends Thread
     Player player;
     GameIO gameIO;
 
-    public abstract void movePlayer(double x, double y);
+
+    /* Abstract Methods ========================================================================== */
+
+    /**
+     * This will move the player using the vector.
+     */
+    public abstract void movePlayer(Vector vector);
+
+
+    /**
+     * This will move the player to the specific position in the map.
+     */
+    public abstract void movePlayerToPos(double x, double y);
+
+
+    /**
+     * Don't know where this will be used yet.
+     */
     protected abstract void update();
 
-    public void movePlayer(Vector position)
-    {
-        movePlayer(position.getX(),position.getY());
-    }
+
+    /* Methods ==================================================================================== */
 
 
-    public void startUpdating()
-    {
-        this.start();
-    }
+    public void startUpdating() { this.start(); }
 
     public void run()
     {
@@ -32,6 +47,9 @@ public abstract class GameLogic extends Thread
             this.update();
         }
     }
+
+
+    /* Setters & Getters ========================================================================== */
 
     public Player getPlayer() {
         return player;
