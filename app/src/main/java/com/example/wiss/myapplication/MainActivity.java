@@ -76,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.onDestroy();
+    }
+
     /**
      * to call in onCreate of activities
      * @param ac
