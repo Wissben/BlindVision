@@ -1,5 +1,6 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.game;
 
+import com.example.wiss.myapplication.Vector;
 import com.example.wiss.units.Player;
 
 /**

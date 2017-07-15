@@ -1,4 +1,6 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.game;
+
+import com.example.wiss.myapplication.Vector;
 
 /**
  * Created by no_one on 15/07/17.

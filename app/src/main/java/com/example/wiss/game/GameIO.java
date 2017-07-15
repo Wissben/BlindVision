@@ -1,4 +1,4 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.game;
 
 import android.view.View;
 

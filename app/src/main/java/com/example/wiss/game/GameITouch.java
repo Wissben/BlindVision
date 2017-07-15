@@ -1,13 +1,10 @@
-package com.example.wiss.myapplication;
+package com.example.wiss.game;
 
-import android.media.Image;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.wiss.units.Player;
-
-import java.util.EventListener;
+import com.example.wiss.game.GameLogic;
 
 /**
  * Created by wiss on 15/07/17.

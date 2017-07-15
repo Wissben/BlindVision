@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.wiss.game.GameITouch;
+import com.example.wiss.game.GameLogic;
+import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
