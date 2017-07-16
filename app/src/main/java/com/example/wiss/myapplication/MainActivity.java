@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         soundUpdater.addSoundSourcesToUpdate(soundSources);
         soundUpdater.startUpdating();
 
+
         Log.d("myTag","starting updater!");
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
@@ -79,11 +80,32 @@ public class MainActivity extends AppCompatActivity {
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        soundUpdater.startUpdating();
+    }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        this.onDestroy();
+        int size = soundSources.size();
+        soundUpdater.cancel();
+        for(int i=0;i<size;i++)
+            soundSources.get(i).pauseSound();
+
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        int size = soundSources.size();
+        soundUpdater.cancel();
+        for(int i=0;i<size;i++)
+            soundSources.get(i).stopSound();
     }
 
     /**

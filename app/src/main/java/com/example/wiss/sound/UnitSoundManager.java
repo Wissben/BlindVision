@@ -42,4 +42,18 @@ public abstract class UnitSoundManager implements SoundUpdatable
     {
         shs.add(new SoundHandler(resID));
     }
+
+    public void stopSound()
+    {
+        int size = shs.size();
+        for(int i=0;i<size;i++)
+            shs.get(i).stopSound();
+    }
+
+    public void pauseSound()
+    {
+        int size = shs.size();
+        for(int i=0;i<size;i++)
+            shs.get(i).pauseSound();
+    }
 }

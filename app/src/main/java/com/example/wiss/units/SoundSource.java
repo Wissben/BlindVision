@@ -49,6 +49,15 @@ public abstract class SoundSource extends Unit
         return initialised;
     }
 
+    public void stopSound()
+    {
+        getUnitSoundManager().stopSound();
+    }
+
+    public void pauseSound()
+    {
+        getUnitSoundManager().pauseSound();
+    }
     /**
      * a sound source might need to be initialised before setting up sound manager
      * initialisation usually feeds the object with necessary information in order for sound manager to work properly (this depend on the type of the sound manager)
