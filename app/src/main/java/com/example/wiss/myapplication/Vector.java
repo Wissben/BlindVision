@@ -216,4 +216,8 @@ public class Vector
         return v2.getAngle(v1);
     }
 
+    @Override
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ")" ;
+    }
 }
