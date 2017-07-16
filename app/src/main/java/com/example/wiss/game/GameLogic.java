@@ -2,6 +2,9 @@ package com.example.wiss.game;
 
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.units.Player;
+import com.example.wiss.units.SoundSource;
+
+import java.util.LinkedList;
 
 /**
  * Created by wiss on 15/07/17.
@@ -14,7 +17,12 @@ public abstract class GameLogic extends Thread
 {
     Player player;
     GameIO gameIO;
+    LinkedList<SoundSource> soundSources=null;
 
+    public GameLogic(LinkedList<SoundSource> soundSources)
+    {
+        this.soundSources=soundSources;
+    }
 
     /* Abstract Methods ========================================================================== */
 
@@ -49,6 +57,16 @@ public abstract class GameLogic extends Thread
      */
     protected abstract void update();
 
+    /**
+     *
+     */
+    public abstract void pauseGame();
+
+    /**
+     *
+     */
+    public abstract void resumeGame();
+
 
     /* Methods ==================================================================================== */
 
@@ -81,4 +99,6 @@ public abstract class GameLogic extends Thread
     public void setGameIO(GameIO gameIO) {
         this.gameIO = gameIO;
     }
+
+
 }

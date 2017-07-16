@@ -17,20 +17,20 @@ import java.util.LinkedList;
 
 public class SimpleGameLogic extends GameLogic {
 
-    private LinkedList<SoundSource> soundsources ;
     private SoundSource target;
     double dist;
 
     /* Constructors =============================================================================== */
     public SimpleGameLogic(Player player , LinkedList<SoundSource> soundsources, SoundSource target,double minimumDist)
     {
+        super(soundsources);
         this.player = player ;
-        this.soundsources=soundsources;
         this.target = target;
         this.dist = minimumDist;
 
     }
     public SimpleGameLogic(Player player){
+        super(null);
         this.player = player;
         this.dist=0;
     }
@@ -58,10 +58,6 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     protected void update() { }
 
-
-    public LinkedList<SoundSource> getSoundsources() {
-        return soundsources;
-    }
 
     public SoundSource getTarget() {
         return target;
