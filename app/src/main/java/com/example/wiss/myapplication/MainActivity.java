@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
-import com.example.wiss.game.GameITouch;
+import com.example.wiss.game.GameITouchDirect;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.units.Player;
@@ -72,9 +72,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myTag","starting updater!");
 
         /* Setting the gameLogic and the handleTouch. */
-        this.gameLogic = new SimpleGameLogic();
-        this.gameLogic.setPlayer(this.player);
-        this.handleTouch = new GameITouch(this.gameLogic);
+        this.gameLogic = new SimpleGameLogic(this.player);
+        this.handleTouch = new GameITouchDirect(this.gameLogic);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 

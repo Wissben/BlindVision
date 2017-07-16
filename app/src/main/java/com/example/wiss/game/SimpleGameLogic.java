@@ -1,13 +1,18 @@
 package com.example.wiss.game;
 
 import com.example.wiss.myapplication.Vector;
+import com.example.wiss.units.Player;
 
 /**
- * Created by no_one on 15/07/17.
+ * Created by Sidahmed on 15/07/17.
+ * This class will be called to update the player position on the map.
  */
 
 public class SimpleGameLogic extends GameLogic {
 
+    /* Constructors =============================================================================== */
+
+    public SimpleGameLogic(Player player){ this.player = player; }
 
     /* Methods ==================================================================================== */
 
