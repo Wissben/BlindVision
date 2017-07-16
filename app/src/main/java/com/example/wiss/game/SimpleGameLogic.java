@@ -58,6 +58,16 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     protected void update() { }
 
+    @Override
+    public void pauseGame() {
+        
+    }
+
+    @Override
+    public void resumeGame() {
+
+    }
+
 
     public SoundSource getTarget() {
         return target;
