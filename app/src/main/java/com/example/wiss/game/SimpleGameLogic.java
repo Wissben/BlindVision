@@ -19,14 +19,6 @@ public class SimpleGameLogic extends GameLogic {
     /* Methods ==================================================================================== */
 
     /**
-     * This will move the player using the vector (a swipe vector).
-     */
-    @Override
-    public void movePlayer(Vector vector) {
-        this.player.getPosition().add(vector);
-    }
-
-    /**
      * This will move the player to the specific position in the map.
      */
     @Override

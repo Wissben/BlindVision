@@ -21,7 +21,21 @@ public abstract class GameLogic extends Thread
     /**
      * This will move the player using the vector.
      */
-    public abstract void movePlayer(Vector vector);
+    public void movePlayer(Vector vector)
+    {
+        Vector v = player.getPosition().copy();
+        movePlayerToPos(v.add(vector));
+    }
+
+    /**
+     * same method as movePlayerToPos with different parameters
+     * @param vector
+     */
+
+    public void movePlayerToPos(Vector vector)
+    {
+        movePlayerToPos(vector.getX(),vector.getY());
+    }
 
 
     /**
