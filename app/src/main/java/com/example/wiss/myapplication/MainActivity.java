@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
     static private Activity currentActivity = null;
     SoundUpdater soundUpdater;
     LinkedList<SoundSource> soundSources = new LinkedList<>();
-    Player player = new Player();
     GameLogic gameLogic;
     //This is the handler of the touch :
     private View.OnTouchListener handleTouch;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         screenVec = getScreenVector();
         setCurrentActivity(this);
         SimpleSoundSource simple;
+        Player player = new Player();
 
         Log.d("myTag","first creation!");
         // creating sound sources
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         simple = new SimpleSoundSource(500,1000);
         simple.initialise(player,R.raw.meza,screenVec.getAbsValue());
         soundSources.add(simple);
+
 
         // setting up SoundManagers
         for(int i=0;i<soundSources.size();i++)
@@ -70,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myTag","starting updater!");
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
-        this.gameLogic = new SimpleGameLogic(this.player);
+        this.gameLogic = new SimpleGameLogic(player);
 //        this.handleTouch = new GameITouchDirect(this.gameLogic);
-        this.handleTouch = new GameITouchSwipe(this.gameLogic);
+        this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         soundUpdater = new SoundUpdater();
         soundUpdater.addSoundSourcesToUpdate(soundSources);
         soundUpdater.startUpdating();
+        Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
     }
 
 

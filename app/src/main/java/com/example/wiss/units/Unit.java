@@ -70,6 +70,7 @@ public abstract class Unit {
     public void setPosition(double x, double y) {
         this.position.setX(x);
         this.position.setY(y);
+        Log.d("myTag","new position is: " + position);
     }
 
     public void setPosition(Vector pos){

@@ -14,13 +14,18 @@ import com.example.wiss.myapplication.Vector;
 
 public class GameITouchSwipe implements View.OnTouchListener {
     protected GameLogic gameLogic;
+    protected double coeff;
     /* This represent the finger position before it starts swiping. */
     protected Vector posBeforeSwipe = new Vector(0, 0);
 
 
     /* Constructors ============================================================================== */
 
-    public GameITouchSwipe(GameLogic gameLogic) { this.gameLogic = gameLogic; }
+    public GameITouchSwipe(GameLogic gameLogic,double coeff)
+    {
+        this.gameLogic = gameLogic;
+        this.coeff = coeff;
+    }
 
 
     /* Methods =================================================================================== */
@@ -39,7 +44,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 Vector swipeVect = new Vector(this.posBeforeSwipe, new Vector(x, y));
-                this.gameLogic.movePlayer(swipeVect);
+                this.gameLogic.movePlayer(swipeVect.mul(coeff));
 
 //                Log.i("TAG", "posBeforeSwipe " + this.posBeforeSwipe);
 //                Log.i("TAG", "action up (" + x + ", " + y + ")");
