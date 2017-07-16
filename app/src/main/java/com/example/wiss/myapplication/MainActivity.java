@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myTag","updater creation!");
 
-        // adding sound sources to updater in order to get updated automatically in separate thread
-        soundUpdater = new SoundUpdater();
-        soundUpdater.addSoundSourcesToUpdate(soundSources);
-        soundUpdater.startUpdating();
 
 
         Log.d("myTag","starting updater!");
@@ -84,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume()
     {
         super.onResume();
+        soundUpdater = new SoundUpdater();
+        soundUpdater.addSoundSourcesToUpdate(soundSources);
         soundUpdater.startUpdating();
     }
 
