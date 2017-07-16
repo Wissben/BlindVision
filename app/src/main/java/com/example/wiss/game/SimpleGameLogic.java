@@ -42,16 +42,12 @@ public class SimpleGameLogic extends GameLogic {
      */
     @Override
     public void movePlayerToPos(double x, double y) {
-        this.player.setPosition(x, y);
-        for (int i = 0; i < this.soundsources.size(); i++) {
-            SoundSource current = soundsources.get(i);
-            Vector currPos = current.getPosition();
-            if(current==target && Vector.getDistance(current.getPosition(),target.getPosition())<dist)
+            Vector currPos = this.target.getPosition();
+            if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
             {
                 this.reachedTarget(this.target);
             }
 
-        }
     }
 
 
