@@ -1,5 +1,7 @@
 package com.example.wiss.game;
 
+import android.util.Log;
+
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.units.Player;
 
@@ -17,12 +19,11 @@ public class SimpleGameLogic extends GameLogic {
     /* Methods ==================================================================================== */
 
     /**
-     * This will move the player using the vector.
+     * This will move the player using the vector (a swipe vector).
      */
     @Override
     public void movePlayer(Vector vector) {
-        Vector finalPosition = vector.add(this.player.getPosition());
-        this.player.setPosition(finalPosition);
+        this.player.getPosition().add(vector);
     }
 
     /**

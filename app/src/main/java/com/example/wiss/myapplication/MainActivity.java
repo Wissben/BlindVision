@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.View;
 
 import com.example.wiss.game.GameITouchDirect;
+import com.example.wiss.game.GameITouchSwipe;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.units.Player;
@@ -71,9 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("myTag","starting updater!");
 
-        /* Setting the gameLogic and the handleTouch. */
+        /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
         this.gameLogic = new SimpleGameLogic(this.player);
-        this.handleTouch = new GameITouchDirect(this.gameLogic);
+//        this.handleTouch = new GameITouchDirect(this.gameLogic);
+        this.handleTouch = new GameITouchSwipe(this.gameLogic);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
     }
 
