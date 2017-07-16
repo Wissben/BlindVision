@@ -44,7 +44,8 @@ public class GameITouchSwipe implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 Vector swipeVect = new Vector(this.posBeforeSwipe, new Vector(x, y));
-                this.gameLogic.movePlayer(swipeVect.mul(coeff));
+                if(swipeVect.getAbsValue()>0)
+                    this.gameLogic.movePlayer(swipeVect.mul(coeff));
 
 //                Log.i("TAG", "posBeforeSwipe " + this.posBeforeSwipe);
 //                Log.i("TAG", "action up (" + x + ", " + y + ")");

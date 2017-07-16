@@ -72,7 +72,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myTag","starting updater!");
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
-        this.gameLogic = new SimpleGameLogic(player);
+
+        int lower = 0 ;
+        int upper = soundSources.size()-1;
+        int r = (int) (Math.random() * (upper - lower)) + lower;
+
+        this.gameLogic = new SimpleGameLogic(player,soundSources,soundSources.get(r),2);
+
 //        this.handleTouch = new GameITouchDirect(this.gameLogic);
         this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);

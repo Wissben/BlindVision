@@ -4,6 +4,11 @@ import android.util.Log;
 
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.units.Player;
+import com.example.wiss.units.SimpleSoundSource;
+import com.example.wiss.units.SoundSource;
+import com.example.wiss.units.Unit;
+
+import java.util.LinkedList;
 
 /**
  * Created by Sidahmed on 15/07/17.
@@ -12,9 +17,23 @@ import com.example.wiss.units.Player;
 
 public class SimpleGameLogic extends GameLogic {
 
-    /* Constructors =============================================================================== */
+    private LinkedList<SoundSource> soundsources ;
+    private SoundSource target;
+    double dist;
 
-    public SimpleGameLogic(Player player){ this.player = player; }
+    /* Constructors =============================================================================== */
+    public SimpleGameLogic(Player player , LinkedList<SoundSource> soundsources, SoundSource target,double minimumDist)
+    {
+        this.player = player ;
+        this.soundsources=soundsources;
+        this.target = target;
+        this.dist = minimumDist;
+
+    }
+    public SimpleGameLogic(Player player){
+        this.player = player;
+        this.dist=0;
+    }
 
     /* Methods ==================================================================================== */
 
@@ -24,8 +43,35 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     public void movePlayerToPos(double x, double y) {
         this.player.setPosition(x, y);
+        for (int i = 0; i < this.soundsources.size(); i++) {
+            SoundSource current = soundsources.get(i);
+            Vector currPos = current.getPosition();
+            if(current==target && Vector.getDistance(current.getPosition(),target.getPosition())<dist)
+            {
+                this.reachedTarget(this.target);
+            }
+
+        }
     }
 
+
+    public void reachedTarget(SoundSource target)
+    {
+        Log.d("TAG", "reachedTarget: "+target.getPosition().getX()+"/"+target.getPosition().getY());
+    }
     @Override
     protected void update() { }
+
+
+    public LinkedList<SoundSource> getSoundsources() {
+        return soundsources;
+    }
+
+    public SoundSource getTarget() {
+        return target;
+    }
+
+    public double getDist() {
+        return dist;
+    }
 }
