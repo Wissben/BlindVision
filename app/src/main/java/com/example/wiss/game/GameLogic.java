@@ -1,8 +1,12 @@
 package com.example.wiss.game;
 
+import android.support.annotation.CallSuper;
+
 import com.example.wiss.myapplication.Vector;
+import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SoundSource;
+import com.example.wiss.updater.Updatable;
 
 import java.util.LinkedList;
 
@@ -13,18 +17,80 @@ import java.util.LinkedList;
  * in case we wanna move other units.
  */
 
-public abstract class GameLogic extends Thread
+public abstract class GameLogic implements Updatable
 {
     Player player;
     GameIO gameIO;
     LinkedList<SoundSource> soundSources=null;
+    SoundUpdater soundUpdater;
+    private boolean paused = true;
 
     public GameLogic(LinkedList<SoundSource> soundSources)
     {
         this.soundSources=soundSources;
+        soundUpdater = new SoundUpdater();
+        soundUpdater.addSoundSourcesToUpdate(soundSources);
     }
 
     /* Abstract Methods ========================================================================== */
+
+    /**
+     * This will move the player to the specific position in the map.
+     */
+    public abstract void movePlayerToPos(double x, double y);
+
+
+    /**
+     * Don't know where this will be used yet.
+     */
+
+
+
+    /* Methods ==================================================================================== */
+
+    @Override @CallSuper
+    public void update()
+    {
+        if(!isPaused())
+        soundUpdater.update();
+    }
+
+    @Override @CallSuper
+    public void pause() {
+        pauseGame();
+    }
+
+    @Override @CallSuper
+    public void resume() {
+        resumeGame();
+    }
+
+    @Override @CallSuper
+    public void stop()
+    {
+
+    }
+
+
+    /**
+     *
+     */
+    public void pauseGame()
+    {
+        if(isPaused()) return;
+        setPaused(true);
+        soundUpdater.pauseSounds();
+    }
+
+    /**
+     *
+     */
+    public void resumeGame()
+    {
+        if(!isPaused()) return;
+        setPaused(false);
+        soundUpdater.resumeSound();
+    }
 
     /**
      * This will move the player using the vector.
@@ -46,42 +112,6 @@ public abstract class GameLogic extends Thread
     }
 
 
-    /**
-     * This will move the player to the specific position in the map.
-     */
-    public abstract void movePlayerToPos(double x, double y);
-
-
-    /**
-     * Don't know where this will be used yet.
-     */
-    protected abstract void update();
-
-    /**
-     *
-     */
-    public abstract void pauseGame();
-
-    /**
-     *
-     */
-    public abstract void resumeGame();
-
-
-    /* Methods ==================================================================================== */
-
-
-    public void startUpdating() { this.start(); }
-
-    public void run()
-    {
-        while(true)
-        {
-            this.update();
-        }
-    }
-
-
     /* Setters & Getters ========================================================================== */
 
     public Player getPlayer() {
@@ -100,5 +130,11 @@ public abstract class GameLogic extends Thread
         this.gameIO = gameIO;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 }

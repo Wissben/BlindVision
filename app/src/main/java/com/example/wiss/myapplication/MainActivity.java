@@ -8,15 +8,15 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
-import com.example.wiss.game.GameITouchDirect;
 import com.example.wiss.game.GameITouchSwipe;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
+import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
 import com.example.wiss.sound.SoundSourceNotInitialisedException;
-import com.example.wiss.sound.SoundUpdater;
+import com.example.wiss.updater.Updater;
 
 import java.util.LinkedList;
 
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     static private Vector screenVec = null;
     static private Activity currentActivity = null;
+    Updater updater;
     SoundUpdater soundUpdater;
     LinkedList<SoundSource> soundSources = new LinkedList<>();
     GameLogic gameLogic;
@@ -42,15 +43,10 @@ public class MainActivity extends AppCompatActivity {
         SimpleSoundSource simple;
         Player player = new Player();
 
-        Log.d("myTag","first creation!");
         // creating sound sources
         simple = new SimpleSoundSource(200,500);
         simple.initialise(player,R.raw.tromp,screenVec.getAbsValue());
         soundSources.add(simple);
-
-//        simple = new SimpleSoundSource(500,1000);
-//        simple.initialise(player,R.raw.soo,screenVec.getAbsValue());
-//        soundSources.add(simple);
 
         simple = new SimpleSoundSource(500,1000);
         simple.initialise(player,R.raw.meza,screenVec.getAbsValue());
@@ -65,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        Log.d("myTag","updater creation!");
-
-
-
-        Log.d("myTag","starting updater!");
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
 
@@ -88,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
     public void onResume()
     {
         super.onResume();
+        updater = new Updater(100);
         soundUpdater = new SoundUpdater();
         soundUpdater.addSoundSourcesToUpdate(soundSources);
-        soundUpdater.startUpdating();
+        updater.addToUpdate(soundUpdater);
+        updater.startUpdating();
         Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
     }
 
@@ -99,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         int size = soundSources.size();
-        soundUpdater.cancel();
+        updater.cancel();
         for(int i=0;i<size;i++)
             soundSources.get(i).pauseSound();
 
@@ -110,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStop();
         int size = soundSources.size();
-        soundUpdater.cancel();
+        updater.cancel();
         for(int i=0;i<size;i++)
             soundSources.get(i).stopSound();
     }

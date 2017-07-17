@@ -56,16 +56,9 @@ public class SimpleGameLogic extends GameLogic {
         Log.d("TAG", "reachedTarget: "+target.getPosition().getX()+"/"+target.getPosition().getY());
     }
     @Override
-    protected void update() { }
-
-    @Override
-    public void pauseGame() {
-        
-    }
-
-    @Override
-    public void resumeGame() {
-
+    public void update()
+    {
+        super.update();
     }
 
 

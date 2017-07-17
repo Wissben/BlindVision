@@ -1,5 +1,7 @@
 package com.example.wiss.sound;
 
+import com.example.wiss.updater.Updatable;
+
 import java.util.LinkedList;
 
 /**
@@ -7,7 +9,7 @@ import java.util.LinkedList;
  * Created by ressay on 13/07/17.
  */
 
-public abstract class UnitSoundManager implements SoundUpdatable
+public abstract class UnitSoundManager implements Updatable
 {
     /**
      * a Unit's sound needs SoundMapManager to manage sound on a map
@@ -55,5 +57,21 @@ public abstract class UnitSoundManager implements SoundUpdatable
         int size = shs.size();
         for(int i=0;i<size;i++)
             shs.get(i).pauseSound();
+    }
+
+    @Override
+    public void pause() {
+        pauseSound();
+    }
+
+    @Override
+    public void resume() {
+        update();
+    }
+
+    @Override
+    public void stop()
+    {
+
     }
 }
