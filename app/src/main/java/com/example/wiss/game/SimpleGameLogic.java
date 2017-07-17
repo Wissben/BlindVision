@@ -42,6 +42,7 @@ public class SimpleGameLogic extends GameLogic {
      */
     @Override
     public void movePlayerToPos(double x, double y) {
+            this.player.setPosition(x,y);
             Vector currPos = this.target.getPosition();
             if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
             {
@@ -60,7 +61,7 @@ public class SimpleGameLogic extends GameLogic {
 
     @Override
     public void pauseGame() {
-        
+
     }
 
     @Override
