@@ -71,23 +71,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d("myTag","creation2");
         this.gameLogic = new SimpleGameLogic(player,soundSources,soundSources.get(r),2);
 
-//        this.handleTouch = new GameITouchDirect(this.gameLogic);
-        Log.d("myTag","creation3");
+        updater = new Updater(100);
+        updater.addToUpdate(gameLogic);
+        updater.startUpdating();
+
         this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
-        Log.d("myTag","creation4");
+
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Log.d("myTag","starting updater");
-        updater = new Updater(100);
-        soundUpdater = new SoundUpdater();
-//        soundUpdater.addSoundSourcesToUpdate(soundSources);
-        updater.addToUpdate(gameLogic);
-        updater.startUpdating();
+        Log.d("myTag","resuming updater");
+        updater.resumeUpdating();
         Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
     }
 
@@ -95,10 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        int size = soundSources.size();
-        updater.cancel();
-        for(int i=0;i<size;i++)
-            soundSources.get(i).pauseSound();
+        updater.pauseUpdating();
 
     }
 
@@ -106,10 +102,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
-        int size = soundSources.size();
-        updater.cancel();
-        for(int i=0;i<size;i++)
-            soundSources.get(i).stopSound();
+        //updater.cancel();
     }
 
     /**

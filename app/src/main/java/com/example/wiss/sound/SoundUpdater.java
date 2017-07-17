@@ -1,5 +1,7 @@
 package com.example.wiss.sound;
 
+import android.util.Log;
+
 import com.example.wiss.units.SoundSource;
 import com.example.wiss.units.Unit;
 import com.example.wiss.updater.Updatable;
@@ -20,11 +22,12 @@ public class SoundUpdater implements Updatable
     @Override
     public void update()
     {
-        if(isCancelled() || isPaused()) return;
+        if(isPaused()) return;
 
         int size = sounds.size();
         for(int i=0; i<size;i++)
             sounds.get(i).update();
+        Log.d("myTag","updating sounds inside SoundUpdater!");
     }
 
     @Override
@@ -64,14 +67,7 @@ public class SoundUpdater implements Updatable
             addToUpdate(ss.get(i).getUnitSoundManager());
     }
 
-    public void pauseSounds()
-    {
-        if(isPaused()) return;
-        paused = true;
-        int size = sounds.size();
-        for(int i=0; i<size;i++)
-            sounds.get(i).pauseSound();
-    }
+
 
 
     public boolean isCancelled()
@@ -100,5 +96,14 @@ public class SoundUpdater implements Updatable
         int size = sounds.size();
         for(int i=0; i<size;i++)
             sounds.get(i).update();
+    }
+
+    public void pauseSounds()
+    {
+        if(isPaused()) return;
+        paused = true;
+        int size = sounds.size();
+        for(int i=0; i<size;i++)
+            sounds.get(i).pauseSound();
     }
 }

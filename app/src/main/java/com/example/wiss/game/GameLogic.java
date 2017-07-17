@@ -1,6 +1,7 @@
 package com.example.wiss.game;
 
 import android.support.annotation.CallSuper;
+import android.util.Log;
 
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.sound.SoundUpdater;
@@ -51,8 +52,9 @@ public abstract class GameLogic implements Updatable
     @Override @CallSuper
     public void update()
     {
-        if(!isPaused())
+        if(isPaused()) return;
         soundUpdater.update();
+        Log.d("myTag","updating SoundUpdater inside GameLogic!");
     }
 
     @Override @CallSuper

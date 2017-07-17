@@ -1,5 +1,7 @@
 package com.example.wiss.updater;
 
+import android.util.Log;
+
 import com.example.wiss.units.SoundSource;
 
 import java.util.LinkedList;
@@ -11,7 +13,7 @@ import java.util.LinkedList;
 public class Updater extends Thread
 {
 
-
+    private boolean paused = false;
     private long delay = 100;
     private boolean cancelled = false;
     private LinkedList<Updatable> toUpdate = new LinkedList<>();
@@ -34,24 +36,26 @@ public class Updater extends Thread
     public void run()
     {
 
-
-        long start = System.currentTimeMillis();
-
-        while(!isCancelled())
+        while (!isCancelled())
         {
-            int size = toUpdate.size();
-            for(int i=0; i<size;i++)
-                toUpdate.get(i).update();
-        }
+            long start = System.currentTimeMillis();
 
-
-        long elapsedTime = System.currentTimeMillis() - start;
-        if(delay>elapsedTime)
-            try {
-                sleep(delay-elapsedTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (!isPaused()) {
+                int size = toUpdate.size();
+                for (int i = 0; i < size; i++)
+                    toUpdate.get(i).update();
+                Log.d("myTag","updating inside updater");
             }
+            Log.d("myTag","still looping!");
+
+            long elapsedTime = System.currentTimeMillis() - start;
+            if (delay > elapsedTime)
+                try {
+                    sleep(delay - elapsedTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
 
     }
 
@@ -108,5 +112,31 @@ public class Updater extends Thread
     public void setDelay(long delay)
     {
         this.delay = delay;
+    }
+
+    public void pauseUpdating()
+    {
+        if(isPaused()) return;
+        setPaused(true);
+        int size = toUpdate.size();
+        for(int i=0; i<size;i++)
+            toUpdate.get(i).pause();
+    }
+
+    public void resumeUpdating()
+    {
+        if(!isPaused()) return;
+        setPaused(false);
+        int size = toUpdate.size();
+        for(int i=0; i<size;i++)
+            toUpdate.get(i).resume();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    private void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

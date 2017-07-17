@@ -59,6 +59,13 @@ public abstract class UnitSoundManager implements Updatable
             shs.get(i).pauseSound();
     }
 
+    public void resumeSound()
+    {
+        int size = shs.size();
+        for(int i=0;i<size;i++)
+            shs.get(i).playSound();
+    }
+
     @Override
     public void pause() {
         pauseSound();
