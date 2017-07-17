@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     static private Vector screenVec = null;
     static private Activity currentActivity = null;
     Updater updater;
-    SoundUpdater soundUpdater;
     LinkedList<SoundSource> soundSources = new LinkedList<>();
     GameLogic gameLogic;
     //This is the handler of the touch :
