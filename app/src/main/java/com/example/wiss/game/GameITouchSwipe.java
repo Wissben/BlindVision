@@ -40,7 +40,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 this.posBeforeSwipe.setX(x);
                 this.posBeforeSwipe.setY(y);
-//                Log.i("TAG", "action down: (" + x + ", " + y + ")");
+                Log.i("TAG", "action down: (" + x + ", " + y + ")");
                 break;
             case MotionEvent.ACTION_UP:
                 Vector swipeVect = new Vector(this.posBeforeSwipe, new Vector(x, y));
@@ -48,7 +48,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
                     this.gameLogic.movePlayer(swipeVect.mul(coeff));
 
 //                Log.i("TAG", "posBeforeSwipe " + this.posBeforeSwipe);
-//                Log.i("TAG", "action up (" + x + ", " + y + ")");
+                Log.i("TAG", "action up (" + x + ", " + y + ")");
 //                Log.i("TAG", "Swipe vector " + swipeVect);
 //                Log.i("TAG", "Player position " + this.gameLogic.getPlayer().getPosition());
                 break;

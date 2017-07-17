@@ -15,7 +15,7 @@ public class SoundUpdater implements Updatable
 
     private boolean cancelled = false;
     private boolean paused = false;
-    LinkedList<UnitSoundManager> sounds;
+    LinkedList<UnitSoundManager> sounds = new LinkedList<>();
 
     @Override
     public void update()

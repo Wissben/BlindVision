@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Log.d("myTag","creation");
         screenVec = getScreenVector();
         setCurrentActivity(this);
         SimpleSoundSource simple;
@@ -68,21 +68,25 @@ public class MainActivity extends AppCompatActivity {
         int upper = soundSources.size()-1;
         int r = (int) (Math.random() * (upper - lower)) + lower;
 
+        Log.d("myTag","creation2");
         this.gameLogic = new SimpleGameLogic(player,soundSources,soundSources.get(r),2);
 
 //        this.handleTouch = new GameITouchDirect(this.gameLogic);
+        Log.d("myTag","creation3");
         this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
+        Log.d("myTag","creation4");
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+        Log.d("myTag","starting updater");
         updater = new Updater(100);
         soundUpdater = new SoundUpdater();
-        soundUpdater.addSoundSourcesToUpdate(soundSources);
-        updater.addToUpdate(soundUpdater);
+//        soundUpdater.addSoundSourcesToUpdate(soundSources);
+        updater.addToUpdate(gameLogic);
         updater.startUpdating();
         Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
     }

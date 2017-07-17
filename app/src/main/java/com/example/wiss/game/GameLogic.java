@@ -23,7 +23,7 @@ public abstract class GameLogic implements Updatable
     GameIO gameIO;
     LinkedList<SoundSource> soundSources=null;
     SoundUpdater soundUpdater;
-    private boolean paused = true;
+    private boolean paused = false;
 
     public GameLogic(LinkedList<SoundSource> soundSources)
     {
