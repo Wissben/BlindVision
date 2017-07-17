@@ -1,8 +1,10 @@
-package com.example.wiss.game;
+package com.example.wiss.io.input;
 
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.wiss.game.GameLogic;
 
 
 /**

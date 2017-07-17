@@ -8,10 +8,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
-import com.example.wiss.game.GameITouchSwipe;
+import com.example.wiss.io.input.GameITouchSwipe;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
-import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;

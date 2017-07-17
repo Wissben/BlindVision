@@ -1,4 +1,4 @@
-package com.example.wiss.game;
+package com.example.wiss.io.output;
 
 /**
  * Created by ressay on 17/07/17.
