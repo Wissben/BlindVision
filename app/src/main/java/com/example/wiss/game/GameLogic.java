@@ -3,6 +3,7 @@ package com.example.wiss.game;
 import android.support.annotation.CallSuper;
 import android.util.Log;
 
+import com.example.wiss.io.GameIO;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;

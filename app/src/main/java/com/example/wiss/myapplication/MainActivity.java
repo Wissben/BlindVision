@@ -2,14 +2,12 @@ package com.example.wiss.myapplication;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.hardware.SensorEventListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
-import com.example.wiss.game.GameIAccel;
 import com.example.wiss.game.GameITouchSwipe;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
@@ -32,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     GameLogic gameLogic;
     //This is the handler of the touch :
     private View.OnTouchListener handleTouch;
-    //This the new sensorListener
-    private SensorEventListener accelTouch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         int upper = soundSources.size()-1;
         int r = (int) (Math.random() * (upper - lower)) + lower;
 
-            Log.d("myTag","creation2");
+        Log.d("myTag","creation2");
         this.gameLogic = new SimpleGameLogic(player,soundSources,soundSources.get(r),2);
 
         updater = new Updater(100);
@@ -81,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
-
-        //this.accelTouch = new GameIAccel(this.gameLogic,currentActivity.getApplicationContext());
 
 
     }

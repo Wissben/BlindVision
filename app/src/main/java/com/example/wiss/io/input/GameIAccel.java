@@ -1,4 +1,4 @@
-package com.example.wiss.game;
+package com.example.wiss.io.input;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.example.wiss.game.GameLogic;
 import com.example.wiss.myapplication.Vector;
 
 /**
