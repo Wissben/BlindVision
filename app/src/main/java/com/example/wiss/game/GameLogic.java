@@ -60,12 +60,24 @@ public abstract class GameLogic extends Thread
     /**
      *
      */
-    public abstract void pauseGame();
+    public  void pauseGame()
+    {
+        /**
+         * TODO
+         * Implement this method
+         */
+    }
 
     /**
      *
      */
-    public abstract void resumeGame();
+    public  void resumeGame()
+    {
+        /**
+         * TODO
+         * Implement this method
+         */
+    }
 
 
     /* Methods ==================================================================================== */
