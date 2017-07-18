@@ -65,7 +65,7 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
 
         this.choice++;
         if (this.choice >= this.options.size())
-            this.choice = this.options.size() - 1;
+            this.choice = 0;
         for (int i = 0; i < this.options.size(); i++) {
             if (i != choice)
                 options.get(i).stopTitleSound();
@@ -78,7 +78,7 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
     public void down() {
         this.choice--;
         if (this.choice < 0)
-            this.choice = 0;
+            this.choice = this.options.size() - 1;
         for (int i = 0; i < this.options.size(); i++) {
             if (i != choice)
             {
