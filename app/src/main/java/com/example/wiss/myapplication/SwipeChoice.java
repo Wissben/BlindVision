@@ -32,7 +32,6 @@ public class SwipeChoice implements View.OnTouchListener {
     {
         float x = event.getX();
         float y = event.getY();
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 this.posBeforeSwipe.setX(x);

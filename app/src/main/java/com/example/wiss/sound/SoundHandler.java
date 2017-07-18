@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.media.MediaPlayer;
 
 import com.example.wiss.myapplication.MainActivity;
+import com.example.wiss.myapplication.WelcomeActivity;
 
 /**
  * Created by wiss on 29/06/17.
@@ -38,7 +39,7 @@ public class SoundHandler {
     {
 
         //Default constructor
-        Activity ac = MainActivity.getCurrentActivity();
+        Activity ac = WelcomeActivity.getCurrentActivity();
         this.mp=MediaPlayer.create(ac.getApplicationContext(),resID);
         //A media player object is created
         setLimitVolume(100);
@@ -49,7 +50,7 @@ public class SoundHandler {
     public SoundHandler(int resID,float limitVolume)
     {
         //Default constructor
-        Activity ac = MainActivity.getCurrentActivity();
+        Activity ac = WelcomeActivity.getCurrentActivity();
         this.mp=MediaPlayer.create(ac.getApplicationContext(),resID);
         //A media player object is created
         setLimitVolume(limitVolume);

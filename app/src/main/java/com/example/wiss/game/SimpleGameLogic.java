@@ -42,7 +42,7 @@ public class SimpleGameLogic extends GameLogic {
      */
     @Override
     public void movePlayerToPos(double x, double y) {
-            Vector currPos = this.target.getPosition();
+        Vector currPos = this.target.getPosition();
         Log.d("myTag","moving player");
         player.setPosition(x,y);
             if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
