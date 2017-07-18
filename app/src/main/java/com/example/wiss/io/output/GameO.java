@@ -11,4 +11,5 @@ import java.util.Map;
 public abstract class GameO
 {
     public abstract void output(String param, GameActivity gameActivity);
+
 }
