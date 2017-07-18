@@ -14,16 +14,16 @@ import com.example.wiss.myapplication.Vector;
  * Created by wiss on 16/07/17.
  */
 
-public class GameIAccel  implements SensorEventListener{
+public class GameIAccel implements SensorEventListener {
 
     private GameLogic gameLogic;
-    private double x,y,z;
+    private double x, y, z;
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    public GameIAccel(GameLogic gameLogic, Context context)
-    {
+
+    public GameIAccel(GameLogic gameLogic, Context context) {
         this.gameLogic = gameLogic;
-        x=y=z=0;
+        x = y = z = 0;
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -39,17 +39,25 @@ public class GameIAccel  implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        double x = sensorEvent.values[0];
+        double x = -1*sensorEvent.values[0];
         double y = 0;
-        double z = sensorEvent.values[2];
-        Log.d("TAG", "onSensorChanged BEFORE: "+x+"/"+y);
-        Vector diff  = this.gameLogic.player.getPosition().add(new Vector(x,z));
+        double z = -1*sensorEvent.values[2];
+
+        if(this.gameLogic.getPlayer().getPosition().getX()<0 && this.gameLogic.getPlayer().getPosition().getX()>1000)
+            x=0;
+        if(this.gameLogic.getPlayer().getPosition().getY()<0 && this.gameLogic.getPlayer().getPosition().getY()>1900)
+            z=0;
+
+        Vector acc = new Vector(x, z);
+        Log.d("TAG", "onSensorChanged BEFORE: " + x + "/" + y);
+        Vector diff = this.gameLogic.getPlayer().getPosition().add(new Vector(x, z));
         /**
-         For testing the x z changing value only, not the proper way to adjust the player position
+         For testing the x z changing value only, not the proper way to set the player position
          THIS REALLY NEED TO BE ADJUSTED !
          */
-        this.gameLogic.movePlayer(diff);
-        Log.d("TAG", "onSensorChanged: "+this.gameLogic.player.getPosition().getX()+"/"+this.gameLogic.player.getPosition().getY());
+        this.gameLogic.getPlayer().setVelAccel(new Vector(0, 0), acc);
+        this.gameLogic.getPlayer().updatePosition();
+        Log.d("TAG", "onSensorChanged: " + this.gameLogic.getPlayer().getPosition().getX() + "/" + this.gameLogic.getPlayer().getPosition().getY());
     }
 
     @Override

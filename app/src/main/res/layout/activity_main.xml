@@ -8,5 +8,12 @@
 
     tools:context="com.example.wiss.myapplication.MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/kems3"
+        tools:layout_editor_absoluteX="175dp"
+        tools:layout_editor_absoluteY="218dp" />
 </android.support.constraint.ConstraintLayout>
 

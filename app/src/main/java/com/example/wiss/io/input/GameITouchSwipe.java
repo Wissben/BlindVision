@@ -22,8 +22,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
 
     /* Constructors ============================================================================== */
 
-    public GameITouchSwipe(GameLogic gameLogic,double coeff)
-    {
+    public GameITouchSwipe(GameLogic gameLogic, double coeff) {
         this.gameLogic = gameLogic;
         this.coeff = coeff;
     }
@@ -32,8 +31,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
     /* Methods =================================================================================== */
 
     @Override
-    public boolean onTouch(View view, MotionEvent event)
-    {
+    public boolean onTouch(View view, MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
 
@@ -45,7 +43,7 @@ public class GameITouchSwipe implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 Vector swipeVect = new Vector(this.posBeforeSwipe, new Vector(x, y));
-                if(swipeVect.getAbsValue()>0)
+                if (swipeVect.getAbsValue() > 0)
                     this.gameLogic.movePlayer(swipeVect.mul(coeff));
 
 //                Log.i("TAG", "posBeforeSwipe " + this.posBeforeSwipe);

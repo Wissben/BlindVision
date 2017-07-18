@@ -12,7 +12,6 @@ import android.view.View;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.io.input.GameIAccel;
-import com.example.wiss.io.input.GameITouchSwipe;
 import com.example.wiss.sound.SoundSourceNotInitialisedException;
 import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
@@ -35,29 +34,28 @@ public class MainActivity extends AppCompatActivity {
     private SensorEventListener accel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("myTag","creation");
+        Log.d("myTag", "creation");
         screenVec = getScreenVector();
         setCurrentActivity(this);
         SimpleSoundSource simple;
-        Player player = new Player();
+        //Player= new Player();
+        Player player = new Player(new Vector(200, 500), new Vector(0, 0), new Vector(0, 0),this);
 
         // creating sound sources
-        simple = new SimpleSoundSource(200,500);
-        simple.initialise(player,R.raw.tromp,screenVec.getAbsValue());
+        simple = new SimpleSoundSource(200, 500);
+        simple.initialise(player, R.raw.tromp, screenVec.getAbsValue());
         soundSources.add(simple);
 
-        simple = new SimpleSoundSource(500,1000);
-        simple.initialise(player,R.raw.meza,screenVec.getAbsValue());
+        simple = new SimpleSoundSource(500, 1000);
+        simple.initialise(player, R.raw.meza, screenVec.getAbsValue());
         soundSources.add(simple);
-
 
         // setting up SoundManagers
-        for(int i=0;i<soundSources.size();i++)
+        for (int i = 0; i < soundSources.size(); i++)
             try {
                 soundSources.get(i).setupSoundManager();
             } catch (SoundSourceNotInitialisedException e) {
@@ -67,17 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
 
-        int lower = 0 ;
-        int upper = soundSources.size()-1;
+        int lower = 0;
+        int upper = soundSources.size() - 1;
         int r = (int) (Math.random() * (upper - lower)) + lower;
 
-        Log.d("myTag","creation2");
-        this.gameLogic = new SimpleGameLogic(player,soundSources,soundSources.get(r),2);
+        Log.d("myTag", "creation2");
+        this.gameLogic = new SimpleGameLogic(player, soundSources, soundSources.get(r), 2);
 
         updater = new Updater(100);
         updater.addToUpdate(gameLogic);
         updater.startUpdating();
-        this.accel = new GameIAccel(this.gameLogic,this.getApplicationContext());
+
+        this.accel = new GameIAccel(this.gameLogic, this.getApplicationContext());
         //this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
         //this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
 
@@ -85,12 +84,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        Log.d("myTag","resuming updater");
+        Log.d("myTag", "resuming updater");
         updater.resumeUpdating();
-        Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
+        Log.d("myTag", gameLogic.getPlayer().getPosition() + " is this");
     }
 
 
@@ -102,38 +100,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
         //updater.cancel();
     }
 
     /**
      * to call in onCreate of activities
+     *
      * @param ac
      */
 
-    static void setCurrentActivity(Activity ac)
-    {
+    static void setCurrentActivity(Activity ac) {
         currentActivity = ac;
     }
 
-    static public Activity getCurrentActivity()
-    {
+    static public Activity getCurrentActivity() {
         return currentActivity;
     }
 
-    static public Vector getScreenVec()
-    {
+    static public Vector getScreenVec() {
         return screenVec;
     }
 
-    Vector getScreenVector()
-    {
+    Vector getScreenVector() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        return new Vector(size.x,size.y);
+        return new Vector(size.x, size.y);
     }
 
 }
