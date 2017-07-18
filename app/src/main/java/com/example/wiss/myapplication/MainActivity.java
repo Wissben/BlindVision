@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
+import com.example.wiss.io.input.GameITouchDirect;
 import com.example.wiss.io.input.GameITouchSwipe;
 import com.example.wiss.sound.SoundSourceNotInitialisedException;
 import com.example.wiss.sound.SoundUpdater;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity{
 
             // creating sound sources
             simple = new SimpleSoundSource(200, 500);
-            simple.initialise(player, R.raw.tromp, screenVec.getAbsValue());
+            simple.initialise(player, R.raw.snk, screenVec.getAbsValue());
             soundSources.add(simple);
 
             simple = new SimpleSoundSource(500, 1000);
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
             updater.addToUpdate(gameLogic);
             updater.startUpdating();
 
-            this.handleTouch = new GameITouchSwipe(this.gameLogic, 0.3);
+            this.handleTouch = new GameITouchDirect(gameLogic);
             this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
 
 

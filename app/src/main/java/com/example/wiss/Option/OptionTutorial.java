@@ -1,8 +1,10 @@
 package com.example.wiss.Option;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
+import com.example.wiss.myapplication.MainActivity;
 import com.example.wiss.sound.SoundHandler;
 
 /**
@@ -18,6 +20,8 @@ public class OptionTutorial extends Options {
     @Override
     public void runOption(Activity act) {
         Log.d("run", "runOption: "+act);
+        Intent intent = new Intent(act, MainActivity.class);
+        act.startActivity(intent);
 
     }
 
