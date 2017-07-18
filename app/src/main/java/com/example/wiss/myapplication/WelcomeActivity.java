@@ -34,11 +34,11 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
 
         this.options = new LinkedList<>();
         setCurrentActivity(this);
-        this.options.push(new OptionTutorial(R.raw.meza,"Tutorial"));
-        this.options.push(new OptionTutorial(R.raw.dolphin,"Tutorial"));
-        this.options.push(new OptionTutorial(R.raw.soo,"Tutorial"));
-        this.options.push(new OptionTutorial(R.raw.tromp,"Tutorial"));
-        this.options.push(new OptionExit(R.raw.snk,"EXIT"));
+        this.options.add(new OptionTutorial(R.raw.meza,"Tutorial"));
+        this.options.add(new OptionTutorial(R.raw.dolphin,"Tutorial"));
+        this.options.add(new OptionTutorial(R.raw.soo,"Tutorial"));
+        this.options.add(new OptionTutorial(R.raw.tromp,"Tutorial"));
+        this.options.add(new OptionExit(R.raw.snk,"EXIT"));
 
         //As suggested by @ressay we wil use a class Randomize to generate a random set of parameters for a gamelogic
         //
@@ -59,7 +59,7 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
     }
 
     @Override
-    public void up() {
+    public void down() {
 //        Intent intent = new Intent(this, MainActivity.class);
 //        startActivity(intent);
 
@@ -75,7 +75,7 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
     }
 
     @Override
-    public void down() {
+    public void up() {
         this.choice--;
         if (this.choice < 0)
             this.choice = this.options.size() - 1;
