@@ -43,13 +43,13 @@ public class GameIAccel  implements SensorEventListener{
         double y = 0;
         double z = sensorEvent.values[2];
         Log.d("TAG", "onSensorChanged BEFORE: "+x+"/"+y);
-        Vector diff  = this.gameLogic.player.getPosition().add(new Vector(x,z));
+        Vector diff  = this.gameLogic.getPlayer().getPosition().add(new Vector(x,z));
         /**
          For testing the x z changing value only, not the proper way to adjust the player position
          THIS REALLY NEED TO BE ADJUSTED !
          */
         this.gameLogic.movePlayer(diff);
-        Log.d("TAG", "onSensorChanged: "+this.gameLogic.player.getPosition().getX()+"/"+this.gameLogic.player.getPosition().getY());
+        Log.d("TAG", "onSensorChanged: "+this.gameLogic.getPlayer().getPosition().getX()+"/"+this.gameLogic.getPlayer().getPosition().getY());
     }
 
     @Override
