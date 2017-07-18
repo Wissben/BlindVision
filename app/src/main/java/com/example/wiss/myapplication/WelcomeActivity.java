@@ -1,5 +1,6 @@
 package com.example.wiss.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,10 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
 
 
     @Override
-    public void up() {
+    public void up()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         Log.i("CHOICE", "The player choosed up");
     }
 
