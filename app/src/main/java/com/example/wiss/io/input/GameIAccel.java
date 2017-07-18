@@ -43,10 +43,10 @@ public class GameIAccel implements SensorEventListener {
         double y = 0;
         double z = -1*sensorEvent.values[2];
 
-        if(this.gameLogic.getPlayer().getPosition().getX()<0 && this.gameLogic.getPlayer().getPosition().getX()>1000)
-            x=0;
-        if(this.gameLogic.getPlayer().getPosition().getY()<0 && this.gameLogic.getPlayer().getPosition().getY()>1900)
-            z=0;
+//        if(this.gameLogic.getPlayer().getPosition().getX()<0 && this.gameLogic.getPlayer().getPosition().getX()>1000)
+//            x=0;
+//        if(this.gameLogic.getPlayer().getPosition().getY()<0 && this.gameLogic.getPlayer().getPosition().getY()>1900)
+//            z=0;
 
         Vector acc = new Vector(x, z);
         Log.d("TAG", "onSensorChanged BEFORE: " + x + "/" + y);
