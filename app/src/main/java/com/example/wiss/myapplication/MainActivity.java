@@ -2,20 +2,22 @@ package com.example.wiss.myapplication;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
-import com.example.wiss.game.GameITouchSwipe;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
+import com.example.wiss.io.input.GameIAccel;
+import com.example.wiss.io.input.GameITouchSwipe;
+import com.example.wiss.sound.SoundSourceNotInitialisedException;
 import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
-import com.example.wiss.sound.SoundSourceNotInitialisedException;
 import com.example.wiss.updater.Updater;
 
 import java.util.LinkedList;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     GameLogic gameLogic;
     //This is the handler of the touch :
     private View.OnTouchListener handleTouch;
+    private SensorEventListener accel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         updater = new Updater(100);
         updater.addToUpdate(gameLogic);
         updater.startUpdating();
-
-        this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
-        this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
+        this.accel = new GameIAccel(this.gameLogic,this.getApplicationContext());
+        //this.handleTouch = new GameITouchSwipe(this.gameLogic,0.3);
+        //this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
 
 
     }
