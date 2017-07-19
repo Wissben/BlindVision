@@ -22,10 +22,8 @@ import com.example.wiss.updater.Updater;
 import java.util.LinkedList;
 
 public class MainActivity extends BlindActivity{
-        static private Vector screenVec = null;
-        static private Activity currentActivity = null;
+
         Updater updater;
-        SoundUpdater soundUpdater;
         LinkedList<SoundSource> soundSources = new LinkedList<>();
         GameLogic gameLogic;
         //This is the handler of the touch :
@@ -37,7 +35,7 @@ public class MainActivity extends BlindActivity{
             setContentView(R.layout.activity_main);
 
             Log.d("myTag", "creation");
-            screenVec = getScreenVector();
+            Vector screenVec = WelcomeActivity.getScreenVec();
             SimpleSoundSource simple;
             Player player = new Player();
 
@@ -50,14 +48,6 @@ public class MainActivity extends BlindActivity{
             simple.initialise(player, R.raw.meza, screenVec.getAbsValue());
             soundSources.add(simple);
 
-
-            // setting up SoundManagers
-            for (int i = 0; i < soundSources.size(); i++)
-                try {
-                    soundSources.get(i).setupSoundManager();
-                } catch (SoundSourceNotInitialisedException e) {
-                    e.printStackTrace();
-                }
 
         /* Setting the gameLogic and the handleTouch. It is using swipe touch now. */
 
@@ -74,7 +64,6 @@ public class MainActivity extends BlindActivity{
 
             this.handleTouch = new GameITouchDirect(gameLogic);
             this.findViewById(android.R.id.content).setOnTouchListener(this.handleTouch);
-
 
         }
 
@@ -102,16 +91,7 @@ public class MainActivity extends BlindActivity{
 
 
 
-        static public Vector getScreenVec() {
-            return screenVec;
-        }
 
-        Vector getScreenVector() {
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            return new Vector(size.x, size.y);
-        }
 
 
 }

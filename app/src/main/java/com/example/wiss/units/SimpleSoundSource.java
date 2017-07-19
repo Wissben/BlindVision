@@ -31,13 +31,7 @@ public class SimpleSoundSource extends SoundSource
         this.player = player;
         this.resID = resID;
         this.maxDistance = maxDistance;
-        initialise(); // now this is initialised and won't throw exception when setupSoundManager is called
-    }
-
-    @Override
-    public void setupSoundManager() throws SoundSourceNotInitialisedException
-    {
-        if(!isInitialised()) throw new SoundSourceNotInitialisedException();
         setUnitSoundManager(new UnitSimpleSoundManager(maxDistance,player,this,resID));
     }
+
 }

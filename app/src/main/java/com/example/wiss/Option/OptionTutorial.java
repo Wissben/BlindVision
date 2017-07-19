@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.wiss.gameGen.FirstGameGen;
+import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.MainActivity;
 import com.example.wiss.sound.SoundHandler;
 
@@ -20,7 +22,12 @@ public class OptionTutorial extends Options {
     @Override
     public void runOption(Activity act) {
         Log.d("run", "runOption: "+act);
-        Intent intent = new Intent(act, MainActivity.class);
+        // generating game logic and gameIO
+        FirstGameGen gameGen = new FirstGameGen();
+        gameGen.generateGameParams();
+
+        // starting game activity with the generated parameters
+        Intent intent = new Intent(act, GameActivity.class);
         act.startActivity(intent);
 
     }

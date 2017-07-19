@@ -44,9 +44,9 @@ public class Updater extends Thread
                 int size = toUpdate.size();
                 for (int i = 0; i < size; i++)
                     toUpdate.get(i).update();
-                Log.d("myTag","updating inside updater");
+                Log.d("Tag","updating inside updater");
             }
-            Log.d("myTag","still looping!");
+            Log.d("Tag","still looping!");
 
             long elapsedTime = System.currentTimeMillis() - start;
             if (delay > elapsedTime)

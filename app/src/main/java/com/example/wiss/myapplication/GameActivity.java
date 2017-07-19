@@ -17,6 +17,7 @@ public class GameActivity extends BlindActivity {
     Updater updater;
     GameLogic gameLogic;
     GameIO gameIO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +25,16 @@ public class GameActivity extends BlindActivity {
 
         gameLogic = GameParameters.getGameLogic();
         gameIO = GameParameters.getGameIO();
+
+        updater = new Updater(100);
+        updater.addToUpdate(gameLogic);
+        updater.startUpdating();
+
+        Log.d("myTag","setting up GameIO1");
+        if(gameIO == null)
+            Log.d("myTag","setting up GameIO2");
+        gameIO.setGameActivity(this);
+        Log.d("myTag","ended setting up GameIO1");
     }
 
     @Override
@@ -50,4 +61,8 @@ public class GameActivity extends BlindActivity {
         //updater.cancel();
     }
 
+    public void setOnTouchListener(View.OnTouchListener touchListener)
+    {
+        this.findViewById(android.R.id.content).setOnTouchListener(touchListener);
+    }
 }

@@ -1,9 +1,11 @@
 package com.example.wiss.myapplication;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 
 import com.example.wiss.Option.OptionExit;
@@ -17,6 +19,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     public View.OnTouchListener handleSwipe;
     int choice = 0;
     LinkedList<Options> options;
+    static private Vector screenVec = null;
 
     /* We put the static objects here (like gameLogic and stuff). */
 
@@ -26,6 +29,8 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        screenVec = getScreenVector();
 
         /* We tell the player the available choices before using the next instructions. */
         this.handleSwipe = new SwipeChoice(this);
@@ -95,6 +100,18 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
 
                 options.get(i).stopTitleSound();
         }
+    }
+
+
+    static public Vector getScreenVec() {
+        return screenVec;
+    }
+
+    Vector getScreenVector() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return new Vector(size.x, size.y);
     }
 
 }

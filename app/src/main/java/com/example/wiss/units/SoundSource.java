@@ -16,9 +16,6 @@ public abstract class SoundSource extends Unit
      */
     private UnitSoundManager usm;
 
-
-    private boolean initialised = false;
-
     public SoundSource()
     {
         super();
@@ -44,10 +41,6 @@ public abstract class SoundSource extends Unit
         this.usm = usm;
     }
 
-    public boolean isInitialised()
-    {
-        return initialised;
-    }
 
     public void stopSound()
     {
@@ -58,21 +51,5 @@ public abstract class SoundSource extends Unit
     {
         getUnitSoundManager().pauseSound();
     }
-    /**
-     * a sound source might need to be initialised before setting up sound manager
-     * initialisation usually feeds the object with necessary information in order for sound manager to work properly (this depend on the type of the sound manager)
-     * for instance a simpleSoundManager needs information about Player which must be passed to this instance
-     * if a sound source that requires initialisation to setup soundManager calls the setupSoundManager method without initialisation an exception is thrown
-     */
-
-    protected void initialise()
-    {
-        initialised = true;
-    }
-
-    /**
-     * sets up the behaviour of sound manager for this sound source
-     */
-    public abstract void setupSoundManager() throws SoundSourceNotInitialisedException;
 
 }
