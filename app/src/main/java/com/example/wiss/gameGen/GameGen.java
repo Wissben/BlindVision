@@ -5,6 +5,10 @@ import com.example.wiss.io.GameIO;
 import com.example.wiss.myapplication.GameParameters;
 
 /**
+ * class GameGen is what generates Game behaviours
+ * so 2 methods need to be implemented in order to generate a new game behaviour
+ * a method that creates a gameLogic
+ * a method that creates a GameIO
  * Created by ressay on 19/07/17.
  */
 

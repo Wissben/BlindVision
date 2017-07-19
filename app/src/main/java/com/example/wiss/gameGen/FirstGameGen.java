@@ -21,32 +21,36 @@ import java.util.LinkedList;
 
 public class FirstGameGen extends GameGen
 {
+    // distance from which sound can not be heard (we take the screen diagonal distance)
+    double maxDistance = WelcomeActivity.getScreenVec().getAbsValue();
     @Override
     public GameLogic generateGameLogic()
     {
-        Vector screenVec = WelcomeActivity.getScreenVec();
-        SimpleSoundSource simple;
+        // creating player
         Player player = new Player();
 
 
         LinkedList<SoundSource> soundSources = new LinkedList<>();
 
         // creating sound sources
+        SimpleSoundSource simple;
         simple = new SimpleSoundSource(200, 500);
-        simple.initialise(player, R.raw.snk, screenVec.getAbsValue());
+        simple.initialise(player, R.raw.snk, maxDistance);
         soundSources.add(simple);
 
         simple = new SimpleSoundSource(500, 1000);
-        simple.initialise(player, R.raw.meza, screenVec.getAbsValue());
+        simple.initialise(player, R.raw.meza, maxDistance);
         soundSources.add(simple);
 
-        return new SimpleGameLogic(player,soundSources,soundSources.get(0),screenVec.getAbsValue());
+        // creating a simple game logic with the sound sources
+        return new SimpleGameLogic(player,soundSources,soundSources.get(0),maxDistance);
     }
 
 
     @Override
     public GameIO generateGameIO(GameLogic gc)
     {
+        // creating gameIO with direct touch listener
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
         return gameIO;

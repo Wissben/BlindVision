@@ -23,27 +23,24 @@ public class GameActivity extends BlindActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // getting gameLogic and gameIO
         gameLogic = GameParameters.getGameLogic();
         gameIO = GameParameters.getGameIO();
 
+        // starting the updater
         updater = new Updater(100);
         updater.addToUpdate(gameLogic);
         updater.startUpdating();
 
-        Log.d("myTag","setting up GameIO1");
-        if(gameIO == null)
-            Log.d("myTag","setting up GameIO2");
+        // setting up input/output manager to run on this activity
         gameIO.setGameActivity(this);
-        Log.d("myTag","ended setting up GameIO1");
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Log.d("myTag","resuming updater");
         updater.resumeUpdating();
-        Log.d("myTag",gameLogic.getPlayer().getPosition()+ " is this");
     }
 
 
