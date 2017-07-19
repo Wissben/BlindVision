@@ -13,11 +13,10 @@ import com.example.wiss.sound.SoundHandler;
 
 import java.util.LinkedList;
 
-public class WelcomeActivity extends AppCompatActivity implements Choiceable {
+public class WelcomeActivity extends BlindActivity implements Choiceable {
     public View.OnTouchListener handleSwipe;
     int choice = 0;
     LinkedList<Options> options;
-    static private Activity currentActivity = null;
 
     /* We put the static objects here (like gameLogic and stuff). */
 
@@ -33,7 +32,6 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleSwipe);
 
         this.options = new LinkedList<>();
-        setCurrentActivity(this);
         this.options.add(new OptionTutorial(R.raw.meza,"Tutorial"));
         this.options.add(new OptionTutorial(R.raw.dolphin,"Tutorial"));
         this.options.add(new OptionTutorial(R.raw.soo,"Tutorial"));
@@ -44,19 +42,7 @@ public class WelcomeActivity extends AppCompatActivity implements Choiceable {
         //
     }
 
-    /**
-     * to call in onCreate of activities
-     *
-     * @param ac
-     */
 
-    static void setCurrentActivity(Activity ac) {
-        currentActivity = ac;
-    }
-
-    static public Activity getCurrentActivity() {
-        return currentActivity;
-    }
 
     @Override
     public void down() {

@@ -9,27 +9,21 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.wiss.game.GameLogic;
+import com.example.wiss.io.GameIO;
 import com.example.wiss.updater.Updater;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends BlindActivity {
 
     Updater updater;
     GameLogic gameLogic;
+    GameIO gameIO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        gameLogic = GameParameters.getGameLogic();
+        gameIO = GameParameters.getGameIO();
     }
 
     @Override

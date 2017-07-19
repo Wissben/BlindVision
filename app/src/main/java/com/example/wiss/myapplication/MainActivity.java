@@ -21,7 +21,7 @@ import com.example.wiss.updater.Updater;
 
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends BlindActivity{
         static private Vector screenVec = null;
         static private Activity currentActivity = null;
         Updater updater;
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity{
 
             Log.d("myTag", "creation");
             screenVec = getScreenVector();
-            WelcomeActivity.setCurrentActivity(this);
             SimpleSoundSource simple;
             Player player = new Player();
 
