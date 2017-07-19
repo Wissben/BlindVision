@@ -21,6 +21,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     LinkedList<Options> options;
     static private Vector screenVec = null;
     private SoundHandler backgroundSound = null;
+    protected SoundHandler howToBrowseChoices;
 
     /* We put the static objects here (like gameLogic and stuff). */
 
@@ -45,9 +46,8 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
 
         /* We tell the player how to browse choices. */
-        SoundHandler howToBrowseChoices = new SoundHandler(R.raw.howtobrowsechoices);
-        howToBrowseChoices.playSound();
-
+        this.howToBrowseChoices = new SoundHandler(R.raw.howtobrowsechoices);
+        this.howToBrowseChoices.playSound();
 
         //As suggested by @ressay we wil use a class Randomize to generate a random set of parameters for a gamelogic
         //
@@ -65,6 +65,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     public void down() {
 //        Intent intent = new Intent(this, MainActivity.class);
 //        startActivity(intent);
+        this.howToBrowseChoices.stopSound();
 
         this.choice++;
         if (this.choice >= this.options.size())
@@ -79,6 +80,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
 
     @Override
     public void up() {
+        this.howToBrowseChoices.stopSound();
         this.choice--;
         if (this.choice < 0)
             this.choice = this.options.size() - 1;
@@ -129,11 +131,17 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     protected void onPause() {
         super.onPause();
         this.backgroundSound.pauseSound();
+        this.howToBrowseChoices.pauseSound();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         this.backgroundSound.playSound();
+
+        /* Ceci est du bricolage seulement. Je pense qu'on aura besoin d'une methode
+           restartSound() dans 'SoundHandler' (Si le new SoundHanlder est entrain de poser
+           un problem). */
+        this.howToBrowseChoices.playSound();
     }
 }
