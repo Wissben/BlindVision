@@ -1,8 +1,6 @@
-package com.example.wiss.io.output;
+package com.example.wiss.io.output.methods;
 
 import com.example.wiss.myapplication.GameActivity;
-
-import java.util.Map;
 
 /**
  * Created by ressay on 17/07/17.

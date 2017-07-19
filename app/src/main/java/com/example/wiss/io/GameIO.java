@@ -3,7 +3,7 @@ package com.example.wiss.io;
 import android.util.Log;
 import android.view.View;
 
-import com.example.wiss.io.output.GameO;
+import com.example.wiss.io.output.methods.GameO;
 import com.example.wiss.io.output.GameOManager;
 import com.example.wiss.io.output.OutputStringAlreadyExistsException;
 import com.example.wiss.io.output.OutputStringDoesNotExistException;

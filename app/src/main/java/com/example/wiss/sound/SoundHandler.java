@@ -27,6 +27,7 @@ import com.example.wiss.myapplication.WelcomeActivity;
 public class SoundHandler {
 
     private MediaPlayer mp;
+    private int resID;
     private float limitVolume; // the limit of the volume
     private float currentVolume;
     private float panR=1,panL=1;
@@ -38,6 +39,7 @@ public class SoundHandler {
     public SoundHandler(int resID)
     {
 
+        this.resID = resID;
         //Default constructor
         Activity ac = WelcomeActivity.getCurrentActivity();
         this.mp=MediaPlayer.create(ac.getApplicationContext(),resID);
@@ -186,7 +188,8 @@ public class SoundHandler {
     {
         if(mp != null && mp.isPlaying())
         {
-            this.mp.stop();
+            this.mp.pause();
+            mp.seekTo(0);
         }
     }
 

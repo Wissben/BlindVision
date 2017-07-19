@@ -23,15 +23,13 @@ public abstract class Options {
 
     public abstract void runOption(Activity act);
 
-    public void playTitleSound() {
-        if(this.sh == null)
-            this.sh = new SoundHandler(this.ID);
+    public void playTitleSound()
+    {
         this.sh.playSound();
     }
 
-    public void stopTitleSound() {
-        if (this.sh != null)
+    public void stopTitleSound()
+    {
             this.sh.stopSound();
-        this.sh = null;
     }
 }
