@@ -16,6 +16,11 @@ import com.example.wiss.units.SoundSource;
 import java.util.LinkedList;
 
 /**
+ * class GameGen is what generates Game behaviours
+ * so 2 methods need to be implemented in order to generate a new game behaviour
+ * a method that creates a gameLogic
+ * a method that creates a GameIO
+ * this is a simple implementation of GameGen classes that creates a test GameLogic
  * Created by ressay on 19/07/17.
  */
 
