@@ -143,6 +143,16 @@ public class SoundHandler {
         setVolume(panL*currentVolume,panR*currentVolume);
     }
 
+    public void blockThreadTillSoundEnd()
+    {
+        while (mp.isPlaying())
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    }
+
 
     /**
      * starts playing sound of the resource given in constructor with a Volume
