@@ -44,6 +44,11 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         this.options.add(new OptionSelectGameLevel(R.raw.selectgamelevel, "Select level"));
         this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
 
+        /* We tell the player how to browse choices. */
+        SoundHandler howToBrowseChoices = new SoundHandler(R.raw.howtobrowsechoices);
+        howToBrowseChoices.playSound();
+
+
         //As suggested by @ressay we wil use a class Randomize to generate a random set of parameters for a gamelogic
         //
     }
@@ -68,7 +73,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
             if (i != choice)
                 options.get(i).stopTitleSound();
         }
-        Log.i("CHOICE", "The player choosed up" + choice);
+        Log.i("CHOICE", "The player choosed down " + choice);
         this.options.get(choice).playTitleSound();
     }
 
@@ -82,7 +87,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
                 options.get(i).stopTitleSound();
             }
         }
-        Log.i("CHOICE", "The player choosed down" + choice);
+        Log.i("CHOICE", "The player choosed up " + choice);
         this.options.get(choice).playTitleSound();
     }
 
