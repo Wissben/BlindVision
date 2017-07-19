@@ -1,14 +1,14 @@
 package com.example.wiss.myapplication;
 
-import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 
+import com.example.wiss.Option.OptionClassicMode;
 import com.example.wiss.Option.OptionExit;
+import com.example.wiss.Option.OptionSelectGameLevel;
 import com.example.wiss.Option.OptionTutorial;
 import com.example.wiss.Option.Options;
 import com.example.wiss.sound.SoundHandler;
@@ -20,6 +20,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
     int choice = 0;
     LinkedList<Options> options;
     static private Vector screenVec = null;
+    private SoundHandler backgroundSound = null;
 
     /* We put the static objects here (like gameLogic and stuff). */
 
@@ -31,23 +32,29 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         setContentView(R.layout.activity_welcome);
 
         screenVec = getScreenVector();
-
+        this.setUpBackgroundSound(R.raw.carefree);
+        this.backgroundSound.playSound();
         /* We tell the player the available choices before using the next instructions. */
         this.handleSwipe = new SwipeChoice(this);
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleSwipe);
 
         this.options = new LinkedList<>();
-        this.options.add(new OptionTutorial(R.raw.meza,"Tutorial"));
-        this.options.add(new OptionTutorial(R.raw.dolphin,"Tutorial"));
-        this.options.add(new OptionTutorial(R.raw.soo,"Tutorial"));
-        this.options.add(new OptionTutorial(R.raw.tromp,"Tutorial"));
-        this.options.add(new OptionExit(R.raw.snk,"EXIT"));
+        this.options.push(new OptionExit(R.raw.exitthegame, "Exit"));
+        this.options.add(new OptionClassicMode(R.raw.classicmode, "Classic mode"));
+        this.options.add(new OptionSelectGameLevel(R.raw.selectgamelevel, "Select level"));
+        this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
 
         //As suggested by @ressay we wil use a class Randomize to generate a random set of parameters for a gamelogic
         //
     }
 
 
+    public void setUpBackgroundSound(int ID) {
+
+        this.backgroundSound = new SoundHandler(ID);
+        this.backgroundSound.getMp().setLooping(true);
+        this.backgroundSound.setCurrentVolume(30);
+    }
 
     @Override
     public void down() {
@@ -71,8 +78,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         if (this.choice < 0)
             this.choice = this.options.size() - 1;
         for (int i = 0; i < this.options.size(); i++) {
-            if (i != choice)
-            {
+            if (i != choice) {
                 options.get(i).stopTitleSound();
             }
         }
@@ -98,7 +104,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         super.onDestroy();
         for (int i = 0; i < this.options.size(); i++) {
 
-                options.get(i).stopTitleSound();
+            options.get(i).stopTitleSound();
         }
     }
 
@@ -114,4 +120,15 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         return new Vector(size.x, size.y);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.backgroundSound.pauseSound();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.backgroundSound.playSound();
+    }
 }
