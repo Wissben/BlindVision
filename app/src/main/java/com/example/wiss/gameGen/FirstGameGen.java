@@ -64,7 +64,6 @@ public class FirstGameGen extends GameGen
         // creating gameIO with direct touch listener
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
-        SimpleGameLogic sgc = (SimpleGameLogic) gc;
 
         // creating output one, look for target
         SequenceSoundManager sequence = new SequenceSoundManager();

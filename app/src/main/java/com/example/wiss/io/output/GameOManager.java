@@ -18,11 +18,7 @@ public class GameOManager
     public void transferOutput(String out,String param) throws OutputStringDoesNotExistException
     {
         if(!outputs.containsKey(out)) throw new OutputStringDoesNotExistException();
-        try {
             outputs.get(out).output(param,getGameActivity());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void addOutput(String out,GameO method) throws OutputStringAlreadyExistsException
