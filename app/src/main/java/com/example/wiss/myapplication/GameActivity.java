@@ -34,6 +34,7 @@ public class GameActivity extends BlindActivity {
 
         // setting up input/output manager to run on this activity
         gameIO.setGameActivity(this);
+        this.gameLogic.setGameIO(this.gameIO);
     }
 
     @Override
