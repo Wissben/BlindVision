@@ -20,6 +20,7 @@ public class GameIO
     private GameOManager outputManager = new GameOManager();
     private GameActivity gameActivity = null;
     View.OnTouchListener onTouchListener;
+    private int running = 0;
 
     /**
      * method called to transfer a message in output
@@ -29,7 +30,9 @@ public class GameIO
      */
     public void transferOutput(String out,String param) throws OutputStringDoesNotExistException
     {
+        running++;
         outputManager.transferOutput(out,param);
+        running--;
     }
 
     /**
@@ -103,5 +106,23 @@ public class GameIO
         this.onTouchListener = onTouchListener;
     }
 
+    /**
+     * if there is an output running
+     * @return
+     */
+    public boolean isRunning()
+    {
+        return running>0;
+    }
+
+    /**
+     * the number of outputs currently running
+     * @return
+     */
+
+    public int getRunningCount()
+    {
+        return running;
+    }
     //******************* end of getters & setters *********************
 }
