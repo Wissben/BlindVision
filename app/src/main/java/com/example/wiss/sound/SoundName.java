@@ -79,6 +79,19 @@ public class SoundName {
         return names;
     }
 
+    public static Integer getNameOfSound(int sound) throws IOException {
+        if(soundName==null)
+            initMap();
+
+        for(HashMap.Entry<Integer,Integer> entry : soundName.entrySet())
+        {
+            if(entry.getValue().equals(sound))
+                return entry.getKey();
+        }
+
+        return null;
+    }
+
 
 
 }
