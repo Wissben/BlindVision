@@ -34,4 +34,27 @@ public class SimpleSoundSource extends SoundSource
         setUnitSoundManager(new UnitSimpleSoundManager(maxDistance,player,this,resID));
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public int getResID() {
+        return resID;
+    }
+
+    public void setResID(int resID) {
+        this.resID = resID;
+    }
+
+    public double getMaxDistance() {
+        return maxDistance;
+    }
+
+    public void setMaxDistance(double maxDistance) {
+        this.maxDistance = maxDistance;
+    }
 }
