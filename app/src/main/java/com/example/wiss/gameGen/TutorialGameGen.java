@@ -41,7 +41,7 @@ public class TutorialGameGen extends GameGen {
     {
         // creating gameIO with direct touch listener
         GameIO gameIO = new GameIO();
-        gameIO.setOnTouchListener(new GameITouchSwipe(gc, 0.3));
+        gameIO.setOnTouchListener(new GameITouchDirect(gc));
         return gameIO;
     }
 
