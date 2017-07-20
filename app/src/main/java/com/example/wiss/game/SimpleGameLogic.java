@@ -45,10 +45,12 @@ public class SimpleGameLogic extends GameLogic {
      */
     @Override
     public void movePlayerToPos(double x, double y) {
+        if(won) return;
         Vector currPos = this.target.getPosition();
         Log.d("myTag","moving player");
         player.setPosition(x,y);
-            if(!won && Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
+        soundUpdater.resume();
+            if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
             {
                 this.reachedTarget(this.target);
             }
@@ -70,10 +72,11 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     public void update()
     {
+
         if(once)
         {
             once = false;
-
+            soundUpdater.pause();
             try {
                 gameIO.transferOutput("targetTask");
             } catch (OutputStringDoesNotExistException e) {
