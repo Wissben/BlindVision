@@ -40,4 +40,14 @@ public abstract class SoundManager implements Updatable
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
+
+    public void blockThreadWhilePlaying()
+    {
+        while(isPlaying())
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    }
 }

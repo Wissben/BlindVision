@@ -64,13 +64,5 @@ public class SequenceSoundManager extends SoundManager
         super.stop();
     }
 
-    public void blockThreadWhilePlaying()
-    {
-        while(isPlaying())
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-    }
+
 }
