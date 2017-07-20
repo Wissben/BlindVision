@@ -18,13 +18,13 @@ import java.util.LinkedList;
 
 public class SimpleGameLogic extends GameLogic {
 
-    private SoundSource target;
+    private SimpleSoundSource target;
     double dist;
     boolean once = true;
     boolean won = false;
 
     /* Constructors =============================================================================== */
-    public SimpleGameLogic(Player player , LinkedList<SoundSource> soundsources, SoundSource target,double minimumDist)
+    public SimpleGameLogic(Player player , LinkedList soundsources, SimpleSoundSource target,double minimumDist)
     {
         super(soundsources);
         this.player = player ;

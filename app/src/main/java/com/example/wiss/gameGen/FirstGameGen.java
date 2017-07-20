@@ -41,7 +41,7 @@ public class FirstGameGen extends GameGen
         Player player = new Player();
 
 
-        LinkedList<SoundSource> soundSources = new LinkedList<>();
+        LinkedList<SimpleSoundSource> soundSources = new LinkedList<>();
 
         // creating sound sources
         SimpleSoundSource simple;

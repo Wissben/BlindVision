@@ -24,7 +24,7 @@ import java.util.LinkedList;
 public class MainActivity extends BlindActivity{
 
         Updater updater;
-        LinkedList<SoundSource> soundSources = new LinkedList<>();
+        LinkedList<SimpleSoundSource> soundSources = new LinkedList<>();
         GameLogic gameLogic;
         //This is the handler of the touch :
         private View.OnTouchListener handleTouch;
