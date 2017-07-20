@@ -1,11 +1,17 @@
 package com.example.wiss.sound;
 
 import android.content.res.Resources;
+import android.util.Log;
+
 import com.example.wiss.myapplication.GameActivity;
+import com.example.wiss.myapplication.R;
+import com.example.wiss.myapplication.WelcomeActivity;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,21 +31,23 @@ public class SoundName {
         int soundId;
         String name ;
         String sound;
-        Resources res = GameActivity.getCurrentActivity().getResources();
+        Resources res = WelcomeActivity.getCurrentActivity().getResources();
 
         soundName= new HashMap<>();
-        LinkedList<String> names = getSoundNames("soundNames.txt");
+
+
+        LinkedList<String> names = getSoundNames("soundnames");
         int size = names.size();
 
         for(int i=0; i<size; i++)
         {
             //the name of the sound
             name = names.get(i);
-            nameId=res.getIdentifier(name,"raw",GameActivity.getCurrentActivity().getPackageName());
+            nameId=res.getIdentifier(name,"raw", WelcomeActivity.getCurrentActivity().getPackageName());
 
             //the sound itself
-            sound = name.concat("Sound");
-            soundId=res.getIdentifier(sound,"raw",GameActivity.getCurrentActivity().getPackageName());
+            sound = name.concat("sound");
+            soundId=res.getIdentifier(sound,"raw",WelcomeActivity.getCurrentActivity().getPackageName());
 
 
             soundName.put(nameId, soundId);
@@ -58,9 +66,9 @@ public class SoundName {
     //method to read the names of sounds available in a file so we don't need to touch the code
     private static LinkedList<String> getSoundNames(String fileName) throws IOException {
 
+        InputStream input = WelcomeActivity.getCurrentActivity().getResources().openRawResource(R.raw.soundnames);
 
-        File file = new File(fileName);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         LinkedList<String> names = new LinkedList<>();
         String name;
         while((name = reader.readLine())!=null)
