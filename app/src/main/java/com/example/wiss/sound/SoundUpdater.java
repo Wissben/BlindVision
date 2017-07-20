@@ -83,6 +83,23 @@ public class SoundUpdater implements Updatable
             sounds.get(i).stopSound();
     }
 
+    public void releaseAllSounds()
+    {
+        for(int i=0;i<sounds.size();i++)
+            sounds.get(i).releaseMediaPlayers();
+    }
+
+    public void removeSoundFromUpdate(UnitSoundManager soundManager)
+    {
+        sounds.remove(soundManager);
+    }
+
+    public void removeAndReleaseSoundFromUpdate(UnitSoundManager soundManager)
+    {
+        removeSoundFromUpdate(soundManager);
+        soundManager.releaseMediaPlayers();
+    }
+
     public boolean isPaused()
     {
         return paused;

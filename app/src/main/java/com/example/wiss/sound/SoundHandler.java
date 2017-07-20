@@ -219,4 +219,10 @@ public class SoundHandler {
     {
         return mp != null && mp.isPlaying();
     }
+
+    public void releaseMediaPlayer()
+    {
+        if(mp != null) mp.release();
+        mp = null;
+    }
 }

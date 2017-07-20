@@ -84,4 +84,10 @@ public abstract class UnitSoundManager extends SoundManager
     {
         super.stop();
     }
+
+    public void releaseMediaPlayers()
+    {
+        for(int i=0;i<getSoundHandlerList().size();i++)
+            getSoundHandlerList().get(i).releaseMediaPlayer();
+    }
 }
