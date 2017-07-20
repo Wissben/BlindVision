@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.myapplication.Vector;
+import com.example.wiss.sound.SoundName;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
@@ -24,9 +25,9 @@ public class SimpleGameLogic extends GameLogic {
     boolean won = false;
 
     /* Constructors =============================================================================== */
-    public SimpleGameLogic(Player player , LinkedList soundsources, SimpleSoundSource target,double minimumDist)
+    public SimpleGameLogic(Player player , LinkedList soundSources, SimpleSoundSource target,double minimumDist)
     {
-        super(soundsources);
+        super(soundSources);
         this.player = player ;
         this.target = target;
         this.dist = minimumDist;
@@ -46,9 +47,10 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     public void movePlayerToPos(double x, double y) {
         if(won) return;
-        Vector currPos = this.target.getPosition();
-        Log.d("myTag","moving player");
         player.setPosition(x,y);
+
+        // soundUpdater is paused at first update, so we resume it once the player moves
+        if(soundUpdater.isPaused())
         soundUpdater.resume();
             if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
             {
@@ -62,27 +64,32 @@ public class SimpleGameLogic extends GameLogic {
     {
         soundUpdater.pause();
         won = true;
+        // the output in case of win
         try {
             gameIO.transferOutput("win");
         } catch (OutputStringDoesNotExistException e) {
             e.printStackTrace();
         }
-        Log.d("TAG", "reachedTarget: "+target.getPosition().getX()+"/"+target.getPosition().getY());
     }
     @Override
     public void update()
     {
 
-        if(once)
+        if(once) // this is called once in the start of the game
         {
             once = false;
             soundUpdater.pause();
+            // transfer a lookFor output and in its parameters the name of the target's sound
             try {
-                gameIO.transferOutput("targetTask");
+
+                gameIO.transferOutput("lookFor",""+ SoundName.getNameOfSound(target.getResID()));
+
             } catch (OutputStringDoesNotExistException e) {
                 e.printStackTrace();
             }
         }
+
+
         super.update();
     }
 

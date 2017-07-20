@@ -21,7 +21,9 @@ public class GameOWin extends GameO
     }
 
     /**
-     * play the winner sound, if there is a next Game to be generated then generate the game and start it.
+     * play the winner sound.
+     * if there is a next Game to be generated then generates the game and start it.
+     * else quit the current gameActivity
      * @param param
      * @param gameActivity
      */

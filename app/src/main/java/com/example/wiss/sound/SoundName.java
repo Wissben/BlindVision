@@ -24,7 +24,7 @@ public class SoundName {
 
 
     //a method you call before you use the class
-    public static void initMap() throws IOException
+    public static void initMap()
     {
         //we put the ressources in here
         int nameId;
@@ -54,7 +54,8 @@ public class SoundName {
         }
     }
 
-    public static Integer getSoundOfName(int name) throws IOException {
+    public static Integer getSoundOfName(int name)
+    {
         if(soundName == null)
             initMap();
 
@@ -64,22 +65,29 @@ public class SoundName {
 
 
     //method to read the names of sounds available in a file so we don't need to touch the code
-    private static LinkedList<String> getSoundNames(String fileName) throws IOException {
+    private static LinkedList<String> getSoundNames(String fileName)
+    {
 
         InputStream input = WelcomeActivity.getCurrentActivity().getResources().openRawResource(R.raw.soundnames);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         LinkedList<String> names = new LinkedList<>();
         String name;
-        while((name = reader.readLine())!=null)
+        try {
+            while ((name = reader.readLine()) != null) {
+                names.add(name);
+            }
+            reader.close();
+        }catch (Exception e)
         {
-            names.add(name);
+            e.printStackTrace();
         }
-        reader.close();
+
         return names;
     }
 
-    public static Integer getNameOfSound(int sound) throws IOException {
+    public static Integer getNameOfSound(int sound)
+    {
         if(soundName==null)
             initMap();
 

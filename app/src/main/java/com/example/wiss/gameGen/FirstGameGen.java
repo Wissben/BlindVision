@@ -6,6 +6,7 @@ import com.example.wiss.io.GameIO;
 import com.example.wiss.io.input.GameITouchDirect;
 import com.example.wiss.io.output.GameOManager;
 import com.example.wiss.io.output.OutputStringAlreadyExistsException;
+import com.example.wiss.io.output.methods.GameOLookFor;
 import com.example.wiss.io.output.methods.GameOSimpleSound;
 import com.example.wiss.io.output.methods.GameOWin;
 import com.example.wiss.myapplication.GameParameters;
@@ -65,12 +66,9 @@ public class FirstGameGen extends GameGen
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
 
-        // creating output one, look for target
-        SequenceSoundManager sequence = new SequenceSoundManager();
-        sequence.addSounds(R.raw.lookfor,R.raw.bear);
-
+        // adding possible outputs to SimpleGameLogic
         try {
-            gameIO.addOutput("targetTask",new GameOSimpleSound(sequence));
+            gameIO.addOutput("lookFor",new GameOLookFor());
             gameIO.addOutput("win",new GameOWin(R.raw.youwin));
         } catch (OutputStringAlreadyExistsException e) {
             e.printStackTrace();
