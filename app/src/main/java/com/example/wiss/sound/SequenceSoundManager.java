@@ -40,6 +40,7 @@ public class SequenceSoundManager extends SoundManager
         else return;
 
         if(currentSound < sounds.size()) {
+            sound.releaseMediaPlayer();
             sound = new SoundHandler(sounds.get(currentSound));
             sound.playSound();
         }
