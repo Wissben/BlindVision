@@ -214,4 +214,9 @@ public class SoundHandler {
             this.mp.pause();
         }
     }
+
+    public boolean isPlaying()
+    {
+        return mp != null && mp.isPlaying();
+    }
 }

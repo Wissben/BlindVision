@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * Created by ressay on 13/07/17.
  */
 
-public abstract class UnitSoundManager implements Updatable
+public abstract class UnitSoundManager extends SoundManager
 {
     /**
      * a Unit's sound needs SoundMapManager to manage sound on a map
@@ -68,17 +68,20 @@ public abstract class UnitSoundManager implements Updatable
 
     @Override
     public void pause() {
+        super.pause();
         pauseSound();
     }
 
     @Override
     public void resume() {
+
+        super.resume();
         update();
     }
 
     @Override
     public void stop()
     {
-
+        super.stop();
     }
 }

@@ -3,6 +3,7 @@ package com.example.wiss.io.output;
 import com.example.wiss.io.output.methods.GameO;
 import com.example.wiss.myapplication.GameActivity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,13 +12,17 @@ import java.util.Map;
 
 public class GameOManager
 {
-    public Map<String,GameO> outputs;
+    public Map<String,GameO> outputs = new HashMap<>();
     private GameActivity gameActivity = null;
 
     public void transferOutput(String out,String param) throws OutputStringDoesNotExistException
     {
         if(!outputs.containsKey(out)) throw new OutputStringDoesNotExistException();
-        outputs.get(out).output(param,getGameActivity());
+        try {
+            outputs.get(out).output(param,getGameActivity());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addOutput(String out,GameO method) throws OutputStringAlreadyExistsException

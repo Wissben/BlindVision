@@ -2,6 +2,7 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
+import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
@@ -19,6 +20,8 @@ public class SimpleGameLogic extends GameLogic {
 
     private SoundSource target;
     double dist;
+    boolean once = true;
+    boolean won = false;
 
     /* Constructors =============================================================================== */
     public SimpleGameLogic(Player player , LinkedList<SoundSource> soundsources, SoundSource target,double minimumDist)
@@ -45,7 +48,7 @@ public class SimpleGameLogic extends GameLogic {
         Vector currPos = this.target.getPosition();
         Log.d("myTag","moving player");
         player.setPosition(x,y);
-            if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
+            if(!won && Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
             {
                 this.reachedTarget(this.target);
             }
@@ -55,11 +58,28 @@ public class SimpleGameLogic extends GameLogic {
 
     public void reachedTarget(SoundSource target)
     {
+        soundUpdater.pause();
+        won = true;
+        try {
+            gameIO.transferOutput("win");
+        } catch (OutputStringDoesNotExistException e) {
+            e.printStackTrace();
+        }
         Log.d("TAG", "reachedTarget: "+target.getPosition().getX()+"/"+target.getPosition().getY());
     }
     @Override
     public void update()
     {
+        if(once)
+        {
+            once = false;
+
+            try {
+                gameIO.transferOutput("targetTask");
+            } catch (OutputStringDoesNotExistException e) {
+                e.printStackTrace();
+            }
+        }
         super.update();
     }
 

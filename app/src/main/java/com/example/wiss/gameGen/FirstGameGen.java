@@ -5,10 +5,15 @@ import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.io.GameIO;
 import com.example.wiss.io.input.GameITouchDirect;
 import com.example.wiss.io.output.GameOManager;
+import com.example.wiss.io.output.OutputStringAlreadyExistsException;
+import com.example.wiss.io.output.methods.GameOSimpleSound;
+import com.example.wiss.io.output.methods.GameOWin;
 import com.example.wiss.myapplication.GameParameters;
 import com.example.wiss.myapplication.R;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
+import com.example.wiss.sound.SequenceSoundManager;
+import com.example.wiss.sound.SoundName;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
@@ -28,6 +33,7 @@ public class FirstGameGen extends GameGen
 {
     // distance from which sound can not be heard (we take the screen diagonal distance)
     double maxDistance = WelcomeActivity.getScreenVec().getAbsValue();
+    int r = 0;
     @Override
     public GameLogic generateGameLogic()
     {
@@ -39,16 +45,16 @@ public class FirstGameGen extends GameGen
 
         // creating sound sources
         SimpleSoundSource simple;
-        simple = new SimpleSoundSource(200, 500);
-        simple.initialise(player, R.raw.snk, maxDistance);
+        simple = new SimpleSoundSource(100, 1000);
+        simple.initialise(player, R.raw.bearsound, maxDistance);
         soundSources.add(simple);
 
         simple = new SimpleSoundSource(500, 1000);
-        simple.initialise(player, R.raw.meza, maxDistance);
+        simple.initialise(player, R.raw.cowsound, maxDistance);
         soundSources.add(simple);
 
         // creating a simple game logic with the sound sources
-        return new SimpleGameLogic(player,soundSources,soundSources.get(0),maxDistance);
+        return new SimpleGameLogic(player,soundSources,soundSources.get(r),50);
     }
 
 
@@ -58,6 +64,19 @@ public class FirstGameGen extends GameGen
         // creating gameIO with direct touch listener
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
+        SimpleGameLogic sgc = (SimpleGameLogic) gc;
+
+        // creating output one, look for target
+        SequenceSoundManager sequence = new SequenceSoundManager();
+        sequence.addSounds(R.raw.lookfor,R.raw.bear);
+
+        try {
+            gameIO.addOutput("targetTask",new GameOSimpleSound(sequence));
+            gameIO.addOutput("win",new GameOWin(R.raw.youwin));
+        } catch (OutputStringAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
         return gameIO;
     }
 

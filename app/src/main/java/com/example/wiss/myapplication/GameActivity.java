@@ -34,6 +34,8 @@ public class GameActivity extends BlindActivity {
 
         // setting up input/output manager to run on this activity
         gameIO.setGameActivity(this);
+
+        gameLogic.setGameIO(gameIO);
     }
 
     @Override
@@ -61,5 +63,18 @@ public class GameActivity extends BlindActivity {
     public void setOnTouchListener(View.OnTouchListener touchListener)
     {
         this.findViewById(android.R.id.content).setOnTouchListener(touchListener);
+    }
+
+
+    public Updater getUpdater() {
+        return updater;
+    }
+
+    public GameLogic getGameLogic() {
+        return gameLogic;
+    }
+
+    public GameIO getGameIO() {
+        return gameIO;
     }
 }
