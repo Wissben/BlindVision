@@ -115,9 +115,15 @@ public class TutorialGameLogic extends GameLogic {
         this.soundUpdater.addSoundSourceToUpdate(this.target);
         soundUpdater.pause();
 
-        runSoundSequence(R.raw.tutorial_entry1,R.raw.tutorial_entry2,R.raw.tutorial_entry3,
-        R.raw.tutorial_entry4,R.raw.tutorial_entry5,R.raw.tutorial_entry6,R.raw.tutorial_entry7 ,
-        R.raw.bear,R.raw.tutorial_entry8);
+        runSoundSequence(R.raw.tutorial_entry1,
+                         R.raw.tutorial_entry2,
+                         R.raw.tutorial_entry3,
+                         R.raw.tutorial_entry4,
+                         R.raw.tutorial_entry5,
+                         R.raw.tutorial_entry6,
+                         R.raw.tutorial_entry7,
+                         R.raw.bear,
+                         R.raw.tutorial_entry8);
 
         this.operationalInput = true;
     }
@@ -140,7 +146,10 @@ public class TutorialGameLogic extends GameLogic {
         this.soundUpdater.pause();
 
         // we run the next sequence of sounds
-        runSoundSequence(R.raw.tutorial_entry9,R.raw.tutorial_entry7,R.raw.cow,R.raw.tutorial_entry8);
+        runSoundSequence(R.raw.tutorial_entry9,
+                         R.raw.tutorial_entry7,
+                         R.raw.cow,
+                         R.raw.tutorial_entry8);
 
         Log.i("TUTORIAL", "end step2");
         this.operationalInput = true;
@@ -166,8 +175,12 @@ public class TutorialGameLogic extends GameLogic {
         this.soundUpdater.pause();
 
 
-        runSoundSequence(R.raw.tutorial_entry10,R.raw.horse,R.raw.tutorial_wa,R.raw.lion,R.raw.tutorial_entry11,
-                R.raw.horse);
+        runSoundSequence(R.raw.tutorial_entry10,
+                         R.raw.horse,
+                         R.raw.tutorial_wa,
+                         R.raw.lion,
+                         R.raw.tutorial_entry11,
+                         R.raw.horse);
 
         this.operationalInput = true;
     }
