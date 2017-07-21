@@ -8,12 +8,14 @@ import com.example.wiss.io.output.methods.GameOWin;
 import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
+import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.sound.SoundHandler;
 import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
 import com.example.wiss.myapplication.R;
+import com.example.wiss.updater.Updater;
 
 import java.util.LinkedList;
 
@@ -57,7 +59,10 @@ public class TutorialGameLogic extends GameLogic {
     public void movePlayerToPos(double x, double y) {
         if(!this.operationalInput)
             return;
-        Log.i("TUTORIAL","target position " + this.target.getPosition());
+        Log.i("TUTORIAL","target position1 " + this.target.getPosition());
+        if(soundUpdater.isPaused())
+        soundUpdater.resume();
+        Log.i("TUTORIAL","target position2 " + this.target.getPosition());
         Log.i("TUTORIAL","player position " + this.player.getPosition());
 
         player.setPosition(x,y);
@@ -109,43 +114,11 @@ public class TutorialGameLogic extends GameLogic {
         this.launchStep = false;
         this.soundUpdater.addSoundSourceToUpdate(this.target);
         soundUpdater.pause();
-        SoundHandler sound = new SoundHandler(R.raw.tutorial_entry1);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry2);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry3);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry4);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry5);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry6);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry7);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.bear);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry8);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        this.soundUpdater.resume();
+
+        runSoundSequence(R.raw.tutorial_entry1,R.raw.tutorial_entry2,R.raw.tutorial_entry3,
+        R.raw.tutorial_entry4,R.raw.tutorial_entry5,R.raw.tutorial_entry6,R.raw.tutorial_entry7 ,
+        R.raw.bear,R.raw.tutorial_entry8);
+
         this.operationalInput = true;
     }
 
@@ -155,37 +128,21 @@ public class TutorialGameLogic extends GameLogic {
     private void tutorialStep2() {
         Log.i("TUTORIAL", "Started step2");
         this.launchStep = false;
-        /* This is a memory leak, and I will need to change it or we will have the problem of
-           the sounds that stop automatically (MediaPlayer too much instance). */
+        /* first we remove the first target's sound from soundUpdater and release its media player */
+        this.soundUpdater.clearAndRelease();
+        // we create new target
         this.target = new SimpleSoundSource(200, 1300);
         this.target.initialise(player, R.raw.cowsound, WelcomeActivity.getScreenVec().getAbsValue());
-        /* This will be replaced with
-           this.soundUpdater.removeSoundFromUpdate();
-           this.soundUpdater.addSoundSourceToUpdate();
-           this.soundUpdate.pause();
+        /*
+        we add this new target to the soundUpdater to update
          */
-        this.soundUpdater = new SoundUpdater();
         this.soundUpdater.addSoundSourceToUpdate(this.target);
         this.soundUpdater.pause();
 
-        SoundHandler sound = new SoundHandler(R.raw.tutorial_entry9);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry7);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.cow);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry8);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
+        // we run the next sequence of sounds
+        runSoundSequence(R.raw.tutorial_entry9,R.raw.tutorial_entry7,R.raw.cow,R.raw.tutorial_entry8);
+
         Log.i("TUTORIAL", "end step2");
-        this.soundUpdater.resume();
         this.operationalInput = true;
     }
 
@@ -197,48 +154,21 @@ public class TutorialGameLogic extends GameLogic {
     private void tutorialStep3(){
         Log.i("TUTORIAL", "Started step3");
         this.launchStep = false;
-        /* This is a memory leak, and I will need to change it or we will have the problem of
-           the sounds that stop automatically (MediaPlayer too much instance). */
+
+        this.soundUpdater.clearAndRelease();
         this.target = new SimpleSoundSource(700, 1200);
         this.target.initialise(player, R.raw.horsesound, WelcomeActivity.getScreenVec().getAbsValue());
         SimpleSoundSource distraction = new SimpleSoundSource(200, 200);
         distraction.initialise(this.player, R.raw.lionsound, WelcomeActivity.getScreenVec().getAbsValue());
-        /* This will be replaced with
-           this.soundUpdater.removeSoundFromUpdate();
-           this.soundUpdater.addSoundSourceToUpdate();
-           this.soundUpdate.pause();
-         */
-        this.soundUpdater = new SoundUpdater();
+
         this.soundUpdater.addSoundSourceToUpdate(this.target);
         this.soundUpdater.addSoundSourceToUpdate(distraction);
         this.soundUpdater.pause();
 
 
-        SoundHandler sound = new SoundHandler(R.raw.tutorial_entry10);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.horse);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_wa);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.lion);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.tutorial_entry11);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        sound = new SoundHandler(R.raw.horse);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
-        this.soundUpdater.resume();
+        runSoundSequence(R.raw.tutorial_entry10,R.raw.horse,R.raw.tutorial_wa,R.raw.lion,R.raw.tutorial_entry11,
+                R.raw.horse);
+
         this.operationalInput = true;
     }
 
@@ -253,5 +183,20 @@ public class TutorialGameLogic extends GameLogic {
         sound.blockThreadTillSoundEnd();
         sound.getMp().release();
         this.gameIO.getGameActivity().finish();
+    }
+
+    private void runSoundSequence(int... seq)
+    {
+        SequenceSoundManager ssm = new SequenceSoundManager();
+        ssm.addSounds(seq);
+        // to run SequenceSoundManager, an updater is required, so we create a new updater since we want to block
+        // the current updater's thread
+        Updater up = new Updater(100);
+        up.addToUpdate(ssm);
+        up.startUpdating();
+        // blocking this thread's updater
+        ssm.blockThreadWhilePlaying();
+        // ending the updater's loop
+        up.cancel();
     }
 }

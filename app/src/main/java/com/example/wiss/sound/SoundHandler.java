@@ -2,6 +2,7 @@ package com.example.wiss.sound;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.example.wiss.myapplication.MainActivity;
 import com.example.wiss.myapplication.WelcomeActivity;

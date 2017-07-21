@@ -10,7 +10,7 @@ import com.example.wiss.updater.Updatable;
 
 public abstract class SoundManager implements Updatable
 {
-    private boolean playing = false;
+    protected boolean playing = false;
 
     @Override @CallSuper
     public void update()
@@ -19,9 +19,7 @@ public abstract class SoundManager implements Updatable
     }
 
     @Override @CallSuper
-    public void pause() {
-        playing = false;
-    }
+    public void pause() {  }
 
     @Override @CallSuper
     public void resume() {

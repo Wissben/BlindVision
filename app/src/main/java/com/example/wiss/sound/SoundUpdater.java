@@ -23,7 +23,7 @@ public class SoundUpdater implements Updatable
     public void update()
     {
         if(isPaused()) return;
-
+        Log.d("TUTORIAL","size of sounds is " + sounds.size());
         int size = sounds.size();
         for(int i=0; i<size;i++)
             sounds.get(i).update();
@@ -47,7 +47,9 @@ public class SoundUpdater implements Updatable
 
     public void addToUpdate(UnitSoundManager su)
     {
-        sounds.add(su);
+
+        if(!sounds.contains(su))
+            sounds.add(su);
     }
 
     public void addToUpdate(LinkedList<UnitSoundManager> sus)
@@ -100,6 +102,18 @@ public class SoundUpdater implements Updatable
         soundManager.releaseMediaPlayers();
     }
 
+    public void clear()
+    {
+        sounds.clear();
+    }
+
+    public void clearAndRelease()
+    {
+        for(int i=0;i<sounds.size();i++)
+            sounds.get(i).releaseMediaPlayers();
+        sounds.clear();
+    }
+
     public boolean isPaused()
     {
         return paused;
@@ -123,4 +137,6 @@ public class SoundUpdater implements Updatable
         for(int i=0; i<size;i++)
             sounds.get(i).pauseSound();
     }
+
+
 }
