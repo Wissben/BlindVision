@@ -32,7 +32,6 @@ public class TutorialGameLogic extends GameLogic {
      * the 'update()' will launch the appropriate step.
      */
     protected boolean launchStep = true;
-    protected LinkedList<SoundHandler> tutorialSounds = new LinkedList<SoundHandler>();
     protected int tutorialCurrentStep = 1;
     /**
      * This variable is set to false during the explanation, to prevent the player from
@@ -76,6 +75,7 @@ public class TutorialGameLogic extends GameLogic {
         SoundHandler sound = new SoundHandler(R.raw.tutorial_goodjob);
         sound.playSound();
         sound.blockThreadTillSoundEnd();
+        sound.releaseMediaPlayer();
         this.tutorialCurrentStep++;
         this.launchStep = true;
         this.operationalInput = false;
@@ -194,7 +194,7 @@ public class TutorialGameLogic extends GameLogic {
         SoundHandler sound = new SoundHandler(R.raw.tutorial_entry12);
         sound.playSound();
         sound.blockThreadTillSoundEnd();
-        sound.getMp().release();
+        sound.releaseMediaPlayer();
         this.gameIO.getGameActivity().finish();
     }
 
