@@ -57,7 +57,7 @@ public class GameActivity extends BlindActivity {
     protected void onStop()
     {
         super.onStop();
-        //updater.cancel();
+        updater.cancel();
     }
 
     public void setOnTouchListener(View.OnTouchListener touchListener)
