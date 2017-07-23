@@ -17,8 +17,8 @@ import java.util.LinkedList;
  * This class will be called to update the player position on the map.
  */
 
-public class SimpleGameLogic extends GameLogic {
-
+public class SimpleGameLogic extends GameLogic
+{
     private SimpleSoundSource target;
     double dist;
     boolean once = true;
@@ -47,15 +47,16 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     public void movePlayerToPos(double x, double y) {
         if(won) return;
-        player.setPosition(x,y);
+        if(!isPaused()) {
+            player.setPosition(x, y);
 
-        // soundUpdater is paused at first update, so we resume it once the player moves
-        if(soundUpdater.isPaused())
-        soundUpdater.resume();
-            if(Vector.getDistance(this.player.getPosition(),target.getPosition())<=dist)
-            {
+            // soundUpdater is paused at first update, so we resume it once the player moves
+            if (soundUpdater.isPaused())
+                soundUpdater.resume();
+            if (Vector.getDistance(this.player.getPosition(), target.getPosition()) <= dist) {
                 this.reachedTarget(this.target);
             }
+        }
 
     }
 
@@ -74,6 +75,8 @@ public class SimpleGameLogic extends GameLogic {
     @Override
     public void update()
     {
+
+        if(isPaused()) return;
 
         if(once) // this is called once in the start of the game
         {

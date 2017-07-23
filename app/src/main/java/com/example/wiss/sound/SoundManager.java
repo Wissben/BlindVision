@@ -1,7 +1,6 @@
 package com.example.wiss.sound;
 
 import android.support.annotation.CallSuper;
-
 import com.example.wiss.updater.Updatable;
 
 /**
@@ -11,19 +10,22 @@ import com.example.wiss.updater.Updatable;
 public abstract class SoundManager implements Updatable
 {
     protected boolean playing = false;
+    protected boolean paused = false;
 
     @Override @CallSuper
     public void update()
     {
-        playing = true;
+        if(!isPaused())
+            playing = true;
     }
 
     @Override @CallSuper
-    public void pause() {  }
+    public void pause() { paused = true; }
 
     @Override @CallSuper
     public void resume() {
         playing = true;
+        paused = false;
     }
 
     @Override @CallSuper
@@ -48,4 +50,10 @@ public abstract class SoundManager implements Updatable
                 e.printStackTrace();
             }
     }
+
+    public boolean isPaused()
+    {
+        return paused;
+    }
+
 }

@@ -33,8 +33,25 @@ import java.util.LinkedList;
 public class FirstGameGen extends GameGen
 {
     // distance from which sound can not be heard (we take the screen diagonal distance)
-    double maxDistance = WelcomeActivity.getScreenVec().getAbsValue();
+    Vector screenVec = WelcomeActivity.getScreenVec();
+    double maxDistance = screenVec.getAbsValue();
     int r = 0;
+    // number of sound sources in the game
+    int numSources = 2;
+    int[] possibleSounds;
+
+    public FirstGameGen(int numSources)
+    {
+        this.numSources = numSources;
+    }
+
+    public FirstGameGen(int numSources,int[] possibleSounds)
+    {
+        this.numSources = numSources;
+        this.possibleSounds = possibleSounds;
+    }
+
+
     @Override
     public GameLogic generateGameLogic()
     {

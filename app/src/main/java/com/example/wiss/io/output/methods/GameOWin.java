@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.example.wiss.gameGen.GameGen;
 import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.sound.SoundHandler;
-import com.example.wiss.sound.SoundUpdater;
 
 /**
  * Created by ressay on 19/07/17.
@@ -37,6 +36,7 @@ public class GameOWin extends GameO
         {
             gameGen.generateGameParams();
             Intent intent = new Intent(gameActivity, GameActivity.class);
+            gameActivity.finish();
             gameActivity.startActivity(intent);
         }
         else gameActivity.finish();

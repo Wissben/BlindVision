@@ -73,6 +73,15 @@ public class GameIO
         Log.d("myTag","end setting on touch listener");
     }
 
+    public void blockThreadWhileOutputRunning()
+    {
+        while (isRunning())
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    }
 
 
     //******************* getters & setters *********************

@@ -39,6 +39,7 @@ public class UnitSimpleSoundManager extends UnitSoundManager
     @Override
     public void update()
     {
+        if(isPaused()) return;
         super.update();
         // if sound not started yet, start it, else change sound depending of position of player and source
         getSoundMapManager().produceSoundBetweenPoints( getSource().getPosition(),
