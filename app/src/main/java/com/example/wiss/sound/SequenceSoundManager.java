@@ -71,6 +71,8 @@ public class SequenceSoundManager extends SoundManager
     @Override
     public void stop() {
         super.stop();
+        sound.stopSound();
+        sound.releaseMediaPlayer();
     }
 
 

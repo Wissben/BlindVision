@@ -38,6 +38,7 @@ public class TutorialGameLogic extends GameLogic {
      * using the input, and to prevent him from triggering the method 'movePlayerToPos'.
      */
     protected boolean operationalInput = false;
+    protected Updater up;
 
     /* Constructors =============================================================================== */
 
@@ -204,12 +205,18 @@ public class TutorialGameLogic extends GameLogic {
         ssm.addSounds(seq);
         // to run SequenceSoundManager, an updater is required, so we create a new updater since we want to block
         // the current updater's thread
-        Updater up = new Updater(100);
+        up = new Updater(100);
         up.addToUpdate(ssm);
         up.startUpdating();
         // blocking this thread's updater
         ssm.blockThreadWhilePlaying();
         // ending the updater's loop
         up.cancel();
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        this.up.cancel();
     }
 }
