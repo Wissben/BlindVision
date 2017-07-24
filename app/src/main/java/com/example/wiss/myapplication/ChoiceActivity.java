@@ -11,7 +11,7 @@ public class ChoiceActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        choice = GameParameters.getChoiceable();
+        choice = ChoiceParameters.getChoiceable();
 
         this.findViewById(android.R.id.content).setOnTouchListener(new SwipeChoice(choice));
     }
