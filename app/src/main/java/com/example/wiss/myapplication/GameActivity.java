@@ -30,18 +30,25 @@ public class GameActivity extends BlindActivity {
         // starting the updater
         updater = new Updater(100);
         updater.addToUpdate(gameLogic);
-        updater.startUpdating();
+
 
         // setting up input/output manager to run on this activity
         gameIO.setGameActivity(this);
 
         gameLogic.setGameIO(gameIO);
+
+        updater.startUpdating();
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+        if(updater.isCancelled()) {
+            // to start the thread again we need new instance so we get a copy the current instance
+            updater = updater.copy();
+            updater.startUpdating();
+        }
         updater.resumeUpdating();
     }
 
@@ -57,6 +64,12 @@ public class GameActivity extends BlindActivity {
     protected void onStop()
     {
         super.onStop();
+        updater.pauseAndStopUpdating();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         updater.cancel();
     }
 
@@ -76,5 +89,12 @@ public class GameActivity extends BlindActivity {
 
     public GameIO getGameIO() {
         return gameIO;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        PauseChoice.pauseGame(this);
     }
 }

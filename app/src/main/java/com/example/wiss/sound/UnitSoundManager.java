@@ -77,7 +77,7 @@ public abstract class UnitSoundManager extends SoundManager
     public void resume() {
 
         super.resume();
-        update();
+        resumeSound();
     }
 
     @Override

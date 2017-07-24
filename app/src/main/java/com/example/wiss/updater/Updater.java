@@ -42,12 +42,14 @@ public class Updater extends Thread
 
             if (!isPaused()) {
                 int size = toUpdate.size();
-                for (int i = 0; i < size; i++)
-                    if(toUpdate.get(i).hasEnded())
+                for (int i = 0; i < toUpdate.size(); i++)
+                    if(toUpdate.get(i).hasEnded()) {
                         toUpdate.remove(i);
+                        i--;
+                    }
                     else
                         toUpdate.get(i).update();
-                Log.d("Tag","updating inside updater");
+                Log.d("Tag","updating inside updater size = " + toUpdate.size());
             }
             Log.d("Tag","still looping!");
 
@@ -105,6 +107,7 @@ public class Updater extends Thread
         for(int i=0; i<size;i++)
             toUpdate.get(i).stop();
         cancelled = true;
+        Log.d("pause","updating cancelled");
     }
 
     public long getDelay()
@@ -126,6 +129,14 @@ public class Updater extends Thread
             toUpdate.get(i).pause();
     }
 
+    public void pauseAndStopUpdating()
+    {
+        cancelled = true;
+        int size = toUpdate.size();
+        for(int i=0; i<size;i++)
+            toUpdate.get(i).pause();
+    }
+
     public void resumeUpdating()
     {
         if(!isPaused()) return;
@@ -133,6 +144,7 @@ public class Updater extends Thread
         int size = toUpdate.size();
         for(int i=0; i<size;i++)
             toUpdate.get(i).resume();
+        Log.d("pause","calling resume");
     }
 
     public boolean isPaused() {
@@ -141,5 +153,13 @@ public class Updater extends Thread
 
     private void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public Updater copy()
+    {
+        Updater updater = new Updater(delay);
+        updater.addToUpdate(toUpdate);
+        updater.setPaused(isPaused());
+        return updater;
     }
 }

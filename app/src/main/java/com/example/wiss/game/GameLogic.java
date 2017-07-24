@@ -67,6 +67,7 @@ public abstract class GameLogic implements Updatable
     @Override @CallSuper
     public void resume() {
         resumeGame();
+        Log.d("pause","calling resume inside GameLogic");
     }
 
     @Override @CallSuper
@@ -89,7 +90,7 @@ public abstract class GameLogic implements Updatable
     {
         if(isPaused()) return;
         setPaused(true);
-        soundUpdater.pauseSounds();
+        soundUpdater.pause();
     }
 
     /**
@@ -99,7 +100,7 @@ public abstract class GameLogic implements Updatable
     {
         if(!isPaused()) return;
         setPaused(false);
-        soundUpdater.resumeSound();
+        soundUpdater.resume();
     }
 
     /**

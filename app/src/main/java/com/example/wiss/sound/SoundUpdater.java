@@ -88,7 +88,8 @@ public class SoundUpdater implements Updatable
         cancelled = true;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).stopSound();
+            sounds.get(i).stop();
+        releaseAllSounds();
     }
 
     public void releaseAllSounds()
@@ -132,7 +133,7 @@ public class SoundUpdater implements Updatable
         paused = false;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).update();
+            sounds.get(i).resume();
     }
 
     public void pauseSounds()
@@ -141,7 +142,7 @@ public class SoundUpdater implements Updatable
         paused = true;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).pauseSound();
+            sounds.get(i).pause();
     }
 
 

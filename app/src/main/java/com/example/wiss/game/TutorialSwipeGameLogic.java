@@ -282,4 +282,17 @@ public class TutorialSwipeGameLogic extends GameLogic {
         super.stop();
         this.up.cancel();
     }
+
+    @Override
+    public void pause() {
+        super.pause();
+        this.up.pauseUpdating();
+    }
+
+    @Override
+    public void resume()
+    {
+        super.resume();
+        this.up.resumeUpdating();
+    }
 }

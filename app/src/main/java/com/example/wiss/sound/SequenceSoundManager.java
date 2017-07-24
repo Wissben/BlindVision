@@ -61,6 +61,8 @@ public class SequenceSoundManager extends SoundManager
 
     @Override
     public void pause() {
+        if(sound != null)
+        sound.pauseSound();
         super.pause();
     }
 
@@ -69,6 +71,8 @@ public class SequenceSoundManager extends SoundManager
         if(currentSound>=sounds.size()) return;
 
         super.resume();
+        if(sound != null)
+        sound.playSound();
     }
 
     @Override

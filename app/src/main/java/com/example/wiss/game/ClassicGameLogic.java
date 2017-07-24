@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.wiss.io.output.OutputStringAlreadyExistsException;
 import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.io.output.methods.GameO;
+import com.example.wiss.myapplication.ChoiceParameters;
 import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.MyMath;
 import com.example.wiss.myapplication.R;
@@ -92,6 +93,7 @@ public class ClassicGameLogic extends GameLogic
     @Override
     public void update()
     {
+        Log.d("pause","is paused"  + isPaused());
         if(isPaused() || once) return;
         super.update();
         moveWolfCloserTo(player.getPosition().copy());
@@ -142,15 +144,25 @@ public class ClassicGameLogic extends GameLogic
         wolf.getPosition().add( tar.sub(wolf.getPosition()).resize(wolfSpeed) );
     }
 
+    /**
+     * method to call when game ends (wolf catches the player)
+     */
 
     public static class GameOEnd extends GameO
     {
         @Override
         public void output(String param, GameActivity gameActivity)
         {
+            SequenceSoundManager ssm = new SequenceSoundManager();
+            ssm.addSounds();
+            ChoiceParameters.setSequenceSoundManager(ssm);
             gameActivity.finish();
         }
     }
+
+    /**
+     * method to call when player catches a sheep
+     */
 
     public static class GameOReachedTarget extends GameO
     {
