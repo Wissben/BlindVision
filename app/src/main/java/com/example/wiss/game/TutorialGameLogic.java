@@ -191,6 +191,7 @@ public class TutorialGameLogic extends GameLogic {
      *  Tell the player that the tutorial is over, and go back to the main screen.
      */
     private void tutorialStep4() {
+        /* Possible memory leak here because the sound are not being freed. */
         this.soundUpdater.stop();
         SoundHandler sound = new SoundHandler(R.raw.tutorial_entry12);
         sound.playSound();

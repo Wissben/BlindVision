@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.wiss.gameGen.FirstGameGen;
 import com.example.wiss.gameGen.TutorialGameGen;
+import com.example.wiss.gameGen.TutorialSwipeGameGen;
 import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.MainActivity;
 import com.example.wiss.sound.SoundHandler;
@@ -23,8 +24,9 @@ public class OptionTutorial extends Options {
     @Override
     public void runOption(Activity act) {
         Log.d("run", "runOption: "+act);
-        // generating game logic and gameIO
-        TutorialGameGen gameGen = new TutorialGameGen();
+        /* Uncomment this line to use the first tutorial. */
+//        TutorialGameGen gameGen = new TutorialGameGen();
+        TutorialSwipeGameGen gameGen = new TutorialSwipeGameGen();
         gameGen.generateGameParams();
 
         // starting game activity with the generated parameters
