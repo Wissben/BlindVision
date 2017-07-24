@@ -43,7 +43,10 @@ public class Updater extends Thread
             if (!isPaused()) {
                 int size = toUpdate.size();
                 for (int i = 0; i < size; i++)
-                    toUpdate.get(i).update();
+                    if(toUpdate.get(i).hasEnded())
+                        toUpdate.remove(i);
+                    else
+                        toUpdate.get(i).update();
                 Log.d("Tag","updating inside updater");
             }
             Log.d("Tag","still looping!");

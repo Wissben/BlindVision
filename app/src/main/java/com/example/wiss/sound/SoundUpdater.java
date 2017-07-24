@@ -17,6 +17,7 @@ public class SoundUpdater implements Updatable
 
     private boolean cancelled = false;
     private boolean paused = false;
+    private boolean ended = false;
     LinkedList<UnitSoundManager> sounds = new LinkedList<>();
 
     @Override
@@ -42,7 +43,12 @@ public class SoundUpdater implements Updatable
 
     @Override
     public void stop() {
+        ended = true;
+    }
 
+    @Override
+    public boolean hasEnded() {
+        return ended;
     }
 
     public void addToUpdate(UnitSoundManager su)

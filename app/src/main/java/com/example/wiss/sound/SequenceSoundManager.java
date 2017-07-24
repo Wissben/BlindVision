@@ -75,5 +75,11 @@ public class SequenceSoundManager extends SoundManager
         sound.releaseMediaPlayer();
     }
 
+    @Override
+    public boolean hasEnded()
+    {
+        return currentSound >= sounds.size();
+    }
+
 
 }

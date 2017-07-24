@@ -26,6 +26,7 @@ public abstract class GameLogic implements Updatable
     LinkedList<SoundSource> soundSources=null;
     SoundUpdater soundUpdater;
     private boolean paused = false;
+    protected boolean ended = false;
 
     public GameLogic(LinkedList<SoundSource> soundSources)
     {
@@ -71,7 +72,13 @@ public abstract class GameLogic implements Updatable
     @Override @CallSuper
     public void stop()
     {
+        ended = true;
+    }
 
+    @Override
+    public boolean hasEnded()
+    {
+        return ended;
     }
 
 
