@@ -9,7 +9,8 @@ import com.example.wiss.io.input.GameITouchSwipe;
 import com.example.wiss.units.Player;
 
 /**
- * Created by no_one on 24/07/17.
+ * Created by Sidahmed on 24/07/17.
+ * This generate parameters for the 'GameActivity' when using 'TutorialSwipeGameLogic'.
  */
 
 public class TutorialSwipeGameGen extends GameGen {
