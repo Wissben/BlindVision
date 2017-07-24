@@ -12,6 +12,7 @@ public class GameParameters
     static private GameLogic gameLogic;
     static private GameIO gameIO;
 
+
     public static GameLogic getGameLogic() {
         return gameLogic;
     }
