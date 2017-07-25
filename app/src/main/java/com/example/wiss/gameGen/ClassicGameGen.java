@@ -4,6 +4,10 @@ import com.example.wiss.game.ClassicGameLogic;
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.io.GameIO;
 import com.example.wiss.io.input.GameITouchDirect;
+import com.example.wiss.io.output.OutputStringAlreadyExistsException;
+import com.example.wiss.io.output.methods.GameOSimpleSound;
+import com.example.wiss.myapplication.R;
+import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.units.Player;
 
 /**
@@ -22,10 +26,11 @@ public class ClassicGameGen extends GameGen
     }
 
     @Override
-    public GameIO generateGameIO(GameLogic gc)
-    {
+    public GameIO generateGameIO(GameLogic gc) {
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
+
+
         return gameIO;
     }
 }

@@ -60,6 +60,11 @@ public class SimpleGameLogic extends GameLogic
 
     }
 
+    @Override
+    public void initialize() {
+
+    }
+
 
     public void reachedTarget(SoundSource target)
     {

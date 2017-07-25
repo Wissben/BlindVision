@@ -71,6 +71,11 @@ public class TutorialGameLogic extends GameLogic {
         }
     }
 
+    @Override
+    public void initialize() {
+
+    }
+
     public void reachedTarget(SoundSource target) {
         Log.d("TAG", "reachedTarget: "+target.getPosition().getX()+"/"+target.getPosition().getY());
         SoundHandler sound = new SoundHandler(R.raw.tutorial_goodjob);

@@ -91,4 +91,14 @@ public class GameOManager implements Updatable
     public boolean hasEnded() {
         return ended;
     }
+
+    public int getCountRunning()
+    {
+        return running.size();
+    }
+
+    public boolean isRunning()
+    {
+        return getCountRunning() > 0;
+    }
 }

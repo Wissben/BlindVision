@@ -2,6 +2,7 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
+import com.example.wiss.gameGen.ClassicGameGen;
 import com.example.wiss.io.output.OutputStringAlreadyExistsException;
 import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.io.output.methods.GameO;
@@ -9,12 +10,14 @@ import com.example.wiss.myapplication.ChoiceParameters;
 import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.MyMath;
 import com.example.wiss.myapplication.R;
+import com.example.wiss.myapplication.TransitionChoice;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.sound.SoundHandler;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
+import com.example.wiss.updater.Updater;
 
 import java.util.LinkedList;
 
@@ -39,15 +42,22 @@ public class ClassicGameLogic extends GameLogic
 
     private boolean once = true;
 
+    SequenceSoundManager intro = new SequenceSoundManager();
+
     public ClassicGameLogic()
     {
         super(new LinkedList<SoundSource>());
 
-
     }
 
+    @Override
     public void initialize()
     {
+        // this is the intro to classic game logic
+        intro.addSounds(R.raw.introclassic,R.raw.challenge);
+        gameIO.getGameActivity().getUpdater().addToUpdate(intro);
+
+
         sheep = new SimpleSoundSource();
         wolf = new SimpleSoundSource();
         sheep.initialise(player, R.raw.meza, WelcomeActivity.getScreenVec().getAbsValue());
@@ -56,6 +66,7 @@ public class ClassicGameLogic extends GameLogic
         soundSources.add(wolf);
         soundUpdater.addSoundSourcesToUpdate(soundSources);
         soundUpdater.pause();
+
         // load output messages
         try {
             gameIO.addOutput("Lost", new GameOEnd());
@@ -68,7 +79,7 @@ public class ClassicGameLogic extends GameLogic
     @Override
     public void movePlayerToPos(double x, double y)
     {
-        if(isPaused()) return;
+        if(isPaused() || !intro.hasEnded()) return;
         if(soundUpdater.isPaused())
             soundUpdater.resume();
 
@@ -77,7 +88,6 @@ public class ClassicGameLogic extends GameLogic
         // when he touches for first time we set a position for the wolf and the sheep at random
         if(once)
         {
-            initialize();
             sheep.setPosition(getRandomPos());
             wolf.setPosition(getRandomPos());
             once = false;
@@ -94,7 +104,7 @@ public class ClassicGameLogic extends GameLogic
     public void update()
     {
         Log.d("pause","is paused"  + isPaused());
-        if(isPaused() || once) return;
+        if(isPaused() || once || !intro.hasEnded()) return;
         super.update();
         moveWolfCloserTo(player.getPosition().copy());
 
@@ -127,7 +137,7 @@ public class ClassicGameLogic extends GameLogic
         Log.d("classic","lostGame with score "+ score);
         pause();
         try {
-            gameIO.transferOutput("Lost");
+            gameIO.transferOutput("Lost",getMedal()+"");
         } catch (OutputStringDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -145,6 +155,24 @@ public class ClassicGameLogic extends GameLogic
     }
 
     /**
+     * gets the sound of the medal depending on the score
+     * @return
+     */
+    public int getMedal()
+    {
+        if(score < 10)
+            return R.raw.iron;
+        if(score < 15)
+            return R.raw.bronze;
+        if(score < 20)
+            return R.raw.silver;
+        if(score < 30)
+            return R.raw.gold;
+
+        return R.raw.legendary;
+    }
+
+    /**
      * method to call when game ends (wolf catches the player)
      */
 
@@ -154,9 +182,11 @@ public class ClassicGameLogic extends GameLogic
         public void output(String param, GameActivity gameActivity)
         {
             SequenceSoundManager ssm = new SequenceSoundManager();
-            ssm.addSounds();
-            ChoiceParameters.setSequenceSoundManager(ssm);
+            // inside param there is the medal that the player got
+            ssm.addSounds(R.raw.wolfcatch,Integer.valueOf(param),R.raw.transitionclassic);
             gameActivity.finish();
+            // either he wants to quit game or retry classicGame
+            TransitionChoice.startTransition(ssm,new ClassicGameGen());
         }
     }
 

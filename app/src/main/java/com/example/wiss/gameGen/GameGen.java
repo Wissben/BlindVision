@@ -2,6 +2,7 @@ package com.example.wiss.gameGen;
 
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.io.GameIO;
+import com.example.wiss.io.output.OutputStringAlreadyExistsException;
 import com.example.wiss.myapplication.GameParameters;
 
 /**

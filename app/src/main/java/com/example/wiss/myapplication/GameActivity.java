@@ -36,7 +36,7 @@ public class GameActivity extends BlindActivity {
         gameIO.setGameActivity(this);
 
         gameLogic.setGameIO(gameIO);
-
+        gameLogic.initialize();
         updater.startUpdating();
     }
 

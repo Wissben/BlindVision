@@ -42,6 +42,11 @@ public abstract class GameLogic implements Updatable
      */
     public abstract void movePlayerToPos(double x, double y);
 
+    /**
+     * this will initialize a game logic
+     */
+    public abstract void initialize();
+
 
     /**
      * Don't know where this will be used yet.

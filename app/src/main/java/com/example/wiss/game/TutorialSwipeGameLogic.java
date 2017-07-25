@@ -96,6 +96,11 @@ public class TutorialSwipeGameLogic extends GameLogic {
     @Override
     public void movePlayerToPos(double x, double y) { }
 
+    @Override
+    public void initialize() {
+
+    }
+
     public void reachedTarget(SoundSource target) {
         this.success();
     }
