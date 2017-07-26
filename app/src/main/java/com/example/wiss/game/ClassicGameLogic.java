@@ -60,7 +60,7 @@ public class ClassicGameLogic extends GameLogic
 
         sheep = new SimpleSoundSource();
         wolf = new SimpleSoundSource();
-        sheep.initialise(player, R.raw.meza, WelcomeActivity.getScreenVec().getAbsValue());
+        sheep.initialise(player, R.raw.sheepsound, WelcomeActivity.getScreenVec().getAbsValue());
         wolf.initialise(player, R.raw.wolfsound, WelcomeActivity.getScreenVec().getAbsValue());
         soundSources.add(sheep);
         soundSources.add(wolf);
