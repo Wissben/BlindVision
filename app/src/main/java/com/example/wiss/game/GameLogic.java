@@ -88,6 +88,7 @@ public abstract class GameLogic implements Updatable
     }
 
 
+    private boolean wasPaused = false;
     /**
      *
      */
@@ -95,6 +96,7 @@ public abstract class GameLogic implements Updatable
     {
         if(isPaused()) return;
         setPaused(true);
+        if(soundUpdater.isPaused()) wasPaused = true;
         soundUpdater.pause();
     }
 
@@ -105,7 +107,9 @@ public abstract class GameLogic implements Updatable
     {
         if(!isPaused()) return;
         setPaused(false);
+        if(!wasPaused)
         soundUpdater.resume();
+        wasPaused = false;
     }
 
     /**

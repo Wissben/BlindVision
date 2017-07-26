@@ -36,7 +36,7 @@ public class FirstGameGen extends GameGen
     double maxDistance = screenVec.getAbsValue();
     // number of sound sources in the game
     int numSources = 2;
-    int[] possibleSounds;
+    int[] possibleSounds = null;
 
     public FirstGameGen(int numSources)
     {
@@ -63,7 +63,12 @@ public class FirstGameGen extends GameGen
 
 
         LinkedList<SimpleSoundSource> soundSources = new LinkedList<>();
-        int[] allSounds = SoundName.getAllSoundsID();
+        int[] allSounds;
+        if(possibleSounds == null)
+            allSounds = SoundName.getAllSoundsID();
+        else
+            allSounds = possibleSounds;
+
         LinkedList<Integer> selectedSounds = new LinkedList<>();
         int r = 0;
         for(int i=0 ; i<numSources;i++)
@@ -100,7 +105,17 @@ public class FirstGameGen extends GameGen
         // adding possible outputs to SimpleGameLogic
         try {
             gameIO.addOutput("lookFor",new GameOLookFor());
+
+            if(getNext() != null)
+            {
+                // gameOEnd will run the soundSequence and then ask player if he wants to continue to next game
+                GameOEnd gameOEnd = new GameOEnd(R.raw.youwin,R.raw.transitionnext);
+                gameOEnd.setGameGen(getNext());
+                gameIO.addOutput("win",gameOEnd);
+            }
+            else
             gameIO.addOutput("win",new GameOEnd(R.raw.youwin,R.raw.backtowelcome));
+
         } catch (OutputStringAlreadyExistsException e) {
             e.printStackTrace();
         }

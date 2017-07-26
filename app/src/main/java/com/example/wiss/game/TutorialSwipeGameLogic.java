@@ -2,6 +2,7 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
+import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.myapplication.R;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
@@ -255,14 +256,11 @@ public class TutorialSwipeGameLogic extends GameLogic {
         this.soundUpdater.pause();
         this.soundUpdater.clearAndRelease();
 
-        runSoundSequence(R.raw.tutorial_swipe11,
-                R.raw.tutorial_swipe11_note1,
-                R.raw.tutorial_swipe11_note2,
-                R.raw.tutorial_swipe11_note3_1,
-                R.raw.tutorial_swipe11_note3_2,
-                R.raw.tutorial_swipe12);
-
-        this.gameIO.getGameActivity().finish();
+        try {
+            gameIO.transferOutput("win");
+        } catch (OutputStringDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
 
