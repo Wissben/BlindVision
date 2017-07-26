@@ -29,7 +29,7 @@ public class ClassicGameGen extends GameGen
     public GameIO generateGameIO(GameLogic gc) {
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
-
+        // the outputs of classic gameGen are going to be set up inside the classicGameLogic
 
         return gameIO;
     }

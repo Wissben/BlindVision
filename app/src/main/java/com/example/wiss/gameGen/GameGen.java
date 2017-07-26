@@ -15,12 +15,22 @@ import com.example.wiss.myapplication.GameParameters;
 
 public abstract class GameGen
 {
+    // the next gameGen to be run
+    GameGen next = null;
     public void generateGameParams()
     {
         GameLogic gc = generateGameLogic();
         GameIO gameIO = generateGameIO(gc);
         GameParameters.setGameLogic(gc);
         GameParameters.setGameIO(gameIO);
+    }
+
+    public GameGen getNext() {
+        return next;
+    }
+
+    public void setNext(GameGen next) {
+        this.next = next;
     }
 
     public abstract GameLogic generateGameLogic();

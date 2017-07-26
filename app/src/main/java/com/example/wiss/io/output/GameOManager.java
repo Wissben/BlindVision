@@ -92,6 +92,11 @@ public class GameOManager implements Updatable
         return ended;
     }
 
+    @Override
+    public boolean isPaused() {
+        return false;
+    }
+
     public int getCountRunning()
     {
         return running.size();

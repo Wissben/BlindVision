@@ -17,6 +17,7 @@ public class Updater extends Thread
     private long delay = 100;
     private boolean cancelled = false;
     private LinkedList<Updatable> toUpdate = new LinkedList<>();
+    private LinkedList<Updatable> pausedUpdate = new LinkedList<>();
 
     public Updater()
     {
@@ -126,6 +127,9 @@ public class Updater extends Thread
         setPaused(true);
         int size = toUpdate.size();
         for(int i=0; i<size;i++)
+            if(toUpdate.get(i).isPaused())
+                pausedUpdate.add(toUpdate.get(i));
+            else
             toUpdate.get(i).pause();
     }
 
@@ -134,7 +138,10 @@ public class Updater extends Thread
         cancelled = true;
         int size = toUpdate.size();
         for(int i=0; i<size;i++)
-            toUpdate.get(i).pause();
+            if(toUpdate.get(i).isPaused())
+                pausedUpdate.add(toUpdate.get(i));
+            else
+                toUpdate.get(i).pause();
     }
 
     public void resumeUpdating()
@@ -143,7 +150,10 @@ public class Updater extends Thread
         setPaused(false);
         int size = toUpdate.size();
         for(int i=0; i<size;i++)
+            if(!pausedUpdate.contains(toUpdate.get(i)))
             toUpdate.get(i).resume();
+
+        pausedUpdate.clear();
         Log.d("pause","calling resume");
     }
 

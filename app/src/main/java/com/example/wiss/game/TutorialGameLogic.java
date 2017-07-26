@@ -2,6 +2,7 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
+import com.example.wiss.io.output.OutputStringDoesNotExistException;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SequenceSoundManager;
@@ -45,6 +46,7 @@ public class TutorialGameLogic extends GameLogic {
         this.target = new SimpleSoundSource(500, 1000);
         this.target.initialise(player, R.raw.bearsound, WelcomeActivity.getScreenVec().getAbsValue());
         this.soundUpdater.addSoundSourceToUpdate(this.target);
+        soundUpdater.pause();
     }
 
 
@@ -193,11 +195,11 @@ public class TutorialGameLogic extends GameLogic {
     private void tutorialStep4() {
         /* Possible memory leak here because the sound are not being freed. */
         this.soundUpdater.stop();
-        SoundHandler sound = new SoundHandler(R.raw.tutorial_entry12);
-        sound.playSound();
-        sound.blockThreadTillSoundEnd();
-        sound.releaseMediaPlayer();
-        this.gameIO.getGameActivity().finish();
+        try {
+            gameIO.transferOutput("win");
+        } catch (OutputStringDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     private void runSoundSequence(int... seq)
@@ -219,5 +221,18 @@ public class TutorialGameLogic extends GameLogic {
     public void stop() {
         super.stop();
         this.up.cancel();
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        this.up.pauseUpdating();
+    }
+
+    @Override
+    public void resume()
+    {
+        super.resume();
+        this.up.resumeUpdating();
     }
 }

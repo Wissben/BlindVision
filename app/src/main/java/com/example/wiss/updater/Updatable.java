@@ -16,5 +16,6 @@ public interface Updatable
     void resume();
     void stop();
     boolean hasEnded();
+    boolean isPaused();
 
 }
