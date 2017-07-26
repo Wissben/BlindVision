@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.example.wiss.Option.OptionClassicMode;
 import com.example.wiss.Option.OptionExit;
+import com.example.wiss.Option.OptionRunaway;
 import com.example.wiss.Option.OptionSelectGameLevel;
 import com.example.wiss.Option.OptionTutorial;
 import com.example.wiss.Option.Options;
@@ -42,6 +43,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         this.options = new LinkedList<>();
         this.options.push(new OptionExit(R.raw.exitthegame, "Exit"));
         this.options.add(new OptionClassicMode(R.raw.classicmode, "Classic mode"));
+        this.options.add(new OptionRunaway(R.raw.dolphin,"RunawayMode"));
         this.options.add(new OptionSelectGameLevel(R.raw.selectgamelevel, "Select level"));
         this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
 
