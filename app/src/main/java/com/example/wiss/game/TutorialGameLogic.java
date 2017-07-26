@@ -2,15 +2,10 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
-import com.example.wiss.io.output.OutputStringAlreadyExistsException;
-import com.example.wiss.io.output.methods.GameO;
-import com.example.wiss.io.output.methods.GameOWin;
-import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.sound.SoundHandler;
-import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;

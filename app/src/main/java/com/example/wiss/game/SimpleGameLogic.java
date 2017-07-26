@@ -36,7 +36,7 @@ public class SimpleGameLogic extends GameLogic
     public SimpleGameLogic(Player player){
         super(null);
         this.player = player;
-        this.dist=0;
+        this.dist=70;
     }
 
     /* Methods ==================================================================================== */
@@ -61,7 +61,8 @@ public class SimpleGameLogic extends GameLogic
     }
 
     @Override
-    public void initialize() {
+    public void initialize()
+    {
 
     }
 

@@ -1,23 +1,22 @@
 package com.example.wiss.gameGen;
 
+import android.util.Log;
+
 import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.SimpleGameLogic;
 import com.example.wiss.io.GameIO;
 import com.example.wiss.io.input.GameITouchDirect;
-import com.example.wiss.io.output.GameOManager;
 import com.example.wiss.io.output.OutputStringAlreadyExistsException;
 import com.example.wiss.io.output.methods.GameOLookFor;
-import com.example.wiss.io.output.methods.GameOSimpleSound;
-import com.example.wiss.io.output.methods.GameOWin;
-import com.example.wiss.myapplication.GameParameters;
+import com.example.wiss.io.output.methods.GameOEnd;
+import com.example.wiss.myapplication.GameActivity;
+import com.example.wiss.myapplication.MyMath;
 import com.example.wiss.myapplication.R;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
-import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.sound.SoundName;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
-import com.example.wiss.units.SoundSource;
 
 import java.util.LinkedList;
 
@@ -35,7 +34,6 @@ public class FirstGameGen extends GameGen
     // distance from which sound can not be heard (we take the screen diagonal distance)
     Vector screenVec = WelcomeActivity.getScreenVec();
     double maxDistance = screenVec.getAbsValue();
-    int r = 0;
     // number of sound sources in the game
     int numSources = 2;
     int[] possibleSounds;
@@ -55,24 +53,40 @@ public class FirstGameGen extends GameGen
     @Override
     public GameLogic generateGameLogic()
     {
+        int limit=10000;
         // creating player
+        Vector screen = WelcomeActivity.getScreenVec();
+        double limitX = screen.getX();
+        double limitY = screen.getY();
+
         Player player = new Player();
 
 
         LinkedList<SimpleSoundSource> soundSources = new LinkedList<>();
-
-        // creating sound sources
-        SimpleSoundSource simple;
-        simple = new SimpleSoundSource(100, 1000);
-        simple.initialise(player, R.raw.bearsound, maxDistance);
-        soundSources.add(simple);
-
-        simple = new SimpleSoundSource(500, 1000);
-        simple.initialise(player, R.raw.cowsound, maxDistance);
-        soundSources.add(simple);
-
+        int[] allSounds = SoundName.getAllSoundsID();
+        LinkedList<Integer> selectedSounds = new LinkedList<>();
+        int r = 0;
+        for(int i=0 ; i<numSources;i++)
+        {
+            double x = MyMath.random(0,limitX);
+            double y = MyMath.random(0,limitY);
+            SimpleSoundSource simple = new SimpleSoundSource(x, y);
+            int count = 0;
+            do {
+                r = MyMath.random(0,allSounds.length-1);
+                count++;
+            } while (selectedSounds.contains(r) && count < limit);
+            if(count<limit)
+            selectedSounds.add(r);
+            else break; // if after so many tries we didn't find unused sound, we content our selves with the selected ones
+            Log.d("gameGen","size is " + allSounds.length + " r is " + r);
+            simple.initialise(player,allSounds[r], screen.getAbsValue() );
+            soundSources.add(simple);
+        }
+        Log.d("gameGen","going to sound sources");
+        r = MyMath.random(0,soundSources.size()-1);
         // creating a simple game logic with the sound sources
-        return new SimpleGameLogic(player,soundSources,soundSources.get(r),50);
+        return new SimpleGameLogic(player,soundSources,soundSources.get(r),GameActivity.getFavoredCatchingDistance());
     }
 
 
@@ -86,7 +100,7 @@ public class FirstGameGen extends GameGen
         // adding possible outputs to SimpleGameLogic
         try {
             gameIO.addOutput("lookFor",new GameOLookFor());
-            gameIO.addOutput("win",new GameOWin(R.raw.youwin));
+            gameIO.addOutput("win",new GameOEnd(R.raw.youwin,R.raw.backtowelcome));
         } catch (OutputStringAlreadyExistsException e) {
             e.printStackTrace();
         }

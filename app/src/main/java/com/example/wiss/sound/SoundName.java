@@ -101,7 +101,7 @@ public class SoundName {
         return null;
     }
 
-    public int[] getAllSoundsID()
+    public static int[] getAllSoundsID()
     {
         if(soundName == null)
             initMap();

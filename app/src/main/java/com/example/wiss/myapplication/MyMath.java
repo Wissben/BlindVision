@@ -67,6 +67,12 @@ public class MyMath {
         return (Math.random() * range) + min;
     }
 
+    static public int random(int min, int max)
+    {
+        int range = (max - min);
+        return (int)( Math.random() * (double)range ) + min;
+    }
+
     public static Vector getRandomPosition(Vector point,double minDistance,Vector rectangleBottomLeft,Vector rectangleTopRight)
     {
         int attempts = 0;

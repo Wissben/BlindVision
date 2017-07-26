@@ -17,6 +17,8 @@ public class GameActivity extends BlindActivity {
     Updater updater;
     GameLogic gameLogic;
     GameIO gameIO;
+    // the distance from which we consider that a player caught a sound
+    static double favoredCatchingDistance = 80;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,10 @@ public class GameActivity extends BlindActivity {
 
     public GameIO getGameIO() {
         return gameIO;
+    }
+
+    public static double getFavoredCatchingDistance() {
+        return favoredCatchingDistance;
     }
 
     @Override
