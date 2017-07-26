@@ -45,7 +45,7 @@ public class MainActivity extends BlindActivity{
             soundSources.add(simple);
 
             simple = new SimpleSoundSource(500, 1000);
-            simple.initialise(player, R.raw.meza, screenVec.getAbsValue());
+            simple.initialise(player, R.raw.sheepsound, screenVec.getAbsValue());
             soundSources.add(simple);
 
 

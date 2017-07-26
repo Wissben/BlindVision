@@ -17,6 +17,8 @@ public class GameActivity extends BlindActivity {
     Updater updater;
     GameLogic gameLogic;
     GameIO gameIO;
+    // the distance from which we consider that a player caught a sound
+    static double favoredCatchingDistance = 80;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +32,25 @@ public class GameActivity extends BlindActivity {
         // starting the updater
         updater = new Updater(100);
         updater.addToUpdate(gameLogic);
-        updater.startUpdating();
+
 
         // setting up input/output manager to run on this activity
         gameIO.setGameActivity(this);
 
         gameLogic.setGameIO(gameIO);
+        gameLogic.initialize();
+        updater.startUpdating();
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+        if(updater.isCancelled()) {
+            // to start the thread again we need new instance so we get a copy the current instance
+            updater = updater.copy();
+            updater.startUpdating();
+        }
         updater.resumeUpdating();
     }
 
@@ -57,6 +66,12 @@ public class GameActivity extends BlindActivity {
     protected void onStop()
     {
         super.onStop();
+        updater.pauseAndStopUpdating();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         updater.cancel();
     }
 
@@ -76,5 +91,16 @@ public class GameActivity extends BlindActivity {
 
     public GameIO getGameIO() {
         return gameIO;
+    }
+
+    public static double getFavoredCatchingDistance() {
+        return favoredCatchingDistance;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        PauseChoice.pauseGame(this);
     }
 }

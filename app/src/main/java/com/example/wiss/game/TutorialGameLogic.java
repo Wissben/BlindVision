@@ -2,15 +2,10 @@ package com.example.wiss.game;
 
 import android.util.Log;
 
-import com.example.wiss.io.output.OutputStringAlreadyExistsException;
-import com.example.wiss.io.output.methods.GameO;
-import com.example.wiss.io.output.methods.GameOWin;
-import com.example.wiss.myapplication.GameActivity;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SequenceSoundManager;
 import com.example.wiss.sound.SoundHandler;
-import com.example.wiss.sound.SoundUpdater;
 import com.example.wiss.units.Player;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
@@ -69,6 +64,11 @@ public class TutorialGameLogic extends GameLogic {
         if(Vector.getDistance(this.player.getPosition(),target.getPosition()) <= 70) {
             this.reachedTarget(this.target);
         }
+    }
+
+    @Override
+    public void initialize() {
+
     }
 
     public void reachedTarget(SoundSource target) {
@@ -191,6 +191,7 @@ public class TutorialGameLogic extends GameLogic {
      *  Tell the player that the tutorial is over, and go back to the main screen.
      */
     private void tutorialStep4() {
+        /* Possible memory leak here because the sound are not being freed. */
         this.soundUpdater.stop();
         SoundHandler sound = new SoundHandler(R.raw.tutorial_entry12);
         sound.playSound();

@@ -14,6 +14,7 @@ public class SequenceSoundManager extends SoundManager
     private LinkedList<Integer> sounds = new LinkedList<>();
     private SoundHandler sound = null;
     private int currentSound = -1;
+    private boolean ended = false;
 
     public SequenceSoundManager()
     {
@@ -44,6 +45,7 @@ public class SequenceSoundManager extends SoundManager
             if(sound != null)
             sound.releaseMediaPlayer();
             currentSound++;
+            sound = null;
         }
         else return;
 
@@ -52,12 +54,15 @@ public class SequenceSoundManager extends SoundManager
             sound = new SoundHandler(sounds.get(currentSound));
             sound.playSound();
         }
-        else
-            setPlaying(false);
+        else {
+            stop();
+        }
     }
 
     @Override
     public void pause() {
+        if(sound != null)
+        sound.pauseSound();
         super.pause();
     }
 
@@ -66,13 +71,24 @@ public class SequenceSoundManager extends SoundManager
         if(currentSound>=sounds.size()) return;
 
         super.resume();
+        if(sound != null)
+        sound.playSound();
     }
 
     @Override
     public void stop() {
         super.stop();
+        ended = true;
+        if(sound == null) return;
         sound.stopSound();
         sound.releaseMediaPlayer();
+
+    }
+
+    @Override
+    public boolean hasEnded()
+    {
+        return ended;
     }
 
 

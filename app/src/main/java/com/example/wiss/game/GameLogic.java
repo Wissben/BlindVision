@@ -26,6 +26,7 @@ public abstract class GameLogic implements Updatable
     LinkedList<SoundSource> soundSources=null;
     SoundUpdater soundUpdater;
     private boolean paused = false;
+    protected boolean ended = false;
 
     public GameLogic(LinkedList<SoundSource> soundSources)
     {
@@ -40,6 +41,11 @@ public abstract class GameLogic implements Updatable
      * This will move the player to the specific position in the map.
      */
     public abstract void movePlayerToPos(double x, double y);
+
+    /**
+     * this will initialize a game logic
+     */
+    public abstract void initialize();
 
 
     /**
@@ -66,12 +72,19 @@ public abstract class GameLogic implements Updatable
     @Override @CallSuper
     public void resume() {
         resumeGame();
+        Log.d("pause","calling resume inside GameLogic");
     }
 
     @Override @CallSuper
     public void stop()
     {
+        ended = true;
+    }
 
+    @Override
+    public boolean hasEnded()
+    {
+        return ended;
     }
 
 
@@ -82,7 +95,7 @@ public abstract class GameLogic implements Updatable
     {
         if(isPaused()) return;
         setPaused(true);
-        soundUpdater.pauseSounds();
+        soundUpdater.pause();
     }
 
     /**
@@ -92,7 +105,7 @@ public abstract class GameLogic implements Updatable
     {
         if(!isPaused()) return;
         setPaused(false);
-        soundUpdater.resumeSound();
+        soundUpdater.resume();
     }
 
     /**

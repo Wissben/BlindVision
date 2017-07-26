@@ -17,6 +17,7 @@ public class SoundUpdater implements Updatable
 
     private boolean cancelled = false;
     private boolean paused = false;
+    private boolean ended = false;
     LinkedList<UnitSoundManager> sounds = new LinkedList<>();
 
     @Override
@@ -42,7 +43,12 @@ public class SoundUpdater implements Updatable
 
     @Override
     public void stop() {
+        ended = true;
+    }
 
+    @Override
+    public boolean hasEnded() {
+        return ended;
     }
 
     public void addToUpdate(UnitSoundManager su)
@@ -82,7 +88,8 @@ public class SoundUpdater implements Updatable
         cancelled = true;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).stopSound();
+            sounds.get(i).stop();
+        releaseAllSounds();
     }
 
     public void releaseAllSounds()
@@ -126,7 +133,7 @@ public class SoundUpdater implements Updatable
         paused = false;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).update();
+            sounds.get(i).resume();
     }
 
     public void pauseSounds()
@@ -135,7 +142,7 @@ public class SoundUpdater implements Updatable
         paused = true;
         int size = sounds.size();
         for(int i=0; i<size;i++)
-            sounds.get(i).pauseSound();
+            sounds.get(i).pause();
     }
 
 

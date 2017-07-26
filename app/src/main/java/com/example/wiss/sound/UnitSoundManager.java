@@ -15,6 +15,7 @@ public abstract class UnitSoundManager extends SoundManager
      * a Unit's sound needs SoundMapManager to manage sound on a map
      */
     protected SoundMapManager smm;
+    protected boolean ended = false;
     /**
      * a list of SoundHandler if it produces multiple sounds
      */
@@ -76,13 +77,21 @@ public abstract class UnitSoundManager extends SoundManager
     public void resume() {
 
         super.resume();
-        update();
+        resumeSound();
     }
 
     @Override
     public void stop()
     {
         super.stop();
+        releaseMediaPlayers();
+        ended = true;
+    }
+
+    @Override
+    public boolean hasEnded()
+    {
+        return ended;
     }
 
     public void releaseMediaPlayers()

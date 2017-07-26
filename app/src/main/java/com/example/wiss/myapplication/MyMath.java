@@ -61,4 +61,40 @@ public class MyMath {
         return 0;
     }
 
+    static public double random(double min, double max)
+    {
+        double range = (max - min);
+        return (Math.random() * range) + min;
+    }
+
+    static public int random(int min, int max)
+    {
+        int range = (max - min);
+        return (int)( Math.random() * (double)range ) + min;
+    }
+
+    public static Vector getRandomPosition(Vector point,double minDistance,Vector rectangleBottomLeft,Vector rectangleTopRight)
+    {
+        int attempts = 0;
+        int limit = 100000;
+
+
+        Vector position=null;
+        // the rectangle is inside the minimum distance from the point
+        if(point.getDistance(rectangleBottomLeft) <= minDistance && point.getDistance(rectangleTopRight) <= minDistance)
+            return null;
+        Vector range = rectangleTopRight.sub(rectangleBottomLeft).copy();
+
+        do {
+            double x = MyMath.random(0,range.getX()), y = MyMath.random(0,range.getY());
+            position = new Vector(x,y);
+            attempts++;
+
+            if(attempts > limit) // to avoid infinite loop we return one of the rectangle points
+                return rectangleBottomLeft.copy();
+        } while (point.getDistance(position) < minDistance); // if the distance between the generated point and the center point is inferior to the minimum distance we generate another point
+        Log.d("classic","found a point");
+        return position;
+    }
+
 }

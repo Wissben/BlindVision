@@ -1,8 +1,6 @@
 bear
 camel
-cougar
 cow
-coyote
 dog
 dolphin
 elephant
@@ -10,8 +8,6 @@ falcon
 frog
 hippo
 horse
-jaguar
-lion
-pig
 tiger
 wolf
+sheep
