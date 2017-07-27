@@ -1,6 +1,7 @@
 package com.example.wiss.Option;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.example.wiss.sound.SoundHandler;
@@ -17,7 +18,10 @@ public class OptionExit extends   Options{
     @Override
     public void runOption(Activity act) {
         Log.d("run", "run EXIT: "+act);
-        act.finish();
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        act.startActivity(homeIntent);
     }
 
 }

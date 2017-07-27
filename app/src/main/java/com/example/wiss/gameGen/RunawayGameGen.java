@@ -26,7 +26,7 @@ public class RunawayGameGen extends GameGen {
     public GameLogic generateGameLogic() {
         this.player = new Player();
         this.generateRandomEnemies();
-        RunawayGameLogic gameLogic = new RunawayGameLogic(this.enemies,5);
+        RunawayGameLogic gameLogic = new RunawayGameLogic(this.enemies,50);
         gameLogic.setPlayer(player);
         return gameLogic;    }
 

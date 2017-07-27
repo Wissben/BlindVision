@@ -126,6 +126,14 @@ public class RunawayGameLogic extends GameLogic {
         score++;
         won = true;
         this.soundUpdater.pause();
+        SequenceSoundManager ssm = new SequenceSoundManager();
+        // inside param there is the medal that the player got
+        ssm.addSounds(R.raw.youwin, getMedal(),R.raw.transitionclassic);
+        // either he wants to quit game or retry runaway game
+        TransitionChoice.startTransition(ssm, new RunawayGameGen());
+        gameIO.getGameActivity().finish();
+
+
         try {
             gameIO.transferOutput("win");
         } catch (OutputStringDoesNotExistException e) {
@@ -161,13 +169,13 @@ public class RunawayGameLogic extends GameLogic {
      * @return
      */
     public int getMedal() {
-        if (score < 10)
+        if (score < 1/5*gameTime)
             return R.raw.iron;
-        if (score < 15)
+        if (score < 2/5*gameTime)
             return R.raw.bronze;
-        if (score < 20)
+        if (score < 3/5*gameTime)
             return R.raw.silver;
-        if (score < 30)
+        if (score < 4/5*gameTime)
             return R.raw.gold;
 
         return R.raw.legendary;
@@ -178,6 +186,7 @@ public class RunawayGameLogic extends GameLogic {
      */
 
     public static class GameOEnd extends GameO {
+
         @Override
         public void output(String param, GameActivity gameActivity) {
             SequenceSoundManager ssm = new SequenceSoundManager();
@@ -201,6 +210,26 @@ public class RunawayGameLogic extends GameLogic {
             gameActivity.getUpdater().addToUpdate(ssm);
             // when sequenceSoundManager finishes it automatically ends itself from update
         }
+    }
+
+
+    @Override
+    public void stop() {
+        super.stop();
+        //this.soundUpdater.stop();
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        //this.soundUpdater.pauseSounds();
+    }
+
+    @Override
+    public void resume()
+    {
+        super.resume();
+        //this.soundUpdater.resume();
     }
 
     public double getDistanceRespawn() {
