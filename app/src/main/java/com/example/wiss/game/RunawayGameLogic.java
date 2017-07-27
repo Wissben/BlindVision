@@ -14,7 +14,6 @@ import com.example.wiss.myapplication.TransitionChoice;
 import com.example.wiss.myapplication.Vector;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SequenceSoundManager;
-import com.example.wiss.sound.SoundName;
 import com.example.wiss.units.SimpleSoundSource;
 import com.example.wiss.units.SoundSource;
 
@@ -27,45 +26,42 @@ import java.util.LinkedList;
 public class RunawayGameLogic extends GameLogic {
 
     //A list of the sound to avoid.
-    LinkedList<SimpleSoundSource> enemies;
+    LinkedList<SimpleSoundSource> predators;
     // respawn target at least this distance away from player
     private double distanceRespawn = 500;
     // the distance between player and sheep from which we consider the player caught the sheep
-    private double catchDist = 80;
+    private double catchDist = 40;
     // the speed with which the wolf moves
-    private double wolfSpeed = 4;
+    private double predatorSpeed = 4;
     // the number of times the player caught the sheep
     private int score = 0;
     //How many milliseconds the player has to run away from the sounds to win
-    private int gameTime = 10000;
+    private int gameTime = 50000;
     //Countdown object
     private CountDownTimer countDown;
-    //Maximum number of enemies
-    private int enemies_number = 2;
+    //Maximum number of predators
+    private int predators_number = 2;
     private boolean once = true;
-
+    private boolean won = false;
     SequenceSoundManager intro = new SequenceSoundManager();
 
-    public RunawayGameLogic() {
-        super(new LinkedList<SoundSource>());
+    int count = 0;
 
+    public RunawayGameLogic(LinkedList<SimpleSoundSource> predators, int gameTime) {
+        super(new LinkedList<SoundSource>());
+        this.predators = predators;
+        this.gameTime = gameTime * 1000;
     }
 
     @Override
     public void initialize() {
 
         // this is the intro to classic game logic
-        intro.addSounds(R.raw.introclassic, R.raw.challenge);
+        intro.addSounds(R.raw.runawayintro, R.raw.challenge);
         gameIO.getGameActivity().getUpdater().addToUpdate(intro);
-
-        this.enemies = new LinkedList<>();
-
-        for (int i = 0; i < enemies_number; i++) {
-            this.enemies.add(new SimpleSoundSource());
-            int[] allIDs = SoundName.getAllSoundsID();
-            int randomAnimal = MyMath.random(0, allIDs.length - 1);
-            this.enemies.get(i).initialise(player, allIDs[randomAnimal], WelcomeActivity.getScreenVec().getAbsValue());
-            soundSources.add(this.enemies.get(i));
+        won = false;
+        for (int i = 0; i < this.predators.size(); i++) {
+            this.soundSources.add(this.predators.get(i));
         }
 
         soundUpdater.addSoundSourcesToUpdate(soundSources);
@@ -73,7 +69,7 @@ public class RunawayGameLogic extends GameLogic {
         // load output messages
         try {
             gameIO.addOutput("Lost", new RunawayGameLogic.GameOEnd());
-            gameIO.addOutput("reachedTarget", new RunawayGameLogic.GameOReachedTarget());
+            gameIO.addOutput("endOfCountdown", new GameOEndOfCountdown());
         } catch (OutputStringAlreadyExistsException e) {
             e.printStackTrace();
         }
@@ -81,12 +77,12 @@ public class RunawayGameLogic extends GameLogic {
         this.countDown = new CountDownTimer(gameTime, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                score++;
                 Log.d("debugClock", "onTick: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-
-                reachedTarget();
+                endOfCountdown();
             }
         };
     }
@@ -101,26 +97,23 @@ public class RunawayGameLogic extends GameLogic {
 
         // when he touches for first time we set a position for the wolf and the sheep at random
         if (once) {
-            for (SimpleSoundSource ss : this.enemies) {
+            for (SimpleSoundSource ss : this.predators) {
                 ss.setPosition(getRandomPos());
             }
             this.countDown.start();
             once = false;
         }
-
         player.setPosition(x, y);
     }
-
-    int count = 0;
 
     @Override
     public void update() {
         Log.d("pause", "is paused" + isPaused());
         if (isPaused() || once || !intro.hasEnded()) return;
         super.update();
-        moveWolfCloserTo(player.getPosition().copy());
-        for (SimpleSoundSource ss : enemies) {
-            if (player.getPosition().copy().getDistance(ss.getPosition()) < catchDist) {
+        movePredatorCloserTo(player.getPosition().copy());
+        for (SimpleSoundSource ss : predators) {
+            if (player.getPosition().copy().getDistance(ss.getPosition()) < catchDist && !won) {
                 this.countDown.cancel();
                 lostGame();
                 break;
@@ -128,20 +121,21 @@ public class RunawayGameLogic extends GameLogic {
         }
     }
 
-    private void reachedTarget() {
-        Log.d("classic", "reached target");
+    private void endOfCountdown() {
+        Log.d("Runaway", "end of countdown");
         score++;
-        //sheep.setPosition(getRandomPos());
-
+        won = true;
+        this.soundUpdater.pause();
         try {
-            gameIO.transferOutput("reachedTarget");
+            gameIO.transferOutput("win");
         } catch (OutputStringDoesNotExistException e) {
             e.printStackTrace();
         }
     }
 
     private void lostGame() {
-        Log.d("classic", "lostGame with score " + score);
+        Log.d("Runaway", "lostGame");
+        won=false;
         pause();
         try {
             gameIO.transferOutput("Lost", getMedal() + "");
@@ -155,16 +149,15 @@ public class RunawayGameLogic extends GameLogic {
         return MyMath.getRandomPosition(player.getPosition(), distanceRespawn, new Vector(0, 0), WelcomeActivity.getScreenVec());
     }
 
-    private void moveWolfCloserTo(Vector tar) {
-        for (SimpleSoundSource ss : enemies) {
-            ss.getPosition().add(tar.sub(ss.getPosition()).resize(wolfSpeed));
+    private void movePredatorCloserTo(Vector tar) {
+        for (SimpleSoundSource ss : predators) {
+            ss.getPosition().add(tar.sub(ss.getPosition()).resize(predatorSpeed));
         }
 
     }
 
     /**
      * gets the sound of the medal depending on the score
-     *
      * @return
      */
     public int getMedal() {
@@ -181,7 +174,7 @@ public class RunawayGameLogic extends GameLogic {
     }
 
     /**
-     * method to call when game ends (one of the enemies catches the player)
+     * method to call when game ends (one of the predators catches the player)
      */
 
     public static class GameOEnd extends GameO {
@@ -189,22 +182,22 @@ public class RunawayGameLogic extends GameLogic {
         public void output(String param, GameActivity gameActivity) {
             SequenceSoundManager ssm = new SequenceSoundManager();
             // inside param there is the medal that the player got
-            ssm.addSounds(R.raw.wolfcatch, Integer.valueOf(param), R.raw.transitionclassic);
+            ssm.addSounds(R.raw.lose, Integer.valueOf(param), R.raw.transitionclassic);
             gameActivity.finish();
-            // either he wants to quit game or retry classicGame
+            // either he wants to quit game or retry runaway game
             TransitionChoice.startTransition(ssm, new RunawayGameGen());
         }
     }
 
     /**
-     * method to call when player catches a sheep
+     * method to call when player wins
      */
 
-    public static class GameOReachedTarget extends GameO {
+    public static class GameOEndOfCountdown extends GameO {
         @Override
         public void output(String param, GameActivity gameActivity) {
             SequenceSoundManager ssm = new SequenceSoundManager();
-            ssm.addSounds(R.raw.soo);
+            ssm.addSounds(R.raw.collectcoin);
             gameActivity.getUpdater().addToUpdate(ssm);
             // when sequenceSoundManager finishes it automatically ends itself from update
         }
@@ -226,20 +219,20 @@ public class RunawayGameLogic extends GameLogic {
         this.catchDist = dist;
     }
 
-    public double getWolfSpeed() {
-        return wolfSpeed;
+    public double getPredatorSpeed() {
+        return predatorSpeed;
     }
 
-    public void setWolfSpeed(double wolfSpeed) {
-        this.wolfSpeed = wolfSpeed;
+    public void setPredatorSpeed(double predatorSpeed) {
+        this.predatorSpeed = predatorSpeed;
     }
 
-    public LinkedList<SimpleSoundSource> getEnemies() {
-        return enemies;
+    public LinkedList<SimpleSoundSource> getPredators() {
+        return predators;
     }
 
-    public void setEnemies(LinkedList<SimpleSoundSource> enemies) {
-        this.enemies = enemies;
+    public void setPredators(LinkedList<SimpleSoundSource> predators) {
+        this.predators = predators;
     }
 
     public int getScore() {
@@ -266,12 +259,12 @@ public class RunawayGameLogic extends GameLogic {
         this.countDown = countDown;
     }
 
-    public int getEnemies_number() {
-        return enemies_number;
+    public int getPredators_number() {
+        return predators_number;
     }
 
-    public void setEnemies_number(int enemies_number) {
-        this.enemies_number = enemies_number;
+    public void setPredators_number(int predators_number) {
+        this.predators_number = predators_number;
     }
 
     public boolean isOnce() {

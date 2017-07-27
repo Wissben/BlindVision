@@ -43,7 +43,7 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         this.options = new LinkedList<>();
         this.options.push(new OptionExit(R.raw.exitthegame, "Exit"));
         this.options.add(new OptionClassicMode(R.raw.classicmode, "Classic mode"));
-        this.options.add(new OptionRunaway(R.raw.dolphin,"RunawayMode"));
+        this.options.add(new OptionRunaway(R.raw.runawaymode,"RunawayMode"));
         this.options.add(new OptionSelectGameLevel(R.raw.selectgamelevel, "Select level"));
         this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
 
