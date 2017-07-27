@@ -30,7 +30,7 @@ public class RunawayGameLogic extends GameLogic {
     // respawn target at least this distance away from player
     private double distanceRespawn = 500;
     // the distance between player and sheep from which we consider the player caught the sheep
-    private double catchDist = 40;
+    private double catchDist = 20;
     // the speed with which the wolf moves
     private double predatorSpeed = 4;
     // the number of times the player caught the sheep
@@ -43,6 +43,7 @@ public class RunawayGameLogic extends GameLogic {
     private int predators_number = 2;
     private boolean once = true;
     private boolean won = false;
+    private int remainingTime = 0;
     SequenceSoundManager intro = new SequenceSoundManager();
 
     int count = 0;
@@ -56,15 +57,20 @@ public class RunawayGameLogic extends GameLogic {
     @Override
     public void initialize() {
 
-        // this is the intro to classic game logic
+        // this is the intro to this game logic
         intro.addSounds(R.raw.runawayintro, R.raw.challenge);
+        //We add the intro to the updater
         gameIO.getGameActivity().getUpdater().addToUpdate(intro);
+        //for now the player hasn't won yet
         won = false;
+        //We add all the predators sound to the sound updater
         for (int i = 0; i < this.predators.size(); i++) {
             this.soundSources.add(this.predators.get(i));
         }
 
+        //We tell to the updater what sources to update
         soundUpdater.addSoundSourcesToUpdate(soundSources);
+        //We pause for now
         soundUpdater.pause();
         // load output messages
         try {
@@ -74,14 +80,20 @@ public class RunawayGameLogic extends GameLogic {
             e.printStackTrace();
         }
 
+        //We create a countdown that has gameTime milliseconds as a start value and decreases by 1000 milliseconds
         this.countDown = new CountDownTimer(gameTime, 1000) {
 
+            //This method is called every time the countdown is decreased
             public void onTick(long millisUntilFinished) {
+                //the player has survived for gameTime-millisUntilFinished milliseconds for now
                 score++;
+                //We save the remaining time in case the activity is paused/canceled...
+                remainingTime = (int) millisUntilFinished;
                 Log.d("debugClock", "onTick: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
+                //if the countdown is at 0 then the player wins
                 endOfCountdown();
             }
         };
@@ -126,6 +138,8 @@ public class RunawayGameLogic extends GameLogic {
         score++;
         won = true;
         this.soundUpdater.pause();
+
+
         SequenceSoundManager ssm = new SequenceSoundManager();
         // inside param there is the medal that the player got
         ssm.addSounds(R.raw.youwin, getMedal(),R.raw.transitionclassic);
@@ -216,13 +230,14 @@ public class RunawayGameLogic extends GameLogic {
     @Override
     public void stop() {
         super.stop();
-        //this.soundUpdater.stop();
+        this.countDown.cancel();
     }
 
     @Override
     public void pause() {
         super.pause();
         //this.soundUpdater.pauseSounds();
+        this.countDown.cancel();
     }
 
     @Override
@@ -230,6 +245,21 @@ public class RunawayGameLogic extends GameLogic {
     {
         super.resume();
         //this.soundUpdater.resume();
+
+        //We create another countdown that starts where the previous one has stopped ( remainingTime )
+        this.countDown=new CountDownTimer(remainingTime,1000) {
+            @Override
+            public void onTick(long l) {
+                score++;
+                remainingTime = (int) l;
+                Log.d("debugClock2", "onTick: " + l / 1000);
+            }
+
+            public void onFinish() {
+                endOfCountdown();
+            }
+        };
+        this.countDown.start();
     }
 
     public double getDistanceRespawn() {
