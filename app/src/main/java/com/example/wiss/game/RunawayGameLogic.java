@@ -142,7 +142,7 @@ public class RunawayGameLogic extends GameLogic {
 
         SequenceSoundManager ssm = new SequenceSoundManager();
         // inside param there is the medal that the player got
-        ssm.addSounds(R.raw.youwin, getMedal(),R.raw.transitionclassic);
+        ssm.addSounds(R.raw.youwin, getMedal(), R.raw.transitionclassic);
         // either he wants to quit game or retry runaway game
         TransitionChoice.startTransition(ssm, new RunawayGameGen());
         gameIO.getGameActivity().finish();
@@ -157,7 +157,7 @@ public class RunawayGameLogic extends GameLogic {
 
     private void lostGame() {
         Log.d("Runaway", "lostGame");
-        won=false;
+        won = false;
         pause();
         try {
             gameIO.transferOutput("Lost", getMedal() + "");
@@ -180,16 +180,17 @@ public class RunawayGameLogic extends GameLogic {
 
     /**
      * gets the sound of the medal depending on the score
+     *
      * @return
      */
     public int getMedal() {
-        if (score < 1/5*gameTime)
+        if (score < 1 / 5 * gameTime)
             return R.raw.iron;
-        if (score < 2/5*gameTime)
+        if (score < 2 / 5 * gameTime)
             return R.raw.bronze;
-        if (score < 3/5*gameTime)
+        if (score < 3 / 5 * gameTime)
             return R.raw.silver;
-        if (score < 4/5*gameTime)
+        if (score < 4 / 5 * gameTime)
             return R.raw.gold;
 
         return R.raw.legendary;
@@ -241,13 +242,12 @@ public class RunawayGameLogic extends GameLogic {
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
         super.resume();
         //this.soundUpdater.resume();
 
         //We create another countdown that starts where the previous one has stopped ( remainingTime )
-        this.countDown=new CountDownTimer(remainingTime,1000) {
+        this.countDown = new CountDownTimer(remainingTime, 1000) {
             @Override
             public void onTick(long l) {
                 score++;
