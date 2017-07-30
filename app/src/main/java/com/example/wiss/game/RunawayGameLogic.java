@@ -30,9 +30,9 @@ public class RunawayGameLogic extends GameLogic {
     // respawn target at least this distance away from player
     private double distanceRespawn = 500;
     // the distance between player and sheep from which we consider the player caught the sheep
-    private double catchDist = 40;
+    private double catchDist = GameActivity.getFavoredCatchingDistance();
     // the speed with which the wolf moves
-    private double predatorSpeed = 15;
+    private double predatorSpeed = 4;
     // the number of times the player caught the sheep
     private int score = 0;
     //How many milliseconds the player has to run away from the sounds to win
@@ -89,7 +89,7 @@ public class RunawayGameLogic extends GameLogic {
                 score++;
                 //We save the remaining time in case the activity is paused/canceled...
                 remainingTime = (int) millisUntilFinished;
-                Log.d("debugClock", "onTick: " + millisUntilFinished / 1000 + " Score : " + score + " Distance : " + player.getPosition().copy().getDistance(soundSources.get(0).getPosition()));
+                Log.d("debugClock", "onTick: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
@@ -147,6 +147,7 @@ public class RunawayGameLogic extends GameLogic {
         TransitionChoice.startTransition(ssm, new RunawayGameGen());
         gameIO.getGameActivity().finish();
 
+
         try {
             gameIO.transferOutput("win");
         } catch (OutputStringDoesNotExistException e) {
@@ -157,7 +158,7 @@ public class RunawayGameLogic extends GameLogic {
     private void lostGame() {
         Log.d("Runaway", "lostGame");
         won = false;
-        this.soundUpdater.pause();
+        pause();
         try {
             gameIO.transferOutput("Lost", getMedal() + "");
         } catch (OutputStringDoesNotExistException e) {
@@ -183,22 +184,15 @@ public class RunawayGameLogic extends GameLogic {
      * @return
      */
     public int getMedal() {
-        if (score*1000 < (1 * gameTime / 5)) {
-            Log.d("medal", "Iron: " + score);
+        if (score < 1 / 5 * gameTime)
             return R.raw.iron;
-        }
-        if (score*1000 < (2 * gameTime / 5)) {
-            Log.d("medal", "Bronze: " + score);
+        if (score < 2 / 5 * gameTime)
             return R.raw.bronze;
-        }
-        if (score*1000 < (3 * gameTime / 5)) {
-            Log.d("medal", "Silver: " + score);
+        if (score < 3 / 5 * gameTime)
             return R.raw.silver;
-        }
-        if (score*1000 < (4 * gameTime / 5)) {
-            Log.d("medal", "Gold: " + score);
+        if (score < 4 / 5 * gameTime)
             return R.raw.gold;
-        }
+
         return R.raw.legendary;
     }
 

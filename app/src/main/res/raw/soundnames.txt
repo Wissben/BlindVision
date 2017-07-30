@@ -3,7 +3,6 @@ camel
 cow
 dog
 dolphin
-elephant
 falcon
 frog
 hippo

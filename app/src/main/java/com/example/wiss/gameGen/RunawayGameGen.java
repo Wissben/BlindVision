@@ -4,7 +4,11 @@ import com.example.wiss.game.GameLogic;
 import com.example.wiss.game.RunawayGameLogic;
 import com.example.wiss.io.GameIO;
 import com.example.wiss.io.input.GameITouchDirect;
+import com.example.wiss.io.output.OutputStringAlreadyExistsException;
+import com.example.wiss.io.output.methods.GameOEnd;
+import com.example.wiss.io.output.methods.GameOLookFor;
 import com.example.wiss.myapplication.MyMath;
+import com.example.wiss.myapplication.R;
 import com.example.wiss.myapplication.WelcomeActivity;
 import com.example.wiss.sound.SoundName;
 import com.example.wiss.units.Player;
@@ -34,7 +38,28 @@ public class RunawayGameGen extends GameGen {
     public GameIO generateGameIO(GameLogic gc) {
         GameIO gameIO = new GameIO();
         gameIO.setOnTouchListener(new GameITouchDirect(gc));
-        // the outputs of classic gameGen are going to be set up inside the classicGameLogic
+
+        try {
+
+            // output in case of win
+            if(getNext() != null)
+            {
+                // gameOEnd will run the soundSequence and then ask player if he wants to continue to next game
+                GameOEnd gameOEnd = new GameOEnd(R.raw.youwin,R.raw.transitionnext);
+                gameOEnd.setGameGen(getNext());
+                gameIO.addOutput("win",gameOEnd);
+            }
+            else
+                gameIO.addOutput("win",new GameOEnd(R.raw.youwin,R.raw.backtowelcome));
+
+            // output in case of loss
+            GameOEnd end = new GameOEnd(R.raw.lose);
+            end.setGameGen(new RunawayGameGen());
+            gameIO.addOutput("lost",end);
+
+        } catch (OutputStringAlreadyExistsException e) {
+            e.printStackTrace();
+        }
         return gameIO;
     }
 
