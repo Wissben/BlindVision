@@ -30,7 +30,7 @@ public class RunawayGameLogic extends GameLogic {
     // respawn target at least this distance away from player
     private double distanceRespawn = 500;
     // the distance between player and sheep from which we consider the player caught the sheep
-    private double catchDist = 20;
+    private double catchDist = GameActivity.getFavoredCatchingDistance();
     // the speed with which the wolf moves
     private double predatorSpeed = 4;
     // the number of times the player caught the sheep

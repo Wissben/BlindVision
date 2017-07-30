@@ -171,7 +171,7 @@ public class TutorialGameLogic extends GameLogic {
         this.target = new SimpleSoundSource(700, 1200);
         this.target.initialise(player, R.raw.horsesound, WelcomeActivity.getScreenVec().getAbsValue());
         SimpleSoundSource distraction = new SimpleSoundSource(200, 200);
-        distraction.initialise(this.player, R.raw.lionsound, WelcomeActivity.getScreenVec().getAbsValue());
+        distraction.initialise(this.player, R.raw.tigersound, WelcomeActivity.getScreenVec().getAbsValue());
 
         this.soundUpdater.addSoundSourceToUpdate(this.target);
         this.soundUpdater.addSoundSourceToUpdate(distraction);
@@ -181,7 +181,7 @@ public class TutorialGameLogic extends GameLogic {
         runSoundSequence(R.raw.tutorial_entry10,
                          R.raw.horse,
                          R.raw.tutorial_wa,
-                         R.raw.lion,
+                         R.raw.tiger,
                          R.raw.tutorial_entry11,
                          R.raw.horse);
 
@@ -193,6 +193,9 @@ public class TutorialGameLogic extends GameLogic {
      *  Tell the player that the tutorial is over, and go back to the main screen.
      */
     private void tutorialStep4() {
+        this.launchStep = false;
+        this.operationalInput = false;
+        this.soundUpdater.pause();
         /* Possible memory leak here because the sound are not being freed. */
         this.soundUpdater.stop();
         try {

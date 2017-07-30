@@ -25,8 +25,8 @@ public class OptionTutorial extends Options {
     public void runOption(Activity act) {
         Log.d("run", "runOption: "+act);
         /* Uncomment this line to use the first tutorial. */
-//        TutorialGameGen gameGen = new TutorialGameGen();
-        TutorialSwipeGameGen gameGen = new TutorialSwipeGameGen();
+        TutorialGameGen gameGen = new TutorialGameGen();
+//        TutorialSwipeGameGen gameGen = new TutorialSwipeGameGen();
         gameGen.generateGameParams();
 
         // starting game activity with the generated parameters

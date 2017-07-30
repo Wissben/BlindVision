@@ -41,11 +41,11 @@ public class WelcomeActivity extends BlindActivity implements Choiceable {
         this.findViewById(android.R.id.content).setOnTouchListener(this.handleSwipe);
 
         this.options = new LinkedList<>();
-        this.options.push(new OptionExit(R.raw.exitthegame, "Exit"));
-        this.options.add(new OptionClassicMode(R.raw.classicmode, "Classic mode"));
-        this.options.add(new OptionRunaway(R.raw.runawaymode,"RunawayMode"));
-        this.options.add(new OptionSelectGameLevel(R.raw.selectgamelevel, "Select level"));
+
         this.options.add(new OptionTutorial(R.raw.tutorial, "Tutorial"));
+        this.options.add(new OptionClassicMode(R.raw.classicmode, "Classic mode"));
+        this.options.add(new OptionSelectGameLevel(R.raw.sequence, "Select level"));
+        this.options.push(new OptionExit(R.raw.exitthegame, "Exit"));
 
         /* We tell the player how to browse choices. */
         this.howToBrowseChoices = new SoundHandler(R.raw.howtobrowsechoices);
